@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import Home from "./pages/Landing";
 
-function App() {
+import store from "./store";
+import { Suspense } from "react";
+import { Provider } from "react-redux";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const renderLoader = () => <p></p>;
+
+const RootComponent = () => (
+  <div className="container">
+    <Home />
+  </div>
+);
+
+const App = () => {
+  const queryClient = new QueryClient();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback={renderLoader()}>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <RootComponent />
+        </QueryClientProvider>
+      </Provider>
+    </Suspense>
   );
-}
+};
 
 export default App;
