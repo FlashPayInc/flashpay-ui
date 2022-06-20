@@ -1,0 +1,122 @@
+.payment_table {
+  width: 100%;
+  overflow-x: scroll;
+  flex-direction: column;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .table_header,
+  .table_row {
+    height: 70px;
+    min-width: 100%;
+    flex-direction: row;
+    width: max-content;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    .row_member {
+      height: 100%;
+      align-items: center;
+      overflow: hidden;
+    }
+    .name,
+    .amt,
+    .rev,
+    .link {
+      width: 90px;
+      max-width: 90px;
+      overflow: hidden;
+      p {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .name {
+      left: 0px;
+      width: 100px;
+      max-width: 100px;
+      padding-left: 10px;
+      position: sticky;
+    }
+
+    .rev {
+      width: 135px;
+      max-width: 135px;
+    }
+
+    .asset {
+      gap: 10px;
+      width: 120px;
+      max-width: 120px;
+      svg {
+        width: 25px;
+      }
+    }
+
+    .status,
+    .interval {
+      width: 90px;
+      max-width: 90px;
+      .status_block {
+        padding: 2px 10px;
+        border-radius: 30px;
+        font-size: $font-sl;
+        &.failed {
+          color: #ab0000;
+          background: #ffd7d7;
+        }
+        &.successful {
+          color: #00ab11;
+          background: #d7ffdb;
+        }
+        &.continual {
+          color: $main-col;
+          background: #cef7ff;
+        }
+        &.onetime {
+          color: #063ff1;
+          background: #d0dcff;
+        }
+      }
+    }
+
+    .link {
+      width: 70px;
+      max-width: 70px;
+      p {
+        font-family: $sansmed;
+        color: $main-col;
+      }
+    }
+  }
+  .table_header {
+    .row_member {
+      color: #6d6d6d;
+      font-size: $font-sl;
+      text-transform: uppercase;
+    }
+    .name {
+      background: #fff;
+    }
+  }
+
+  .table_row {
+    &:nth-child(odd) {
+      .name {
+        background: #fff;
+      }
+    }
+    &:nth-child(even) {
+      background: #f9f9f9;
+      .name {
+        background: #f9f9f9;
+      }
+    }
+  }
+}

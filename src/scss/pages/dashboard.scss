@@ -1,0 +1,24 @@
+.main_app_container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+
+  div,
+  li {
+    display: flex;
+  }
+
+  button {
+    width: max-content;
+    height: max-content;
+  }
+
+  .main_container {
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    flex-direction: column;
+  }
+}

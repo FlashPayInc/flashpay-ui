@@ -2,13 +2,8 @@ body {
   height: 100vh;
   padding: 0px;
   min-height: 100vh;
-  font-size: $font-sm;
   background: $bg;
-}
-
-* {
-  line-height: 1.2 !important;
-  overscroll-behavior: none;
+  overflow-x: hidden;
 }
 
 #root {
@@ -16,11 +11,17 @@ body {
 }
 
 .container {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
   display: flex;
   color: $col-br;
   font-family: $sans;
   position: relative;
   flex-direction: column;
+
+  * {
+    font-family: $sans;
+    line-height: 1.5;
+    font-size: $font-sm;
+    overscroll-behavior: none;
+  }
 }

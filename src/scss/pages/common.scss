@@ -1,0 +1,115 @@
+nav {
+  width: 100%;
+  display: flex;
+  padding: 20px 50px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+
+  .profile_img_bell {
+    gap: 10px;
+    align-items: center;
+    flex-direction: row;
+    img {
+      width: 46px;
+      height: 46px;
+      border-radius: 100%;
+      margin-left: 10px;
+    }
+    .drop_down {
+    }
+  }
+}
+
+.top_bar {
+  width: 100%;
+  overflow: hidden;
+  padding: 45px 50px 35px;
+  flex-direction: column;
+  .main {
+    flex-direction: row;
+    justify-content: space-between;
+    p {
+      font-size: $font-md;
+      font-family: $sansbold;
+    }
+
+    .bar_buttons {
+      gap: 16px;
+      .filter_button,
+      .generate_link {
+        gap: 10px;
+        display: flex;
+        cursor: pointer;
+        color: $main-col;
+        padding: 14px 40px;
+        border-radius: 10px;
+        border-radius: 10px;
+        flex-direction: row;
+        background: $main-col;
+        background: #b4eaf4;
+        p {
+          font-size: $font-sm;
+          font-family: $sansmed;
+        }
+      }
+
+      .generate_link {
+        color: $col-wh;
+        padding: 14px 30px;
+        background: $main-col;
+      }
+    }
+  }
+  .sub {
+    color: #6d6d6d;
+    margin-top: 9px;
+  }
+}
+
+.empty_state {
+  width: 100%;
+  padding-top: 8vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .illustration_cover {
+    svg {
+      width: 226px;
+      margin-bottom: 35px;
+      &.small_size {
+        width: 280px;
+        margin-bottom: 25px;
+      }
+    }
+  }
+
+  .text {
+    max-width: 443px;
+    color: $col-br;
+    text-align: center;
+    display: block;
+    a {
+      color: $main-col;
+      font-family: $sansmed;
+    }
+  }
+
+  button {
+    display: flex;
+    border-radius: 10px;
+    background: $main-col;
+    flex-direction: row;
+    color: $col-wh;
+    padding: 16px 20px;
+    gap: 10px;
+    cursor: pointer;
+    margin-top: 16px;
+    img {
+      width: 24px;
+    }
+  }
+}

@@ -14,3 +14,7 @@
     margin-right: $padding-horizontal-phone;
   }
 }
+
+@mixin hdLineHeight {
+  line-height: 130%;
+}

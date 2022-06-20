@@ -4,22 +4,27 @@ $col-br: #16292d;
 $col-dk: #6d6d6d;
 $col-wh: #fff;
 
+$bg-a: #16292d;
+$bg-b: #fafafa;
+
+$col-a: #e5fff6;
+
 $main-col: #006174;
 
 // Dimensions
+$font-sl: 14px;
 $font-sm: 16px;
-$font-rg: 18px;
+$font-rg: 20px;
+$font-md: 24px;
 $font-lg: 48px;
 $font-xl: 64px;
+
+$sidebar_width: 270px;
 
 $padding-horizontal: 7vw;
 $padding-horizontal-phone: 20px;
 
 // Configs
-$mont: montreal;
-$montbold: montreal2;
-$serif: "Typey-light", serif;
-$bebas: Bebas Neue, sans-serif;
-$sans: "Typey-light", sans-serif;
-$serifbold: "Typey-regular", serif;
-$sansbold: "Typey-regular", sans-serif;
+$sans: "GeneralSans-Regular", sans-serif;
+$sansmed: "GeneralSans-Medium", sans-serif;
+$sansbold: "GeneralSans-Semibold", sans-serif;

@@ -1,97 +1,41 @@
-.landing_container {
+.home_container {
+  flex: 1;
   width: 100%;
-  height: 100%;
-  display: flex;
-  position: relative;
   align-items: center;
+  position: relative;
+  justify-content: center;
   flex-direction: column;
 
-  div,
-  li {
-    display: flex;
-  }
-
-  .landing_nav {
-    top: 40px;
+  .page_content {
+    flex: 1;
     width: 100%;
-    z-index: 2;
-    position: absolute;
+    padding: 0px 50px;
+    flex-direction: column;
+  }
+}
+
+.account_stats {
+  width: 100%;
+  height: 450px;
+  padding: 35px;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+
+  .stats_filters {
+    width: 100%;
     flex-direction: row;
-    align-items: center;
     justify-content: space-between;
-    @include sections_config();
-
-    .continue_button {
-      color: $main-col;
-      width: max-content;
+    .asset_revenue,
+    .timeframe {
+      gap: 6px;
+      color: #6d6d6d;
+      align-items: center;
+      flex-direction: row;
       height: max-content;
-      background: #fff;
-      padding: 16px 35px;
-      border-radius: 8px;
-      margin-bottom: 50px;
     }
-  }
-
-  .hero {
-    width: 100%;
-    height: 100vh;
-    flex-direction: row;
-    background: #f8fffc;
-
-    &__block {
-      width: 50%;
-      height: 100%;
-      position: relative;
-      flex-direction: column;
-      justify-content: center;
-      div {
-        flex-direction: column;
-      }
-      .hero_text {
-        .main {
-          font-size: $font-xl;
-          font-family: $sansbold;
-          margin-bottom: 20px;
-        }
-        .sub {
-          margin-bottom: 25px;
-          font-size: $font-rg;
-          max-width: 490px;
-        }
-      }
-      .continue_button {
-        color: $col-wh;
-        width: max-content;
-        height: max-content;
-        background: $main-col;
-        padding: 16px 35px;
-        border-radius: 8px;
-        margin-bottom: 50px;
-      }
-      .built_on {
-        align-items: center;
-        flex-direction: row;
-        color: $col-dk;
-        font-size: $font-rg;
-        svg {
-          margin-left: 5px;
-          margin-top: -6px;
-        }
-      }
-
-      &:first-child {
-        padding-top: 120px;
-        padding-left: $padding-horizontal;
-      }
-
-      .background_div {
-        right: 0px;
-        width: 85%;
-        height: 100%;
-        position: absolute;
-        background: $main-col;
-        flex-direction: column;
-        justify-content: flex-end;
+    .asset_revenue {
+      p {
+        font-family: $sansmed;
       }
     }
   }

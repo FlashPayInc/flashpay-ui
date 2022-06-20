@@ -8,4 +8,15 @@
 @import "configs/configs";
 @import "base/globals";
 
+@import "components/sidetab.scss";
+
+@import "pages/landing";
+
+@import "pages/common";
 @import "pages/home";
+@import "pages/setup";
+@import "pages/transactions";
+@import "pages/paymentlinks";
+@import "pages/settings";
+
+@import "pages/dashboard";
