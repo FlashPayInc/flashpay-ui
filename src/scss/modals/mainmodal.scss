@@ -266,6 +266,10 @@
         }
         &.continue_button {
           background: $main-col;
+          &.copied {
+            color: $main-col;
+            background: #b4eaf4;
+          }
         }
         &.delete_button {
           background: #eb5757;

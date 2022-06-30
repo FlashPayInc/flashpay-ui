@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
 import { useDispatch } from "react-redux";
 import DropDownMenu from "../../common/DropDownMenu";
 import {
@@ -57,6 +58,14 @@ const GenerateLinkModal = ({ data }) => {
   const [isFixed, setIsFixed] = useState(true);
   const [curAsset, setCurAsset] = useState("usdt");
   const [curFreq, setCurFreq] = useState("Conitinual");
+
+  const [copy, setCopy] = useState("Copy link");
+
+  const CopiedText = () => {
+    if (copy === "Link copied") return;
+    setCopy("Link copied");
+    setTimeout(() => setCopy("Copy link"), 2000);
+  };
 
   return !data?.generated ? (
     <>
@@ -168,7 +177,18 @@ const GenerateLinkModal = ({ data }) => {
         >
           Back
         </button>
-        <button className="continue_button">Copy link</button>
+        <CopyToClipboard
+          text={"https://flashpay.com/29747mfl"}
+          onCopy={() => CopiedText()}
+        >
+          <button
+            className={`continue_button ${
+              copy === "Link copied" ? "copied" : ""
+            }`}
+          >
+            {copy}
+          </button>
+        </CopyToClipboard>
       </div>
     </>
   );
