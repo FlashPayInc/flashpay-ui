@@ -16,9 +16,9 @@ const SideTab = () => {
 
   return (
     <div className="sidetab_container">
-      <div className="app_logo">
+      <a target="blank" href="https://flashpay.finance/" className="app_logo">
         <AppIcons type="flashpay-main" />
-      </div>
+      </a>
 
       {!!walletAddress ? (
         <button className="connect_wallet">
