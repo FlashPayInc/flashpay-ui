@@ -41,8 +41,6 @@ const DashboardRoutes = () => {
           <Route path="/payment-links/details" element={<Details />} />
 
           <Route path="/transactions" element={<Transactions />} />
-
-          <Route path="/payment-portal" element={<PaymentPortal />}></Route>
         </Routes>
       </div>
     </>
@@ -55,7 +53,7 @@ const index = () => {
       <div className="main_app_container">
         <Routes>
           <Route
-            path="/payment-portal"
+            path="/payment-portal/:id"
             element={
               <>
                 <PortalModals />
@@ -66,6 +64,20 @@ const index = () => {
             <Route path="connect" element={<PaymentConnect />} />
             <Route path="" element={<PaymentDescription />} />
           </Route>
+
+          <Route
+            path="/payment-portal/"
+            element={
+              <>
+                <PortalModals />
+                <PaymentPortal />
+              </>
+            }
+          >
+            <Route path="connect" element={<PaymentConnect />} />
+            <Route path="" element={<PaymentDescription />} />
+          </Route>
+
           <Route path="*" element={<DashboardRoutes />} />
         </Routes>
       </div>
