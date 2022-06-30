@@ -163,7 +163,7 @@ const GenerateLinkModal = ({ data }) => {
           <div className="form_row">
             <div className="payment_link_preview">
               <a
-                href="https://flashpay.finance/payment-portal/29747mfl"
+                href="https://app.flashpay.finance/payment-portal/29747mfl"
                 target="blank"
               >
                 payment-portal/29747mfl
@@ -183,7 +183,7 @@ const GenerateLinkModal = ({ data }) => {
           Back
         </button>
         <CopyToClipboard
-          text={"https://flashpay.finance/payment-portal/29747mfl"}
+          text={"https://app.flashpay.finance/payment-portal/29747mfl"}
           onCopy={() => CopiedText()}
         >
           <button
