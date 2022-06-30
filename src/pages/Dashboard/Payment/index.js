@@ -36,22 +36,31 @@ const PaymentLinks = () => {
 
               {[1, 2, 3, 4, 5].map((txn, index) => {
                 return (
-                  <div
-                    className="table_row"
-                    key={index}
-                    onClick={() => {
-                      navigate("./details", { replace: true });
-                    }}
-                  >
-                    <div className="row_member name">
+                  <div className="table_row" key={index}>
+                    <div
+                      className="row_member name"
+                      onClick={() => {
+                        navigate("./details", { replace: true });
+                      }}
+                    >
                       <p>Heels page</p>
                     </div>
 
-                    <div className="row_member amt">
+                    <div
+                      className="row_member amt"
+                      onClick={() => {
+                        navigate("./details", { replace: true });
+                      }}
+                    >
                       <p>2.2749</p>
                     </div>
 
-                    <div className="row_member asset">
+                    <div
+                      className="row_member asset"
+                      onClick={() => {
+                        navigate("./details", { replace: true });
+                      }}
+                    >
                       {index % 3 === 0 ? (
                         <>
                           <Assets asset="usdt" />
@@ -70,7 +79,12 @@ const PaymentLinks = () => {
                       )}
                     </div>
 
-                    <div className="row_member interval">
+                    <div
+                      className="row_member interval"
+                      onClick={() => {
+                        navigate("./details", { replace: true });
+                      }}
+                    >
                       {index % 2 === 0 ? (
                         <div className="status_block continual">Continual</div>
                       ) : (
@@ -90,9 +104,13 @@ const PaymentLinks = () => {
                       <p>fp_927494_297</p>
                     </div>
 
-                    <div className="row_member link">
+                    <a
+                      target="blank"
+                      href="https://app.flashpay.finance/payment-portal/29747mfl"
+                      className="row_member link"
+                    >
                       <p>Preview</p>
-                    </div>
+                    </a>
                   </div>
                 );
               })}
