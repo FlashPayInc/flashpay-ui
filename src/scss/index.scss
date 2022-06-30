@@ -10,13 +10,16 @@
 
 @import "components/sidetab.scss";
 
-@import "pages/landing";
+@import "modals/mainmodal.scss";
+@import "modals/portalmodal.scss";
 
 @import "pages/common";
-@import "pages/home";
-@import "pages/setup";
-@import "pages/transactions";
-@import "pages/paymentlinks";
-@import "pages/settings";
+@import "pages/dashboard/home";
+@import "pages/dashboard/setup";
+@import "pages/dashboard/transactions";
+@import "pages/dashboard/paymentlinks";
+@import "pages/dashboard/settings";
 
-@import "pages/dashboard";
+@import "pages/dashboard/dashboard";
+
+@import "pages/portal/index.scss";

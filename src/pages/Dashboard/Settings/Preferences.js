@@ -1,35 +1,42 @@
-import React from "react";
+import { useState } from "react";
 import { AppIcons } from "../../../svg";
 
 const Preferences = () => {
+  const [selected, setSelected] = useState(0);
+
   return (
     <div className="preferences">
       <div className="category">
         <div className="class">Notifications</div>
         <div className="options">
-          <div className="option">
-            <div className="check_option">
-              <AppIcons type="tickcircle" />
-            </div>
+          {[
+            {
+              title: "Invoices and Transactions",
+              value: "Emails abut your transactions and receipts",
+            },
+            {
+              title: "News and updates",
+              value: "News about product features and updates",
+            },
+          ].map((item, index) => {
+            return (
+              <div className="option">
+                <div
+                  className="check_option"
+                  onClick={() => setSelected(index)}
+                >
+                  <AppIcons
+                    type={index === selected ? "tickcircle" : "unchecked"}
+                  />
+                </div>
 
-            <div className="option_inner">
-              <p className="title">Invoices and Transactions</p>
-              <p className="value">
-                Emails abut your transactions and receipts
-              </p>
-            </div>
-          </div>
-
-          <div className="option">
-            <div className="check_option">
-              <AppIcons type="unchecked" />
-            </div>
-
-            <div className="option_inner">
-              <p className="title">News and updates</p>
-              <p className="value">News about product features and updates</p>
-            </div>
-          </div>
+                <div className="option_inner">
+                  <p className="title">{item?.title}</p>
+                  <p className="value">{item?.value}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

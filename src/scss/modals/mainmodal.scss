@@ -1,0 +1,276 @@
+.modal_background {
+  z-index: 9;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba($color: #000000, $alpha: 0.25);
+
+  .modal_container {
+    width: 460px;
+    max-width: 90%;
+    border-radius: 10px;
+    font-size: $font-sm;
+    background: $col-wh;
+    padding: 30px 28px;
+    flex-direction: column;
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+    .modal_header {
+      margin-bottom: 25px;
+      a {
+        color: $main-col;
+        font-family: $sansmed;
+      }
+      .main {
+        margin-bottom: 5px;
+        font-size: $font-rg;
+        font-family: $sansmed;
+        &.delete {
+          color: #eb5757;
+        }
+      }
+      .sub {
+        color: $col-dk;
+        .note {
+          color: #0bd98e;
+          // font-size: $font-sl;
+        }
+      }
+    }
+
+    .modal_content {
+      width: 100%;
+
+      .option_ticked {
+        width: 20px;
+        height: 20px;
+        overflow: hidden;
+        border-radius: 100%;
+        background: #f0f0f0;
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .modal_illustration {
+        width: 336px;
+        height: 336px;
+        margin: 0px auto;
+        overflow: hidden;
+        margin-bottom: 15px;
+      }
+
+      .modal_description {
+        gap: 5px;
+        width: 100%;
+        margin-bottom: 15px;
+
+        p {
+          text-align: center;
+        }
+        .main {
+          font-size: $font-rg;
+          font-family: $sansmed;
+        }
+        .sub {
+          color: $col-dk;
+          display: inline;
+        }
+        a {
+          color: $main-col;
+          font-family: $sansmed;
+        }
+      }
+
+      //   Connect wallet Modal
+      .connect_option {
+        gap: 10px;
+        width: 100%;
+        height: 68px;
+        cursor: pointer;
+        padding: 0px 20px;
+        align-items: center;
+        flex-direction: row;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #f2f2f2;
+        justify-content: space-between;
+        .option_info {
+          gap: 10px;
+          align-items: center;
+          flex-direction: row;
+          svg {
+            width: 32px;
+          }
+          p {
+            flex: 1;
+            color: $col-dk;
+          }
+        }
+      }
+
+      // Generate link Modal
+      .logo_block {
+        gap: 10px;
+        width: 100%;
+        margin-bottom: 20px;
+        align-items: center;
+        flex-direction: column;
+        .logo_img {
+          width: 70px;
+          height: 70px;
+          overflow: hidden;
+          border-radius: 100%;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #f2f2f2;
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+          }
+        }
+        .edit_img {
+          color: $main-col;
+          font-family: $sansmed;
+        }
+      }
+      .generate_link_form {
+        gap: 16px;
+        color: $col-dk;
+        margin-bottom: 20px;
+        flex-direction: column;
+        .caret_down {
+          color: $col-br;
+        }
+        input {
+          height: 60px;
+          padding: 0px 20px;
+          border-radius: 10px;
+          border: 1px solid #f2f2f2;
+        }
+        .form_row {
+          gap: 10px;
+          align-items: center;
+          flex-direction: row;
+          &.amt_ty {
+            gap: 20px;
+          }
+          input {
+            flex: 1;
+          }
+          .amount_type,
+          .asset_select,
+          .payment_duration,
+          .payment_link_preview {
+            flex: 1;
+            height: 60px;
+            cursor: pointer;
+            padding: 0px 20px;
+            flex-direction: row;
+            align-items: center;
+            border-radius: 10px;
+            border: 1px solid #f2f2f2;
+            justify-content: space-between;
+          }
+          .payment_link_preview {
+            cursor: default;
+          }
+
+          .asset_select {
+            gap: 10px;
+            flex: none;
+            padding: 0px 10px;
+            width: max-content;
+            .asset_info {
+              gap: 10px;
+              align-items: center;
+              flex-direction: row;
+              p {
+                font-size: $font-sl;
+                min-width: 60px;
+                text-transform: uppercase;
+              }
+              svg {
+                width: 24px;
+                height: 24px;
+              }
+            }
+            .caret_down {
+              font-size: 14px;
+            }
+          }
+          .payment_duration {
+            flex: none;
+            width: 100%;
+            i {
+              color: #6d6d6d;
+              font-size: 20px;
+            }
+          }
+        }
+        .warning_component {
+          gap: 10px;
+          padding: 15px;
+          color: #f2994a;
+          border-radius: 5px;
+          flex-direction: row;
+          background: #fff6ec;
+
+          .warn_icon {
+            font-size: 24px;
+            margin-top: 2px;
+          }
+        }
+      }
+
+      // Delete account Modal
+      .optional_email {
+        color: $col-dk;
+        margin-bottom: 20px;
+        flex-direction: column;
+        input {
+          height: 60px;
+          padding: 0px 20px;
+          border-radius: 10px;
+          border: 1px solid #f2f2f2;
+        }
+      }
+    }
+
+    .action_buttons {
+      gap: 20px;
+      width: 100%;
+      height: 56px;
+      margin-top: 16px;
+      flex-direction: row;
+      button {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        color: $col-wh;
+        cursor: pointer;
+        align-items: center;
+        border-radius: 10px;
+        font-family: $sansmed;
+        justify-content: center;
+        &.cancel_button {
+          background: #bdbdbd;
+        }
+        &.continue_button {
+          background: $main-col;
+        }
+        &.delete_button {
+          background: #eb5757;
+        }
+      }
+    }
+  }
+}

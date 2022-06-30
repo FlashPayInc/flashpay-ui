@@ -23,6 +23,7 @@
 
   .connect_wallet {
     display: flex;
+    cursor: pointer;
     border-radius: 10px;
     background: $main-col;
     flex-direction: row;

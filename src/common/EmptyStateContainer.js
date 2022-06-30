@@ -3,13 +3,13 @@ import parse from "html-react-parser";
 import { AppIcons, Illustrations } from "../svg";
 import { NavLink } from "react-router-dom";
 
-const EmptyStateContainer = ({ vector, text, link, buttonText }) => {
+const EmptyStateContainer = ({ vector, text, link, type, buttonText }) => {
   return (
     <div className="empty_state">
       <div className="illustration_cover">
         <Illustrations type={vector} />
       </div>
-      <div className="text">
+      <div className={`text ${type === "comingsoon" ? "bold_text" : ""}`}>
         {parse(text, {
           replace: (domNode) => {
             if (domNode.attribs && domNode.attribs.id === "navlink") {

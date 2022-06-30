@@ -1,19 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { NavIcons } from "../svg";
+import { connectWallet } from "../features/modals/modalSlice";
+import { AppIcons, NavIcons } from "../svg";
+import { constrictAddr } from "../utils";
 import HorLine from "./HorLine";
 
 const SideTab = () => {
+  const dispatch = useDispatch();
+  const { walletAddress, linkedStatus } = useSelector((state) => state.config);
+
+  const ConnectWallet = () => {
+    dispatch(connectWallet());
+  };
+
   return (
     <div className="sidetab_container">
       <div className="app_logo">
-        <img src="./img/svg/logo.svg" alt="" />
+        <AppIcons type="flashpay-main" />
       </div>
 
-      <button className="connect_wallet">
-        <img src="img/icons/add_wallet.svg" alt="" />
-        <p>Connect wallet</p>
-      </button>
+      {!!walletAddress ? (
+        <button className="connect_wallet">
+          <p>{constrictAddr(walletAddress)}</p>
+        </button>
+      ) : (
+        <button className="connect_wallet" onClick={() => ConnectWallet()}>
+          <img src="img/icons/add_wallet.svg" alt="" />
+          <p>Connect wallet</p>
+        </button>
+      )}
 
       <div className="nav_link_theme">
         <div className="nav_links">
@@ -25,13 +41,15 @@ const SideTab = () => {
             <p>Home</p>
           </NavLink>
 
-          <NavLink
-            to="/setup"
-            className={({ isActive }) => (isActive ? "isActive" : undefined)}
-          >
-            <NavIcons type="setup" />
-            <p>Set up</p>
-          </NavLink>
+          {!linkedStatus ? (
+            <NavLink
+              to="/setup"
+              className={({ isActive }) => (isActive ? "isActive" : undefined)}
+            >
+              <NavIcons type="setup" />
+              <p>Set up</p>
+            </NavLink>
+          ) : null}
 
           <HorLine pad={44} />
 
@@ -44,7 +62,7 @@ const SideTab = () => {
           </NavLink>
 
           <NavLink
-            to="/payment-portal"
+            to="/payment-links"
             className={({ isActive }) => (isActive ? "isActive" : undefined)}
           >
             <NavIcons type="paymentlinks" />

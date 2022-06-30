@@ -1,6 +1,9 @@
-import React from "react";
+import { useDispatch } from "react-redux";
+import { deleteAccount } from "../../../features/modals/modalSlice";
 
 const ProfileSettings = () => {
+  const dispatch = useDispatch();
+
   return (
     <div className="profile_cover">
       <div className="user_profile">
@@ -18,7 +21,12 @@ const ProfileSettings = () => {
       </div>
 
       <div className="delete_button_block">
-        <div className="delete_button">Delete account</div>
+        <div
+          className="delete_button"
+          onClick={() => dispatch(deleteAccount())}
+        >
+          Delete account
+        </div>
       </div>
     </div>
   );
