@@ -1,5 +1,5 @@
 .modal_background {
-  z-index: 9;
+  z-index: 9999;
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -12,27 +12,76 @@
   .modal_container {
     width: 460px;
     max-width: 90%;
+    max-height: 100vh;
     border-radius: 10px;
     font-size: $font-sm;
     background: $col-wh;
     padding: 30px 28px;
+    overflow-y: scroll;
     flex-direction: column;
+
+    @include scrollbars(10px, transparent, transparent);
+
+    &.fill-screen {
+      width: 100vw;
+      max-width: 100%;
+      height: 100vh;
+      border-radius: 0px;
+      padding-top: 0px;
+      padding: 0px 0px 120px;
+      @mixin modalPad {
+        padding: {
+          left: 20px;
+          right: 20px;
+        }
+      }
+      .modal_header {
+        .main {
+          gap: 12px;
+          height: 74px;
+          @include modalPad;
+          margin-bottom: 25px;
+          align-items: center;
+          flex-direction: row;
+          border-bottom: 1px solid #e0e0e0;
+          .back-btn {
+            padding: 5px;
+            cursor: pointer;
+          }
+        }
+        .sub {
+          @include modalPad;
+        }
+      }
+      .modal_content:not(.no-padding) {
+        @include modalPad;
+      }
+      .action_buttons {
+        @include modalPad;
+      }
+    }
+
     div {
       display: flex;
       flex-direction: column;
     }
     .modal_header {
       margin-bottom: 25px;
+      &.no-margin {
+        margin-bottom: 0px;
+      }
       a {
         color: $main-col;
         font-family: $sansmed;
       }
       .main {
         margin-bottom: 5px;
-        font-size: $font-rg;
-        font-family: $sansmed;
-        &.delete {
-          color: #eb5757;
+        p {
+          font-size: $font-rg;
+          font-family: $sansmed;
+          &.delete {
+            color: #eb5757;
+          }
         }
       }
       .sub {
@@ -151,11 +200,27 @@
           color: $col-br;
         }
         input {
+          color: #000000;
           height: 60px;
           padding: 0px 20px;
           border-radius: 10px;
           border: 1px solid #f2f2f2;
         }
+
+        textarea {
+          height: auto;
+          flex: 1;
+          outline: none;
+          resize: none;
+          border: none;
+          padding: 15px 20px;
+          line-height: 1.5;
+          overflow: hidden;
+          border-radius: 10px;
+          background: transparent;
+          border: 1px solid #f2f2f2;
+        }
+
         .form_row {
           gap: 10px;
           align-items: center;
@@ -243,9 +308,87 @@
           border: 1px solid #f2f2f2;
         }
       }
+
+      // Notification modal
+      .notification_container {
+        // gap: 20px;
+        width: 100%;
+        flex-direction: column;
+        .header {
+          width: 100%;
+          padding: 0px 15px 10px;
+          align-items: center;
+          flex-direction: row;
+          font-family: $sansmed;
+          justify-content: space-between;
+
+          .mark_setting {
+            gap: 10px;
+            align-items: center;
+            flex-direction: row;
+            p {
+              color: #0bd98e;
+              font-size: $font-sm;
+            }
+            svg {
+              width: 16px;
+              height: 16px;
+              cursor: pointer;
+              stroke: #bdbdbd;
+            }
+          }
+        }
+        .notification_item {
+          gap: 15px;
+          cursor: pointer;
+          padding: 20px 15px;
+          flex-direction: row;
+          .item_icon {
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            svg {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .item_text {
+            flex: 1;
+            display: inline;
+            a {
+              color: $main-col;
+              font-family: $sansmed;
+            }
+          }
+        }
+
+        .empty_notificationn {
+          gap: 40px;
+          width: 100%;
+          min-height: 65vh;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          .empty_illustration {
+            flex-direction: row;
+            align-content: center;
+            justify-content: center;
+            svg {
+              width: 190px;
+              height: 190px;
+            }
+          }
+          p {
+            font-size: $font-sm;
+            color: #6d6d6d;
+            text-align: center;
+          }
+        }
+      }
     }
 
     .action_buttons {
+      flex: none;
       gap: 20px;
       width: 100%;
       height: 56px;
@@ -273,6 +416,18 @@
         }
         &.delete_button {
           background: #eb5757;
+        }
+      }
+      @include phone {
+        gap: 15px;
+        &:not(.wallet-connect) {
+          height: max-content;
+          flex-direction: column-reverse;
+          button {
+            flex: none;
+            width: 100%;
+            height: 56px;
+          }
         }
       }
     }

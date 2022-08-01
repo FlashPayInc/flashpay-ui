@@ -1,6 +1,8 @@
 .transactions_table {
+  flex: 1;
   width: 100%;
-  overflow-x: scroll;
+  height: 100%;
+  overflow: scroll scroll;
   flex-direction: column;
 
   &::-webkit-scrollbar {
@@ -9,6 +11,7 @@
 
   .table_header,
   .table_row {
+    flex: none;
     height: 70px;
     min-width: 100%;
     flex-direction: row;

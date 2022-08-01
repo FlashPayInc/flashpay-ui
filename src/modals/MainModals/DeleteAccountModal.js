@@ -7,7 +7,7 @@ const DeleteAccountModal = () => {
   let navigate = useNavigate();
 
   return (
-    <>
+    <div className="modal_container">
       <div className="modal_header">
         <p className="main delete">
           Are you sure you want to delete your account?
@@ -42,7 +42,7 @@ const DeleteAccountModal = () => {
           Delete account
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

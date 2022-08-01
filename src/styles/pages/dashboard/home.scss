@@ -3,13 +3,15 @@
   width: 100%;
   align-items: center;
   position: relative;
-  justify-content: center;
   flex-direction: column;
+  overflow: hidden scroll;
 
   .page_content {
     flex: 1;
     width: 100%;
-    padding: 0px 50px;
+    height: max-content;
+    @include padHor;
+    overflow: scroll;
     flex-direction: column;
   }
 }
@@ -23,6 +25,11 @@
   flex-direction: column;
   border: 1px solid #e0e0e0;
   position: relative;
+
+  @include phone {
+    height: 370px;
+    padding: 20px 20px 30px;
+  }
 
   .stats_filters {
     width: 100%;

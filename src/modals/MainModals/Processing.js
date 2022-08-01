@@ -12,7 +12,7 @@ const Processing = () => {
   };
 
   return (
-    <>
+    <div className="modal_container">
       <div className="modal_content">
         <div className="modal_illustration">
           <Lottie options={defaultOptions} speed={0.7} />
@@ -21,7 +21,7 @@ const Processing = () => {
           <p className="main">Transaction processing</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

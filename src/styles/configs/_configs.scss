@@ -1,0 +1,10 @@
+@mixin hdLineHeight {
+  line-height: 130%;
+}
+
+@mixin navHeight {
+  height: 87px;
+  @include phone {
+    height: 79px;
+  }
+}

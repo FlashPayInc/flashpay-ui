@@ -20,7 +20,7 @@ const Success = () => {
   const dispatch = useDispatch();
 
   return (
-    <>
+    <div className="modal_container">
       <div className="modal_content">
         <div className="modal_illustration">
           <Lottie options={defaultOptions} />
@@ -42,7 +42,7 @@ const Success = () => {
           <button className="continue_button">View on AlgoExplorer</button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

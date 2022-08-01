@@ -17,7 +17,7 @@ const Failed = () => {
   const dispatch = useDispatch();
 
   return (
-    <>
+    <div className="modal_container">
       <div className="modal_content">
         <div className="modal_illustration">
           <Lottie options={defaultOptions} />
@@ -36,7 +36,7 @@ const Failed = () => {
           <button className="continue_button">Retry</button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { DropDownContent } from "../pages/data";
-import { AppIcons, AppIcons3, Assets, Illustrations } from "../svg";
+import { AppIcons, MainIcons, Assets, Illustrations } from "../svg";
 import { useOutsideAlerter } from "../utils";
 import HorLine from "./HorLine";
 
@@ -54,7 +54,7 @@ const DropDownMenu = ({
 
                 <div className="notification_item">
                   <div className="item_icon">
-                    <AppIcons3 type="notif-transfer" dotted={true} />
+                    <MainIcons type="notif-transfer" dotted={true} />
                   </div>
 
                   <p className="item_text">
@@ -66,7 +66,7 @@ const DropDownMenu = ({
 
                 <div className="notification_item">
                   <div className="item_icon">
-                    <AppIcons3 type="notif-transfer" />
+                    <MainIcons type="notif-transfer" />
                   </div>
 
                   <p className="item_text">

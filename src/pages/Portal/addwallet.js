@@ -1,8 +1,7 @@
 import { useState } from "react";
+import { ConnectIcon } from "../../svg";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
 import { ProcessTxnAsync } from "../../features/modals/paymentModalSlice";
-import { AppIcons2 } from "../../svg";
 
 const AddWallet = () => {
   const dispatch = useDispatch();
@@ -27,11 +26,11 @@ const AddWallet = () => {
               onClick={() => setOption(opt?.type)}
             >
               <div className="option_info">
-                <AppIcons2 type={opt.type} />
+                <ConnectIcon type={opt.type} />
                 <p>{opt.name}</p>
               </div>
               <div className="option_ticked">
-                {opt.type === option ? <AppIcons2 type="tickcircle" /> : null}
+                {opt.type === option ? <ConnectIcon type="tickcircle" /> : null}
               </div>
             </div>
           );

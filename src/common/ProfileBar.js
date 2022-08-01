@@ -1,20 +1,54 @@
 import React from "react";
+import Icon from "../svg/Icon";
 import { AppIcons } from "../svg";
 import { useRef, useState } from "react";
 import DropDownMenu from "./DropDownMenu";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router";
+import { openSideTab } from "../features/config/configSlice";
+import { useWindowSize } from "@react-hook/window-size/throttled";
+import { notifications } from "../features/modals/modalSlice";
 
 const ProfileBar = () => {
   const dropDownRef = useRef();
+  const dispatch = useDispatch();
+  const [width] = useWindowSize();
   const [isOpen, setIsOpen] = useState(false);
   const [curOption, setCurOption] = useState("");
+
+  const { pathname } = useLocation();
+
+  const first = pathname.match(/^\/\w+/i);
+  const currentPath = first
+    ? first[0].slice(1)
+    : pathname === "/"
+    ? "Dashboard"
+    : "";
+
   const UpdateOption = (item) => {
     setIsOpen(false);
     setCurOption(item);
   };
 
+  const OpenTab = () => {
+    dispatch(openSideTab());
+  };
+
   return (
     <nav>
-      <div></div>
+      {width < 930 ? (
+        <div className="nav-btn" onClick={OpenTab}>
+          <Icon.NavBtn />
+
+          {currentPath === "payment" ? (
+            <p>Payment links</p>
+          ) : (
+            <p className="capitalize">{currentPath}</p>
+          )}
+        </div>
+      ) : (
+        <div />
+      )}
 
       <div className="profile_img_bell">
         <DropDownMenu
@@ -30,7 +64,13 @@ const ProfileBar = () => {
           <div
             ref={dropDownRef}
             className="notif_icon"
-            onClick={() => setIsOpen((p) => !p)}
+            onClick={() => {
+              if (width < 530) {
+                dispatch(notifications());
+              } else {
+                setIsOpen((p) => !p);
+              }
+            }}
           >
             <AppIcons type="notificationBell" />
           </div>
@@ -41,7 +81,7 @@ const ProfileBar = () => {
           alt=""
         />
 
-        <div className="drop_down">
+        <div className="profile-options">
           <i className="ph-caret-down"></i>
         </div>
       </div>

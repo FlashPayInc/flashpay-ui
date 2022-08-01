@@ -1,5 +1,5 @@
 import "./axios";
-import "./scss/index.scss";
+import "./styles/index.scss";
 import * as ReactDOMClient from "react-dom/client";
 import App from "./App";
 

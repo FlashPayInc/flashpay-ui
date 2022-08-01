@@ -46,17 +46,19 @@ export const options = {
   },
 };
 
-const labels = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "Augut",
-  "September",
-];
+const labels = !true
+  ? [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "Augut",
+      "September",
+    ]
+  : ["Jan", "Feb", "Mar", "Apr", "Ma", "Jun", "Jul", "Aug", "Sep"];
 
 export const data = {
   labels,

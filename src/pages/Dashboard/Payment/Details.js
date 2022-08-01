@@ -3,8 +3,11 @@ import TopBar from "../../../common/TopBar";
 import ProfileBar from "../../../common/ProfileBar";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { AppIcons, Assets } from "../../../svg";
+import { useWindowSize } from "@react-hook/window-size/throttled";
 
 const Details = () => {
+  const [width] = useWindowSize();
+
   const notEmpty = true;
 
   return (
@@ -19,6 +22,12 @@ const Details = () => {
           button3="copy-link"
           detailsPage={true}
         />
+
+        {width <= 930 ? (
+          <div className="header-sm">
+            <p>Transactions</p>
+          </div>
+        ) : null}
 
         <div className="page_content">
           {notEmpty ? (

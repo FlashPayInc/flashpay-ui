@@ -3,14 +3,16 @@ import TopBar from "../../../common/TopBar";
 import ProfileBar from "../../../common/ProfileBar";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { NavLink, Outlet } from "react-router-dom";
+import { useWindowSize } from "@react-hook/window-size/throttled";
 
 const Settings = () => {
+  const [width] = useWindowSize();
   return (
     <>
       <ProfileBar />
 
       <div className="home_container">
-        <TopBar main={`Settings`} />
+        {width < 930 ? null : <TopBar main={`Settings`} />}
 
         <div className="page_content">
           <div className="settings_nav_tab">

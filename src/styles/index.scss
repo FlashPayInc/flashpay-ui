@@ -1,19 +1,21 @@
 @import "base/reset";
 
-@import "utils/mediabrakpoints";
+@import "utils/mixin";
 @import "utils/variables";
+@import "base/animations";
 
 @import "base/fonts";
 
 @import "configs/configs";
 @import "base/globals";
 
-@import "components/sidetab.scss";
+@import "components/sidetab";
 
-@import "modals/mainmodal.scss";
-@import "modals/portalmodal.scss";
+@import "modals/mainmodal";
+@import "modals/portalmodal";
 
-@import "pages/common";
+@import "common/index";
+@import "common/pagination";
 @import "pages/dashboard/home";
 @import "pages/dashboard/setup";
 @import "pages/dashboard/transactions";
@@ -22,4 +24,4 @@
 
 @import "pages/dashboard/dashboard";
 
-@import "pages/portal/index.scss";
+@import "pages/portal/index";

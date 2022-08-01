@@ -1,12 +1,15 @@
+import { useWindowSize } from "@react-hook/window-size/throttled";
 import { useState, useRef } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { useDispatch } from "react-redux";
 import DropDownMenu from "../../common/DropDownMenu";
+import TextareaAutosize from "react-textarea-autosize";
 import {
   closeModal,
   generateLinkSuccessful,
 } from "../../features/modals/modalSlice";
-import { AppIcons, AppIcons2, Assets } from "../../svg";
+import { AppIcons, ConnectIcon, Assets } from "../../svg";
+import Icon from "../../svg/Icon";
 
 const SelectMenu = ({ type, curOption, setCurOption }) => {
   const dropDownRef = useRef();
@@ -54,6 +57,8 @@ const SelectMenu = ({ type, curOption, setCurOption }) => {
 };
 
 const GenerateLinkModal = ({ data }) => {
+  const [width] = useWindowSize();
+
   const dispatch = useDispatch();
   const [isFixed, setIsFixed] = useState(true);
   const [curAsset, setCurAsset] = useState("usdt");
@@ -68,13 +73,19 @@ const GenerateLinkModal = ({ data }) => {
   };
 
   return !data?.generated ? (
-    <>
+    <div className={`modal_container ${width < 570 ? "fill-screen" : ""}`}>
       <div className="modal_header">
-        <p className="main">Generate link</p>
-        <p className="sub">
+        <div className="main">
+          <div className="back-btn" onClick={() => dispatch(closeModal())}>
+            <Icon.ArrowLeft />
+          </div>
+
+          <p>Generate link</p>
+        </div>
+        <div className="sub">
           Table the discussion; I just wanted to give you a heads-up, and run it
           up the flag pole for a performance review.
-        </p>
+        </div>
       </div>
 
       <div className="modal_content">
@@ -88,11 +99,18 @@ const GenerateLinkModal = ({ data }) => {
         <div className="generate_link_form">
           <input type="text" placeholder="Name of link" />
 
+          <TextareaAutosize
+            minRows={2}
+            maxRows={2}
+            className="textarea"
+            placeholder="Description of link"
+          />
+
           <div className="form_row amt_ty">
             <div className="amount_type fixed" onClick={() => setIsFixed(true)}>
               <p>Fixed amount</p>
               <div className="option_ticked">
-                {isFixed ? <AppIcons2 type="tickcircle" /> : null}
+                {isFixed ? <ConnectIcon type="tickcircle" /> : null}
               </div>
             </div>
             <div
@@ -101,7 +119,7 @@ const GenerateLinkModal = ({ data }) => {
             >
               <p>Variable amount</p>
               <div className="option_ticked">
-                {!isFixed ? <AppIcons2 type="tickcircle" /> : null}
+                {!isFixed ? <ConnectIcon type="tickcircle" /> : null}
               </div>
             </div>
           </div>
@@ -146,9 +164,9 @@ const GenerateLinkModal = ({ data }) => {
           Create
         </button>
       </div>
-    </>
+    </div>
   ) : (
-    <>
+    <div className="modal_container">
       <div className="modal_header">
         <p className="main">Success!</p>
         <p className="sub">
@@ -195,7 +213,7 @@ const GenerateLinkModal = ({ data }) => {
           </button>
         </CopyToClipboard>
       </div>
-    </>
+    </div>
   );
 };
 

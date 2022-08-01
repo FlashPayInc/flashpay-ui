@@ -20,7 +20,7 @@ const Preferences = () => {
             },
           ].map((item, index) => {
             return (
-              <div className="option">
+              <div className="option" key={index}>
                 <div
                   className="check_option"
                   onClick={() => setSelected(index)}

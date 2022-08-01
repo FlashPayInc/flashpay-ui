@@ -1,6 +1,7 @@
 .setup_content {
   gap: 32px;
   width: 500px;
+  max-width: 100%;
   flex-direction: column;
 
   .setup_input {

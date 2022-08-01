@@ -1,15 +1,36 @@
 nav {
   width: 100%;
   display: flex;
-  padding: 20px 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  @include padHor;
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
   justify-content: space-between;
   border-bottom: 1px solid #e0e0e0;
 
+  height: $nav-height;
+  @include phone {
+    height: $nav-height-sm;
+  }
+
+  .nav-btn {
+    gap: 15px;
+    cursor: pointer;
+    align-items: center;
+    flex-direction: row;
+    p {
+      font-size: $font-rg;
+      font-family: $sansmed;
+      &.capitalize {
+        text-transform: capitalize;
+      }
+    }
+  }
+
   .profile_img_bell {
-    gap: 10px;
+    gap: 5px;
 
     align-items: center;
     flex-direction: row;
@@ -23,6 +44,16 @@ nav {
       cursor: pointer;
       padding: 5px 10px;
     }
+
+    @include phone {
+      img {
+        width: 38px;
+        height: 38px;
+      }
+      .profile-options {
+        display: none;
+      }
+    }
   }
 }
 
@@ -32,6 +63,12 @@ nav {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  @include phone {
+    height: 100%;
+    padding-top: 0px;
+    padding-bottom: 20%;
+  }
 
   .illustration_cover {
     svg {
@@ -65,6 +102,28 @@ nav {
     }
   }
 
+  @include phone {
+    .illustration_cover {
+      svg {
+        width: 170px;
+        height: 170px;
+        margin-bottom: 15px;
+        &.small_size {
+          width: 220px;
+          margin-bottom: 15px;
+        }
+        &.small_margin {
+          margin-bottom: 15px;
+        }
+      }
+    }
+    .text {
+      &.bold_text {
+        font-size: $font-md;
+      }
+    }
+  }
+
   button {
     display: flex;
     border-radius: 10px;
@@ -83,8 +142,15 @@ nav {
 
 .top_bar {
   width: 100%;
-  padding: 45px 50px 35px;
+  padding-top: 45px;
+  padding-bottom: 35px;
+  @include padHor;
   flex-direction: column;
+  @include medium {
+    padding-top: 25px;
+    padding-bottom: 10px;
+  }
+
   .main {
     gap: 35px;
     flex-direction: row;
@@ -121,6 +187,7 @@ nav {
 
     .bar_buttons {
       gap: 16px;
+      .copy_button,
       .filter_button,
       .generate_link {
         gap: 10px;
@@ -147,20 +214,22 @@ nav {
       }
     }
   }
+
   .sub {
     color: #6d6d6d;
     margin-top: 9px;
   }
 
   .payment_details_bar {
-    height: 88px;
     width: 100%;
+    gap: 20px 30px;
+    flex-wrap: wrap;
     margin-top: 5px;
     flex-direction: row;
-    justify-content: space-between;
 
     .row_member {
-      height: 100%;
+      flex: 1;
+      height: 88px;
       min-width: 160px;
       max-width: max-content;
       border-radius: 3px;
@@ -169,6 +238,11 @@ nav {
       flex-direction: column;
       justify-content: center;
       border: 1px solid #f2f2f2;
+      @include tablet {
+        flex: 1;
+        max-width: none;
+      }
+
       .main_text {
         margin-bottom: 5px;
         text-transform: uppercase;
@@ -213,6 +287,28 @@ nav {
 
       &.rev {
         min-width: 255px;
+      }
+    }
+  }
+
+  @include medium {
+    .main {
+      .bar_title {
+        width: 0px;
+        height: 0px;
+        overflow: hidden;
+      }
+      .bar_buttons {
+        .filter_button {
+          padding: 14px 10px;
+          background: transparent;
+        }
+        .copy_button {
+          padding: 14px 20px;
+        }
+        .generate_link {
+          padding: 14px 20px;
+        }
       }
     }
   }

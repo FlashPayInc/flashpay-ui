@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { generateLink } from "../features/modals/modalSlice";
 import { AppIcons, Assets, NavIcons } from "../svg";
 import DropDownMenu from "./DropDownMenu";
+import { useWindowSize } from "@react-hook/window-size/throttled";
 
 const TopBar = ({
   main,
@@ -15,6 +16,7 @@ const TopBar = ({
   button3,
 }) => {
   const dispatch = useDispatch();
+  const [width] = useWindowSize();
 
   const dropDownRef = useRef();
   const [isOpen, setIsOpen] = useState(false);
@@ -29,11 +31,13 @@ const TopBar = ({
       <div className="main">
         {type === "payment-details" ? (
           <div className="payment_details_header">
-            <div className="link_name">
-              <p>
-                Payment links / <span>2348308</span>
-              </p>
-            </div>
+            {width > 930 ? (
+              <div className="link_name">
+                <p>
+                  Payment links / <span>2348308</span>
+                </p>
+              </div>
+            ) : null}
 
             <div className="set_link">
               <p>Set link as </p>
@@ -52,6 +56,7 @@ const TopBar = ({
               curOption={curOption}
               dropDownRef={dropDownRef}
               UpdateOption={UpdateOption}
+              direction={width < 930 ? "rtl" : ""}
             >
               <button
                 ref={dropDownRef}
@@ -73,7 +78,7 @@ const TopBar = ({
             </button>
           ) : null}
           {button3 ? (
-            <button className="filter_button">
+            <button className="copy_button">
               <AppIcons type="copy-link" />
               <p>Copy Link</p>
             </button>

@@ -1,3 +1,16 @@
+.header-sm {
+  width: 100%;
+  margin-top: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  @include padHor;
+  p {
+    padding: 0px 10px;
+    font-size: $font-rg;
+    font-family: $sansmed;
+  }
+}
+
 .payment_table {
   width: 100%;
   overflow-x: scroll;
@@ -44,6 +57,10 @@
       left: 0px;
       width: 100px;
       max-width: 100px;
+      padding-left: 10px;
+    }
+    .amt {
+      left: 0px;
       padding-left: 10px;
       position: sticky;
     }
@@ -104,7 +121,7 @@
       font-size: $font-sl;
       text-transform: uppercase;
     }
-    .name {
+    .amt {
       background: #fff;
     }
   }
@@ -112,13 +129,13 @@
   .table_row {
     cursor: pointer;
     &:nth-child(odd) {
-      .name {
+      .amt {
         background: #fff;
       }
     }
     &:nth-child(even) {
       background: #f9f9f9;
-      .name {
+      .amt {
         background: #f9f9f9;
       }
     }

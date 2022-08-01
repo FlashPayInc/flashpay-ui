@@ -17,6 +17,10 @@ export const modalSlice = createSlice({
       state.status = true;
       state.type = "connectWallect";
     },
+    notifications: (state, action) => {
+      state.status = true;
+      state.type = "notifications";
+    },
     txnProcessing: (state, action) => {
       state.status = true;
       state.type = "txnProcessing";
@@ -84,6 +88,7 @@ export const LinkWalletAsync = (slug) => async (dispatch) => {
 export const {
   connectWallet,
   closeModal,
+  notifications,
   txnProcessing,
   txnSuccessful,
   txnFailed,

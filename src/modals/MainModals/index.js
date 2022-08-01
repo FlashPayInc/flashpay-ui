@@ -4,6 +4,7 @@ import ConnectModal from "./ConnectModal";
 import DeleteAccountModal from "./DeleteAccountModal";
 import Failed from "./Failed";
 import GenerateLinkModal from "./GenerateLinkModal";
+import NotificationModal from "./NotificationModal";
 import Processing from "./Processing";
 import Success from "./Success";
 
@@ -15,21 +16,21 @@ const AppModals = () => {
       className="modal_background"
       style={{ display: status === true ? "flex" : "none" }}
     >
-      <div className="modal_container">
-        {type === "connectWallect" ? (
-          <ConnectModal />
-        ) : type === "txnProcessing" ? (
-          <Processing />
-        ) : type === "txnSuccessful" ? (
-          <Success />
-        ) : type === "txnFailed" ? (
-          <Failed />
-        ) : (type === "generateLink") | (type === "generateLinkSuccessful") ? (
-          <GenerateLinkModal data={data} />
-        ) : type === "deleteAccount" ? (
-          <DeleteAccountModal />
-        ) : null}
-      </div>
+      {type === "connectWallect" ? (
+        <ConnectModal />
+      ) : type === "txnProcessing" ? (
+        <Processing />
+      ) : type === "txnSuccessful" ? (
+        <Success />
+      ) : type === "txnFailed" ? (
+        <Failed />
+      ) : (type === "generateLink") | (type === "generateLinkSuccessful") ? (
+        <GenerateLinkModal data={data} />
+      ) : type === "deleteAccount" ? (
+        <DeleteAccountModal />
+      ) : type === "notifications" ? (
+        <NotificationModal />
+      ) : null}
     </div>
   );
 };
