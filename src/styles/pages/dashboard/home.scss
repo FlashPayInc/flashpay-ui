@@ -26,9 +26,13 @@
   border: 1px solid #e0e0e0;
   position: relative;
 
+  @include tablet {
+    border: none;
+    padding: 0px;
+  }
+
   @include phone {
     height: 370px;
-    padding: 20px 20px 30px;
   }
 
   .stats_filters {

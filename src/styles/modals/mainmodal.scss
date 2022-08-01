@@ -83,6 +83,16 @@
             color: #eb5757;
           }
         }
+        .closemodal-x {
+          width: 100%;
+          padding: 0px 10px;
+          flex-direction: row;
+          justify-content: flex-end;
+          .back-btn {
+            padding: 5px;
+            cursor: pointer;
+          }
+        }
       }
       .sub {
         color: $col-dk;

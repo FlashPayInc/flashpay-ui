@@ -23,6 +23,28 @@ const Icon = {
       />
     </svg>
   ),
+  CloseX: () => (
+    <svg
+      height="10"
+      width="10"
+      fill="none"
+      viewBox="0 0 10 10"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0.757324 0.757324L9.24261 9.24261"
+        stroke="#292D32"
+        strokeLinecap="round"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M0.757324 9.24261L9.24261 0.757324"
+        stroke="#292D32"
+        strokeLinecap="round"
+        strokeWidth="1.5"
+      />
+    </svg>
+  ),
   ArrowLeft: () => (
     <svg
       height="24"

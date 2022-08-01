@@ -18,11 +18,28 @@ const ConnectModal = () => {
     <div className={`modal_container ${width < 570 ? "fill-screen" : ""}`}>
       <div className="modal_header">
         <div className="main">
-          <div className="back-btn" onClick={() => dispatch(closeModal())}>
-            <Icon.ArrowLeft />
-          </div>
+          {width < 570 ? (
+            <>
+              <div className="back-btn" onClick={() => dispatch(closeModal())}>
+                <Icon.ArrowLeft />
+              </div>
 
-          <p>Connect wallet</p>
+              <p>Connect wallet</p>
+            </>
+          ) : (
+            <>
+              <div className="closemodal-x">
+                <div
+                  className="back-btn"
+                  onClick={() => dispatch(closeModal())}
+                >
+                  <Icon.CloseX />
+                </div>
+              </div>
+
+              <p>Connect wallet</p>
+            </>
+          )}
         </div>
         <div className="sub">
           Select a platform to pay from
