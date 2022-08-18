@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { DropDownContent } from "../pages/data";
 import { AppIcons, MainIcons, Assets, Illustrations } from "../svg";
-import { useOutsideAlerter } from "../utils";
+import { useOutsideAlerter } from "../utils/helpers";
 import HorLine from "./HorLine";
 
 const DropDownMenu = ({

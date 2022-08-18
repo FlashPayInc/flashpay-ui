@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TopBar from "../../../common/TopBar";
 import ProfileBar from "../../../common/ProfileBar";
-import { Assets } from "../../../svg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   LinkWalletAsync,
   connectWallet,
 } from "../../../features/modals/modalSlice";
+import { useNavigate } from "react-router-dom";
 
 const Setup = () => {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const { walletAddress, linkedStatus } = useSelector((state) => state.config);
+
+  useEffect(() => {
+    if (!!linkedStatus) {
+      navigate("/", { replace: true });
+    }
+  }, []);
 
   return (
     <>
@@ -37,7 +44,7 @@ const Setup = () => {
               className="continue_button"
               onClick={() => {
                 if (!!walletAddress) {
-                  dispatch(LinkWalletAsync());
+                  dispatch(LinkWalletAsync({ addr: walletAddress }));
                 } else {
                   dispatch(connectWallet());
                 }

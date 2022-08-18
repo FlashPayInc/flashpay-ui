@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { closeSideTab } from "../features/config/configSlice";
 import { connectWallet } from "../features/modals/modalSlice";
 import { AppIcons, NavIcons } from "../svg";
-import { constrictAddr } from "../utils";
+import { constrictAddr } from "../utils/helpers";
 import HorLine from "./HorLine";
 
 const SideTab = () => {

@@ -6,7 +6,9 @@ import Failed from "./Failed";
 import GenerateLinkModal from "./GenerateLinkModal";
 import NotificationModal from "./NotificationModal";
 import Processing from "./Processing";
+import SetupAcctModal from "./SetupAcctModal";
 import Success from "./Success";
+import VerifyAcctModal from "./VerifyAcctModal";
 
 const AppModals = () => {
   const { status, type, data } = useSelector((state) => state.modal);
@@ -16,8 +18,12 @@ const AppModals = () => {
       className="modal_background"
       style={{ display: status === true ? "flex" : "none" }}
     >
-      {type === "connectWallect" ? (
+      {type === "connectWallet" ? (
         <ConnectModal />
+      ) : type === "verifyAcct" ? (
+        <VerifyAcctModal data={data} />
+      ) : type === "setupAcct" ? (
+        <SetupAcctModal data={data} />
       ) : type === "txnProcessing" ? (
         <Processing />
       ) : type === "txnSuccessful" ? (

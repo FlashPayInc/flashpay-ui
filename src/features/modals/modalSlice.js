@@ -1,12 +1,19 @@
 import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
-import { myAlgoConnect } from "../../utils";
+import {
+  algodClient,
+  createTransaction,
+  myAlgoConnect,
+  PayloadConnect,
+  PayloadSetup,
+} from "../../utils";
+import { waitForConfirmation } from "algosdk";
 import { setLinkedStatus, setWallet } from "../config/configSlice";
 
 const initialState = {
   status: false,
   type: "",
-  data: null,
+  data: false,
 };
 
 export const modalSlice = createSlice({
@@ -15,8 +22,20 @@ export const modalSlice = createSlice({
   reducers: {
     connectWallet: (state, action) => {
       state.status = true;
-      state.type = "connectWallect";
+      state.type = "connectWallet";
     },
+    verifyAcct: (state, action) => {
+      state.status = true;
+      state.type = "verifyAcct";
+      state.data = { loading: action.payload.loading };
+    },
+
+    setupAcct: (state, action) => {
+      state.status = true;
+      state.type = "setupAcct";
+      state.data = action.payload;
+    },
+
     notifications: (state, action) => {
       state.status = true;
       state.type = "notifications";
@@ -60,33 +79,85 @@ export const ConnectWalletAsync = (slug) => async (dispatch) => {
     const accounts = await myAlgoConnect.connect({
       shouldSelectOneAccount: true,
     });
+
     dispatch(
       setWallet({
         walletAddress: accounts[0].address,
         walletProvider: "myalgo",
       })
     );
-    dispatch(closeModal());
+    dispatch(verifyAcct({ loading: true }));
+
+    const payload = PayloadConnect(accounts[0].address);
+
+    await axios
+      .post(`/accounts/connect`, { payload })
+      .then((res) => {
+        console.log(res);
+
+        localStorage.setItem("access_token", res.data?.data?.access_token);
+        localStorage.setItem("refresh_token", res.data?.data?.refresh_token);
+
+        dispatch(setLinkedStatus("linked"));
+        dispatch(closeModal());
+      })
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          dispatch(verifyAcct({ loading: false }));
+        }
+      });
   } catch (err) {
     console.log(err.message);
   }
+
+  return;
 };
 
 export const LinkWalletAsync = (slug) => async (dispatch) => {
   try {
-    dispatch(txnProcessing());
+    dispatch(setupAcct({ status: "loading" }));
 
-    setTimeout(() => {
-      dispatch(txnSuccessful());
-      dispatch(setLinkedStatus("linked"));
-    }, 2000);
+    let submittedTxn = null;
+    const provider = localStorage.getItem("walletProvider");
+    const nonce = Math.random().toString(36).slice(2, 7);
+
+    const txn = await createTransaction(0, slug?.addr, nonce);
+
+    if (provider === "myalgo") {
+      const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
+      submittedTxn = await algodClient.sendRawTransaction(signedTxn.blob).do();
+      await waitForConfirmation(algodClient, submittedTxn?.txId, 1000);
+    }
+
+    if (!!submittedTxn?.txId) {
+      const payload = PayloadSetup(slug?.addr, nonce, submittedTxn?.txId);
+
+      await axios
+        .post(`/accounts/init`, { payload })
+        .then((res) => {
+          dispatch(setLinkedStatus("linked"));
+          dispatch(
+            setupAcct({ status: "success", message: res.data?.message })
+          );
+        })
+        .catch((err) => {
+          console.log(err?.response.data.message);
+          dispatch(
+            setupAcct({ status: "error", message: err?.response.data.message })
+          );
+        });
+    }
   } catch (err) {
     console.log(err.message);
+    dispatch(setupAcct({ status: "error" }));
   }
 };
 
 export const {
   connectWallet,
+  verifyAcct,
+  setupAcct,
+
   closeModal,
   notifications,
   txnProcessing,

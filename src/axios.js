@@ -1,9 +1,9 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "";
+axios.defaults.baseURL = "https://flashpay-backend-develop.herokuapp.com/api/";
 axios.defaults.headers.post["Content-Type"] =
   "application/x-www-form-urlencoded";
 
-axios.defaults.headers.common[
-  "Authorization"
-] = `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`;
+axios.defaults.headers.common["Authorization"] = !!localStorage.getItem("token")
+  ? `Bearer ${localStorage.getItem("token")}`
+  : "";

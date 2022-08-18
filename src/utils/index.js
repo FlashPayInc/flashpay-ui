@@ -1,49 +1,18 @@
+import fernet from "fernet";
 import algosdk from "algosdk";
 import { useEffect } from "react";
 import WalletConnect from "@walletconnect/client";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
 import WalletConnectQRCodeModal from "algorand-walletconnect-qrcode-modal";
 
-// Functions
-const constrictAddr = (address) =>
-  address.substring(0, 5) + "..." + address.substring(51, 58);
+// FERNET ENCRYPTION SETUP
+const fernetSecret = new fernet.Secret(process.env.REACT_APP_ENCRYPTION_KEY);
+const fernetToken = new fernet.Token({
+  secret: fernetSecret,
+  ttl: 0,
+});
 
-const constrictAddrLong = (address) =>
-  address.substring(0, 20) + "..." + address.substring(50, 58);
-
-const NumberWithCommas = (x, dp = 6) => {
-  if (x.toString().includes(".")) {
-    const y = x.toString().split(".");
-    return (
-      y[0]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-      "." +
-      y[1]?.toString().substring(0, dp)
-    );
-  } else {
-    return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-};
-
-function useOutsideAlerter(ref, ref2, callback) {
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target) &&
-        ref2.current &&
-        !ref2.current.contains(event.target)
-      ) {
-        callback();
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref]);
-}
-
-// Connections
+// CONNECT WALLET
 const myAlgoConnect = new MyAlgoConnect();
 const algodClient = new algosdk.Algodv2(
   "",
@@ -60,13 +29,47 @@ const connector = new WalletConnect({
   qrcodeModal: WalletConnectQRCodeModal,
 });
 
+const PayloadConnect = (address) => {
+  const nonce = Math.random().toString(36).slice(2, 7);
+  const encryptedPayload = fernetToken.encode(`${nonce}, ${address}`);
+  return btoa(encryptedPayload);
+};
+
+const PayloadSetup = (address, nonce, txId) => {
+  const encryptedPayload = fernetToken.encode(`${nonce}, ${address}, ${txId}`);
+  return btoa(encryptedPayload);
+};
+
+// CREATE TRANSACTION
+const createTransaction = async (amount, senderAddr, noteSlug) => {
+  const enc = new TextEncoder();
+  const note = enc.encode(noteSlug);
+
+  const returnData = await algodClient
+    .getTransactionParams()
+    .do()
+    .then((suggestedParams) => {
+      const transaction = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        note,
+        suggestedParams,
+        from: senderAddr,
+        amount: amount * 1000000,
+        to: process.env.REACT_APP_SETUP_ADDRESS,
+      });
+
+      return transaction;
+    })
+    .catch((err) => console.log(err?.message));
+
+  return returnData;
+};
+
 export {
-  constrictAddr,
-  NumberWithCommas,
-  constrictAddrLong,
-  useOutsideAlerter,
-  //
   myAlgoConnect,
   algodClient,
   connector,
+  PayloadConnect,
+  PayloadSetup,
+  //
+  createTransaction,
 };

@@ -15,7 +15,7 @@ export const paymentModalSlice = createSlice({
   reducers: {
     connectWallet: (state, action) => {
       state.status = true;
-      state.type = "connectWallect";
+      state.type = "connectWallet";
     },
     txnProcessing: (state, action) => {
       state.status = true;
@@ -36,24 +36,6 @@ export const paymentModalSlice = createSlice({
     },
   },
 });
-
-export const ConnectWalletAsync = (slug) => async (dispatch) => {
-  if (slug.type !== "myalgo") return;
-  try {
-    const accounts = await myAlgoConnect.connect({
-      shouldSelectOneAccount: true,
-    });
-    dispatch(
-      setWallet({
-        walletAddress: accounts[0].address,
-        walletProvider: "myalgo",
-      })
-    );
-    dispatch(closeModal());
-  } catch (err) {
-    console.log(err.message);
-  }
-};
 
 export const ProcessTxnAsync = (slug) => async (dispatch) => {
   try {

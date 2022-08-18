@@ -32,7 +32,7 @@ export const configSlice = createSlice({
     },
     setLinkedStatus: (state, action) => {
       localStorage.setItem("linkedStatus", action.payload);
-      state.linkedStatus = action.payload;
+      state.linkedStatus = action.payload === "linked";
     },
   },
 });
