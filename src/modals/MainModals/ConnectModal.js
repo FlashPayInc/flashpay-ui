@@ -41,10 +41,7 @@ const ConnectModal = () => {
             </>
           )}
         </div>
-        <div className="sub">
-          Select a platform to pay from
-          {/* <span className="note"> - My Algo wallet active</span> */}
-        </div>
+        <div className="sub">Select a platform to pay from</div>
       </div>
 
       <div className="modal_content">

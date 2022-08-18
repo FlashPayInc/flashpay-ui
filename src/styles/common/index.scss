@@ -345,6 +345,11 @@ nav {
     overflow: hidden scroll;
     border: 1px solid #e0e0e0;
 
+    &.solid-border {
+      padding: 10px 20px !important;
+      border: 1.2px solid #ccc !important;
+    }
+
     .content {
       gap: 10px;
       width: 100%;
@@ -367,6 +372,16 @@ nav {
           font-family: $sansmed;
         }
       }
+    }
+  }
+
+  .singleOption {
+    gap: 8px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    p {
+      font-family: $sansmed;
     }
   }
 

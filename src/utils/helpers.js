@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 // Functions
-const constrictAddr = (address, start = 5, end = 7) =>
+const constrictAddr = (address, start = 6, end = 6) =>
   address.substring(0, start) +
   "..." +
   address.substring(address.length - end, address.length);

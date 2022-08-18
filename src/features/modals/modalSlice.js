@@ -2,6 +2,7 @@ import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   algodClient,
+  connector,
   createTransaction,
   myAlgoConnect,
   PayloadConnect,
@@ -73,39 +74,100 @@ export const modalSlice = createSlice({
   },
 });
 
-export const ConnectWalletAsync = (slug) => async (dispatch) => {
-  if (slug.type !== "myalgo") return;
-  try {
-    const accounts = await myAlgoConnect.connect({
-      shouldSelectOneAccount: true,
+export const VerifyWalletAsync = (address) => async (dispatch) => {
+  const payload = PayloadConnect(address);
+
+  await axios
+    .post(`/accounts/connect`, { payload })
+    .then((res) => {
+      localStorage.setItem("access_token", res.data?.data?.access_token);
+      localStorage.setItem("refresh_token", res.data?.data?.refresh_token);
+
+      dispatch(setLinkedStatus("linked"));
+      dispatch(closeModal());
+    })
+    .catch((err) => {
+      if (err?.response?.status === 401) {
+        dispatch(verifyAcct({ loading: false }));
+      }
     });
+};
 
-    dispatch(
-      setWallet({
-        walletAddress: accounts[0].address,
-        walletProvider: "myalgo",
-      })
-    );
-    dispatch(verifyAcct({ loading: true }));
-
-    const payload = PayloadConnect(accounts[0].address);
-
-    await axios
-      .post(`/accounts/connect`, { payload })
-      .then((res) => {
-        console.log(res);
-
-        localStorage.setItem("access_token", res.data?.data?.access_token);
-        localStorage.setItem("refresh_token", res.data?.data?.refresh_token);
-
-        dispatch(setLinkedStatus("linked"));
-        dispatch(closeModal());
-      })
-      .catch((err) => {
-        if (err?.response?.status === 401) {
-          dispatch(verifyAcct({ loading: false }));
-        }
+export const ConnectWalletAsync = (slug) => async (dispatch) => {
+  try {
+    if (slug.type === "myalgo") {
+      const accounts = await myAlgoConnect.connect({
+        shouldSelectOneAccount: true,
       });
+
+      dispatch(
+        setWallet({
+          walletAddress: accounts[0].address,
+          walletProvider: slug.type,
+        })
+      );
+      dispatch(verifyAcct({ loading: true }));
+      dispatch(VerifyWalletAsync(accounts[0].address));
+    } else if (slug.type === "pera") {
+      if (!connector.connected) {
+        connector.createSession();
+      }
+
+      connector.on("connect", (error, payload) => {
+        if (error) throw error;
+        const { accounts } = payload.params[0];
+        dispatch(
+          setWallet({
+            walletAddress: accounts[0],
+            walletProvider: slug.type,
+          })
+        );
+        dispatch(verifyAcct({ loading: true }));
+        dispatch(VerifyWalletAsync(accounts[0]));
+      });
+
+      connector.on("session_update", (error, payload) => {
+        if (error) throw error;
+        console.log("Session updated...");
+        const { accounts } = payload.params[0];
+
+        dispatch(
+          setWallet({
+            walletAddress: accounts[0],
+            walletProvider: "pera",
+          })
+        );
+      });
+
+      connector.on("disconnect", (error, payload) => {
+        if (error) throw error;
+        localStorage.clear();
+        window.location.reload();
+      });
+    } else if (slug.type === "algosigner") {
+      if (typeof window.AlgoSigner === "undefined") {
+        window.open(
+          "https://chrome.google.com/webstore/detail/algosigner/kmmolakhbgdlpkjkcjkebenjheonagdm",
+          "_blank"
+        );
+      } else {
+        await window.AlgoSigner.connect({
+          ledger: "TestNet",
+        });
+        const accounts = await window.AlgoSigner.accounts({
+          ledger: "TestNet",
+        });
+
+        dispatch(
+          setWallet({
+            walletAddress: accounts[0].address,
+            walletProvider: slug.type,
+          })
+        );
+        dispatch(verifyAcct({ loading: true }));
+        dispatch(VerifyWalletAsync(accounts[0].address));
+      }
+    }
   } catch (err) {
     console.log(err.message);
   }

@@ -85,11 +85,11 @@
         }
         .closemodal-x {
           width: 100%;
-          padding: 0px 10px;
           flex-direction: row;
+          margin-bottom: 6px;
           justify-content: flex-end;
           .back-btn {
-            padding: 5px;
+            padding: 8px 5px;
             cursor: pointer;
           }
         }

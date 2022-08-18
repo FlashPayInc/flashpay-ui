@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { closeSideTab } from "../features/config/configSlice";
@@ -6,9 +7,12 @@ import { connectWallet } from "../features/modals/modalSlice";
 import { AppIcons, NavIcons } from "../svg";
 import { constrictAddr } from "../utils/helpers";
 import HorLine from "./HorLine";
+import SelectMenu from "./SelectMenu";
 
 const SideTab = () => {
+  const dropDownRef = useRef();
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
   const { walletAddress, linkedStatus, openSidetab } = useSelector(
     (state) => state.config
   );
@@ -34,9 +38,30 @@ const SideTab = () => {
           </a>
 
           {!!walletAddress ? (
-            <button className="connect_wallet" onClick={CloseTab}>
-              <p>{constrictAddr(walletAddress)}</p>
-            </button>
+            <>
+              <SelectMenu
+                type="disconnect"
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                dropDownRef={dropDownRef}
+              >
+                <button
+                  ref={dropDownRef}
+                  className="connect_wallet"
+                  onClick={() => {
+                    if (isOpen) {
+                      setIsOpen((p) => !p);
+                      CloseTab();
+                    } else {
+                      setIsOpen((p) => !p);
+                    }
+                  }}
+                >
+                  <p>{walletAddress ? constrictAddr(walletAddress) : null}</p>
+                  <i className="ph-caret-down-bold"></i>
+                </button>
+              </SelectMenu>
+            </>
           ) : (
             <button
               className="connect_wallet"

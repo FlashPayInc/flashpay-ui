@@ -76,11 +76,28 @@ const GenerateLinkModal = ({ data }) => {
     <div className={`modal_container ${width < 570 ? "fill-screen" : ""}`}>
       <div className="modal_header">
         <div className="main">
-          <div className="back-btn" onClick={() => dispatch(closeModal())}>
-            <Icon.ArrowLeft />
-          </div>
+          {width < 570 ? (
+            <>
+              <div className="back-btn" onClick={() => dispatch(closeModal())}>
+                <Icon.ArrowLeft />
+              </div>
 
-          <p>Generate link</p>
+              <p>Generate link</p>
+            </>
+          ) : (
+            <>
+              <div className="closemodal-x">
+                <div
+                  className="back-btn"
+                  onClick={() => dispatch(closeModal())}
+                >
+                  <Icon.CloseX />
+                </div>
+              </div>
+
+              <p>Generate link</p>
+            </>
+          )}
         </div>
         <div className="sub">
           Table the discussion; I just wanted to give you a heads-up, and run it
