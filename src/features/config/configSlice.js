@@ -14,13 +14,13 @@ export const configSlice = createSlice({
   name: "root",
   initialState,
   reducers: {
-    openSideTab: (state) => {
+    openSideTab: state => {
       state.openSidetab = true;
     },
-    closeSideTab: (state) => {
+    closeSideTab: state => {
       state.openSidetab = false;
     },
-    closeSideTab: (state) => {
+    closeSideTab: state => {
       state.openSidetab = false;
     },
 

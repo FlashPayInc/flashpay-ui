@@ -1,6 +1,5 @@
 import fernet from "fernet";
 import algosdk from "algosdk";
-import { useEffect } from "react";
 import WalletConnect from "@walletconnect/client";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
 import WalletConnectQRCodeModal from "algorand-walletconnect-qrcode-modal";
@@ -29,37 +28,52 @@ const connector = new WalletConnect({
   qrcodeModal: WalletConnectQRCodeModal,
 });
 
-const PayloadConnect = (address) => {
+const DecodePayload = pub_key => {
+  var token = new fernet.Token({
+    secret: fernetSecret,
+    token: pub_key,
+    ttl: 0,
+  });
+  const decryptedPayload = token.decode();
+  return btoa(decryptedPayload);
+};
+
+const ConnectPayload = address => {
   const nonce = Math.random().toString(36).slice(2, 7);
   const encryptedPayload = fernetToken.encode(`${nonce}, ${address}`);
   return btoa(encryptedPayload);
 };
 
-const PayloadSetup = (address, nonce, txId) => {
+const SetupPayload = (address, nonce, txId) => {
   const encryptedPayload = fernetToken.encode(`${nonce}, ${address}, ${txId}`);
   return btoa(encryptedPayload);
 };
 
 // CREATE TRANSACTION
-const createTransaction = async (amount, senderAddr, noteSlug) => {
+const createTransaction = async (
+  amount,
+  senderAddr,
+  noteSlug,
+  recipient = process.env.REACT_APP_SETUP_ADDRESS
+) => {
   const enc = new TextEncoder();
   const note = enc.encode(noteSlug);
 
   const returnData = await algodClient
     .getTransactionParams()
     .do()
-    .then((suggestedParams) => {
+    .then(suggestedParams => {
       const transaction = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
         note,
         suggestedParams,
         from: senderAddr,
-        amount: amount * 1000000,
-        to: process.env.REACT_APP_SETUP_ADDRESS,
+        amount: Number(amount) * 1000000,
+        to: recipient,
       });
 
       return transaction;
     })
-    .catch((err) => console.log(err?.message));
+    .catch(err => console.log(err?.message));
 
   return returnData;
 };
@@ -68,8 +82,9 @@ export {
   myAlgoConnect,
   algodClient,
   connector,
-  PayloadConnect,
-  PayloadSetup,
+  ConnectPayload,
+  SetupPayload,
+  DecodePayload,
   //
   createTransaction,
 };

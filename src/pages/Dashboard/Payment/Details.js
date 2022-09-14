@@ -16,11 +16,11 @@ const Details = () => {
 
       <div className="home_container">
         <TopBar
-          type="payment-details"
-          data="payment-links"
-          main={`${notEmpty ? "Payment links" : ""}`}
-          button3="copy-link"
           detailsPage={true}
+          copyLink="copyLink"
+          data="payment-links"
+          type="payment-details"
+          main={`${notEmpty ? "Payment links" : ""}`}
         />
 
         {width <= 930 ? (

@@ -1,20 +1,15 @@
-import React, { useState } from "react";
-import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import HorLine from "./HorLine";
 import { NavLink } from "react-router-dom";
+import { AppIcons, NavIcons } from "../svg";
+import LogoutButton from "./Dropdown/logoutButton";
+import { useDispatch, useSelector } from "react-redux";
 import { closeSideTab } from "../features/config/configSlice";
 import { connectWallet } from "../features/modals/modalSlice";
-import { AppIcons, NavIcons } from "../svg";
-import { constrictAddr } from "../utils/helpers";
-import HorLine from "./HorLine";
-import SelectMenu from "./SelectMenu";
 
 const SideTab = () => {
-  const dropDownRef = useRef();
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
   const { walletAddress, linkedStatus, openSidetab } = useSelector(
-    (state) => state.config
+    state => state.config
   );
 
   const ConnectWallet = () => {
@@ -38,30 +33,7 @@ const SideTab = () => {
           </a>
 
           {!!walletAddress ? (
-            <>
-              <SelectMenu
-                type="disconnect"
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                dropDownRef={dropDownRef}
-              >
-                <button
-                  ref={dropDownRef}
-                  className="connect_wallet"
-                  onClick={() => {
-                    if (isOpen) {
-                      setIsOpen((p) => !p);
-                      CloseTab();
-                    } else {
-                      setIsOpen((p) => !p);
-                    }
-                  }}
-                >
-                  <p>{walletAddress ? constrictAddr(walletAddress) : null}</p>
-                  <i className="ph-caret-down-bold"></i>
-                </button>
-              </SelectMenu>
-            </>
+            <LogoutButton walletAddress={walletAddress} />
           ) : (
             <button
               className="connect_wallet"

@@ -22,6 +22,18 @@
 
     @include scrollbars(10px, transparent, transparent);
 
+    .warning_text {
+      gap: 10px;
+      padding: 5px 5px;
+      color: #f4861e;
+      border-radius: 5px;
+      flex-direction: row;
+      text-transform: uppercase;
+      p {
+        font-size: 10px;
+      }
+    }
+
     &.fill-screen {
       width: 100vw;
       max-width: 100%;
@@ -185,6 +197,7 @@
         .logo_img {
           width: 70px;
           height: 70px;
+          cursor: pointer;
           overflow: hidden;
           border-radius: 100%;
           align-items: center;
@@ -198,6 +211,7 @@
         }
         .edit_img {
           color: $main-col;
+          cursor: pointer;
           font-family: $sansmed;
         }
       }
@@ -235,6 +249,16 @@
           gap: 10px;
           align-items: center;
           flex-direction: row;
+          &.contain .flex_width {
+            width: 100%;
+            .asset_select {
+              padding: 15px 20px !important;
+              width: 100% !important;
+            }
+            .drop_down_list {
+              padding: 15px 20px !important;
+            }
+          }
           &.amt_ty {
             gap: 20px;
           }
@@ -268,14 +292,19 @@
               gap: 10px;
               align-items: center;
               flex-direction: row;
+
               p {
                 font-size: $font-sl;
                 min-width: 60px;
                 text-transform: uppercase;
               }
+              img,
               svg {
                 width: 24px;
                 height: 24px;
+              }
+              img {
+                border-radius: 100%;
               }
             }
             .caret_down {

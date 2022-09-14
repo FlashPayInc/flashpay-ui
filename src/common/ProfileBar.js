@@ -1,34 +1,21 @@
 import React from "react";
 import Icon from "../svg/Icon";
-import { AppIcons } from "../svg";
-import { useRef, useState } from "react";
-import DropDownMenu from "./DropDownMenu";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
 import { openSideTab } from "../features/config/configSlice";
 import { useWindowSize } from "@react-hook/window-size/throttled";
-import { notifications } from "../features/modals/modalSlice";
+import Notifications from "./Dropdown/notifications";
 
 const ProfileBar = () => {
-  const dropDownRef = useRef();
   const dispatch = useDispatch();
   const [width] = useWindowSize();
-  const [isOpen, setIsOpen] = useState(false);
-  const [curOption, setCurOption] = useState("");
-
   const { pathname } = useLocation();
-
-  const first = pathname.match(/^\/\w+/i);
-  const currentPath = first
-    ? first[0].slice(1)
+  const match = pathname.match(/^\/\w+/i);
+  const currentPath = match
+    ? match[0].slice(1)
     : pathname === "/"
     ? "Dashboard"
     : "";
-
-  const UpdateOption = (item) => {
-    setIsOpen(false);
-    setCurOption(item);
-  };
 
   const OpenTab = () => {
     dispatch(openSideTab());
@@ -51,30 +38,7 @@ const ProfileBar = () => {
       )}
 
       <div className="profile_img_bell">
-        <DropDownMenu
-          type="notification"
-          data={"transactions"}
-          isOpen={isOpen}
-          direction="rtl"
-          setIsOpen={setIsOpen}
-          curOption={curOption}
-          dropDownRef={dropDownRef}
-          UpdateOption={UpdateOption}
-        >
-          <div
-            ref={dropDownRef}
-            className="notif_icon"
-            onClick={() => {
-              if (width < 530) {
-                dispatch(notifications());
-              } else {
-                setIsOpen((p) => !p);
-              }
-            }}
-          >
-            <AppIcons type="notificationBell" />
-          </div>
-        </DropDownMenu>
+        <Notifications />
 
         <img
           src="https://blush.design/api/download?shareUri=0I6cFC5NGKx-CnTR&c=Skin_0%7Ed08b5b&w=800&h=800&fm=png"

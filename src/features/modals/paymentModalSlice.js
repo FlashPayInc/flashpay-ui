@@ -37,7 +37,7 @@ export const paymentModalSlice = createSlice({
   },
 });
 
-export const ProcessTxnAsync = (slug) => async (dispatch) => {
+export const ProcessTxnAsync = slug => async dispatch => {
   try {
     dispatch(txnProcessing());
 

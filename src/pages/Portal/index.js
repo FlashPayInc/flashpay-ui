@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { AppIcons, Illustrations } from "../../svg";
+import Description from "./description";
 
 const Portal = () => {
   return (
@@ -20,11 +21,8 @@ const Portal = () => {
       </div>
 
       <div className="section_block main_container">
-        <Outlet />
-        <div className="powered_by_block">
-          <p>Powered by</p>
-          <AppIcons type="flashpay-main" />
-        </div>
+        {/* <Outlet /> */}
+        <Description />
       </div>
     </div>
   );

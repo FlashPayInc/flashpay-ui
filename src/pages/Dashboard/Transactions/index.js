@@ -17,7 +17,7 @@ const Transactions = () => {
           <TopBar
             data="transactions"
             main={`${notEmpty ? "Transactions" : ""}`}
-            button1="filter"
+            filter="filter"
           />
         ) : null}
 

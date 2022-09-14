@@ -1,28 +1,23 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { generateLink } from "../features/modals/modalSlice";
+import TxnsFilters from "./Dropdown/txnFilters";
 import { AppIcons, Assets, NavIcons } from "../svg";
-import DropDownMenu from "./DropDownMenu";
+import { generateLink } from "../features/modals/modalSlice";
 import { useWindowSize } from "@react-hook/window-size/throttled";
 
 const TopBar = ({
+  sub,
   main,
   type,
+  filter,
+  generate,
+  copyLink,
   detailsPage,
-  sub,
-  data,
-  button1,
-  button2,
-  button3,
 }) => {
   const dispatch = useDispatch();
   const [width] = useWindowSize();
-
-  const dropDownRef = useRef();
-  const [isOpen, setIsOpen] = useState(false);
   const [curOption, setCurOption] = useState("");
-  const UpdateOption = (item) => {
-    setIsOpen(false);
+  const UpdateOption = item => {
     setCurOption(item);
   };
 
@@ -48,27 +43,10 @@ const TopBar = ({
           <p className="bar_title">{main}</p>
         )}
         <div className="bar_buttons">
-          {button1 ? (
-            <DropDownMenu
-              data={data}
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-              curOption={curOption}
-              dropDownRef={dropDownRef}
-              UpdateOption={UpdateOption}
-              direction={width < 930 ? "rtl" : ""}
-            >
-              <button
-                ref={dropDownRef}
-                className="filter_button"
-                onClick={() => setIsOpen((p) => !p)}
-              >
-                <AppIcons type="filter" />
-                <p>Filter</p>
-              </button>
-            </DropDownMenu>
+          {filter ? (
+            <TxnsFilters UpdateOption={UpdateOption} curOption={curOption} />
           ) : null}
-          {button2 ? (
+          {generate ? (
             <button
               className="generate_link"
               onClick={() => dispatch(generateLink())}
@@ -77,7 +55,7 @@ const TopBar = ({
               <p>Generate link</p>
             </button>
           ) : null}
-          {button3 ? (
+          {copyLink ? (
             <button className="copy_button">
               <AppIcons type="copy-link" />
               <p>Copy Link</p>

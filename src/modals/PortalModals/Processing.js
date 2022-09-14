@@ -19,15 +19,15 @@ const Processing = () => {
         </div>
         <div className="modal_description">
           <p className="main">Transaction processing</p>
-          <p className="sub">
+          {/* <p className="sub">
             Your transaction is processing. We will notify when it has been
             completed.
-          </p>
+          </p> */}
         </div>
 
-        <div className="action_buttons">
+        {/* <div className="action_buttons">
           <button className="continue_button">Okay!</button>
-        </div>
+        </div> */}
       </div>
     </>
   );

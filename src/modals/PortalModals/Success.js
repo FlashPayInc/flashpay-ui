@@ -27,9 +27,7 @@ const Success = () => {
         </div>
         <div className="modal_description">
           <p className="main">Success</p>
-          <p className="sub">
-            Your payment was successful. A receipt has been sent to your email.
-          </p>
+          <p className="sub">Your payment was successful 🎉</p>
         </div>
 
         <div className="action_buttons">
@@ -37,14 +35,20 @@ const Success = () => {
             className="cancel_button"
             onClick={() => {
               dispatch(closeModal());
-              navigate("/", { replace: true });
             }}
           >
             Close
           </button>
-          <button className="continue_button">
-            <AppIcons type="download" />
-            <p>Download reciept</p>
+          <button
+            className="continue_button"
+            onClick={() => {
+              dispatch(closeModal());
+              navigate("/");
+            }}
+          >
+            Dashboard
+            {/* <AppIcons type="download" /> */}
+            {/* <p>Download reciept</p> */}
           </button>
         </div>
       </div>

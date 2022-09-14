@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import {
-  closeModal,
-  ConnectWalletAsync,
-} from "../../features/modals/modalSlice";
-import { useWindowSize } from "@react-hook/window-size/throttled";
-import { ConnectIcon } from "../../svg";
 import Icon from "../../svg/Icon";
+import { ConnectIcon } from "../../svg";
+import { useDispatch } from "react-redux";
+import { ConnectWalletAsync } from "../../features/requests";
+import { closeModal } from "../../features/modals/modalSlice";
+import { useWindowSize } from "@react-hook/window-size/throttled";
 
 const ConnectModal = () => {
   const [width] = useWindowSize();
@@ -78,7 +76,7 @@ const ConnectModal = () => {
           className="continue_button"
           onClick={() => {
             if (!!option) {
-              dispatch(ConnectWalletAsync({ type: option }));
+              dispatch(ConnectWalletAsync({ provider: option }));
             }
           }}
         >

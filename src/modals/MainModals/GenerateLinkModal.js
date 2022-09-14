@@ -1,75 +1,82 @@
-import { useWindowSize } from "@react-hook/window-size/throttled";
-import { useState, useRef } from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
-import { useDispatch } from "react-redux";
-import DropDownMenu from "../../common/DropDownMenu";
-import TextareaAutosize from "react-textarea-autosize";
-import {
-  closeModal,
-  generateLinkSuccessful,
-} from "../../features/modals/modalSlice";
-import { AppIcons, ConnectIcon, Assets } from "../../svg";
 import Icon from "../../svg/Icon";
+import { useRef, useState } from "react";
+import { AppIcons, ConnectIcon } from "../../svg";
+import { useDispatch, useSelector } from "react-redux";
+import CopyToClipboard from "react-copy-to-clipboard";
+import TextareaAutosize from "react-textarea-autosize";
+import CreateLink from "../../common/Dropdown/createlink";
+import { closeModal } from "../../features/modals/modalSlice";
+import { useWindowSize } from "@react-hook/window-size/throttled";
+import { CreateNewLink } from "../../features/requests/paymentLinks";
 
-const SelectMenu = ({ type, curOption, setCurOption }) => {
-  const dropDownRef = useRef();
-  const [isOpen, setIsOpen] = useState(false);
-  const UpdateOption = (item) => {
-    setIsOpen(false);
-    setCurOption(item);
-  };
-
+const SelectMenu = ({ type, assets, curOption, setCurOption }) => {
+  const UpdateOption = item => setCurOption(item);
   return (
-    <DropDownMenu
-      data={type}
-      type={"select-item"}
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
+    <CreateLink
+      type={type}
+      assets={assets}
       curOption={curOption}
-      dropDownRef={dropDownRef}
       UpdateOption={UpdateOption}
-    >
-      {type === "payment-frequency" ? (
-        <div
-          ref={dropDownRef}
-          className="payment_duration"
-          onClick={() => setIsOpen((p) => !p)}
-        >
-          <p>{curOption}</p>
-          <i className="ph-caret-down-bold"></i>
-        </div>
-      ) : type === "assets-list" ? (
-        <div
-          ref={dropDownRef}
-          className="asset_select"
-          onClick={() => setIsOpen((p) => !p)}
-        >
-          <div className="asset_info">
-            <Assets asset={curOption} />
-            <p>{curOption}</p>
-          </div>
-
-          <i className="ph-caret-down-bold caret_down"></i>
-        </div>
-      ) : null}
-    </DropDownMenu>
+    />
   );
 };
 
 const GenerateLinkModal = ({ data }) => {
-  const [width] = useWindowSize();
-
+  const imageRef = useRef(null);
   const dispatch = useDispatch();
-  const [isFixed, setIsFixed] = useState(true);
-  const [curAsset, setCurAsset] = useState("usdt");
-  const [curFreq, setCurFreq] = useState("Conitinual");
-
+  const [width] = useWindowSize();
   const [copy, setCopy] = useState("Copy link");
+  const { assets } = useSelector(state => state.app);
+  const [validName, setValidName] = useState(true);
+  const [validImage, setValidImage] = useState(true);
+
+  const [name, setName] = useState("");
+  const [image, setImage] = useState(null);
+  const [amount, setAmount] = useState(1);
+  const [isFixed, setIsFixed] = useState(true);
+  const [preview, setPreview] = useState(null);
+  const [description, setDescription] = useState("");
+  const [curAsset, setCurAsset] = useState(assets[0]);
+  const [curFreq, setCurFreq] = useState("Conitinual");
 
   const CopiedText = () => {
     if (copy === "Link copied") return;
     setCopy("Link copied");
     setTimeout(() => setCopy("Copy link"), 2000);
+  };
+
+  const handleSubmit = () => {
+    if (!curAsset?.asa_id) return;
+    if (!name) {
+      setValidName(false);
+      return;
+    } else {
+      setValidName(true);
+    }
+
+    dispatch(
+      CreateNewLink({
+        name,
+        image,
+        description,
+        fileName: image?.name,
+        asset: curAsset?.asa_id,
+        amount: amount.toString(),
+        has_fixed_amount: !!isFixed,
+        is_one_time: !(curFreq === "Continual"),
+      })
+    );
+  };
+
+  const handleChange = e => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    setImage(e.target.files[0]);
+    reader.onload = readerEvent => {
+      setPreview(readerEvent.target.result);
+    };
   };
 
   return !data?.generated ? (
@@ -107,20 +114,53 @@ const GenerateLinkModal = ({ data }) => {
 
       <div className="modal_content">
         <div className="logo_block">
-          <div className="logo_img">
-            <AppIcons type="flashpay" />
+          <div className="logo_img" onClick={() => imageRef.current.click()}>
+            {!preview ? (
+              <AppIcons type="flashpay" />
+            ) : (
+              <img src={preview} alt="" />
+            )}
           </div>
-          <div className="edit_img">Edit image</div>
+          <input
+            ref={imageRef}
+            hidden
+            onChange={handleChange}
+            type="file"
+            multiple={false}
+            accept="image/*"
+          />
+          <div className="edit_img" onClick={() => imageRef.current.click()}>
+            Edit image
+          </div>
+          {!validImage ? (
+            <div className="warning_text">
+              <p>Select an image to continue</p>
+            </div>
+          ) : null}
         </div>
 
         <div className="generate_link_form">
-          <input type="text" placeholder="Name of link" />
+          <div>
+            <input
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="Name of link"
+            />
+            {!validName ? (
+              <div className="warning_text">
+                <p>Please provide a name with minimum length of 3</p>
+              </div>
+            ) : null}
+          </div>
 
           <TextareaAutosize
             minRows={2}
             maxRows={2}
+            value={description}
             className="textarea"
             placeholder="Description of link"
+            onChange={e => setDescription(e.target.value)}
           />
 
           <div className="form_row amt_ty">
@@ -144,13 +184,29 @@ const GenerateLinkModal = ({ data }) => {
           {isFixed ? (
             <div className="form_row">
               <SelectMenu
+                assets={assets}
                 type="assets-list"
                 curOption={curAsset}
                 setCurOption={setCurAsset}
               />
-              <input type="text" placeholder="Amount" />
+              <input
+                type="number"
+                min={0}
+                value={amount}
+                onChange={e => setAmount(e.target.value)}
+                placeholder="Amount"
+              />
             </div>
-          ) : null}
+          ) : (
+            <div className="form_row contain">
+              <SelectMenu
+                assets={assets}
+                type="assets-list"
+                curOption={curAsset}
+                setCurOption={setCurAsset}
+              />
+            </div>
+          )}
 
           <div className="form_row">
             <SelectMenu
@@ -174,10 +230,7 @@ const GenerateLinkModal = ({ data }) => {
         >
           Cancel
         </button>
-        <button
-          className="continue_button"
-          onClick={() => dispatch(generateLinkSuccessful())}
-        >
+        <button className="continue_button" onClick={handleSubmit}>
           Create
         </button>
       </div>

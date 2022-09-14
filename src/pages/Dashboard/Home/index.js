@@ -1,54 +1,16 @@
-import React, { useRef, useState } from "react";
-import TopBar from "../../../common/TopBar";
-import ProfileBar from "../../../common/ProfileBar";
-import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import AccountChart from "./AccountChart";
-import DropDownMenu from "../../../common/DropDownMenu";
+import TopBar from "../../../common/TopBar";
+import React, { useRef, useState } from "react";
+import ProfileBar from "../../../common/ProfileBar";
+import SelectMenu from "../../../common/Dropdown/selectMenu";
+import EmptyStateContainer from "../../../common/EmptyStateContainer";
 
-const SelectMenu = ({ type, curOption, setCurOption, direction }) => {
-  const dropDownRef = useRef();
-  const [isOpen, setIsOpen] = useState(false);
-  const UpdateOption = (item) => {
-    setIsOpen(false);
-    setCurOption(item);
-  };
-
+const ItemsMenu = ({ type, curOption, setCurOption }) => {
+  const UpdateOption = item => setCurOption(item);
   return (
-    <DropDownMenu
-      data={type}
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-      curOption={curOption}
-      dropDownRef={dropDownRef}
-      UpdateOption={UpdateOption}
-      direction={direction}
-    >
-      {type === "assets-revenue" ? (
-        <div
-          ref={dropDownRef}
-          className="asset_revenue"
-          onClick={() => setIsOpen((p) => !p)}
-        >
-          <p>{curOption} revenue</p>
-          <i className="ph-caret-down-bold"></i>
-        </div>
-      ) : type === "timeframe" ? (
-        <div
-          className="timeframe"
-          ref={dropDownRef}
-          onClick={() => setIsOpen((p) => !p)}
-        >
-          <p>{curOption}</p>
-          <i className="ph-caret-down-bold"></i>
-        </div>
-      ) : null}
-    </DropDownMenu>
+    <SelectMenu type={type} curOption={curOption} UpdateOption={UpdateOption} />
   );
 };
-
-{
-  /*  */
-}
 
 const Home = () => {
   const notEmpty = true;
@@ -67,14 +29,14 @@ const Home = () => {
           {notEmpty ? (
             <div className="account_stats">
               <div className="stats_filters">
-                <SelectMenu
+                <ItemsMenu
                   type="assets-revenue"
                   curOption={curAsset}
                   setCurOption={setCurAsset}
                 />
-                <SelectMenu
+
+                <ItemsMenu
                   type="timeframe"
-                  direction="rtl"
                   curOption={curTimeframe}
                   setCurOption={setCurTimeframe}
                 />

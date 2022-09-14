@@ -1,14 +1,19 @@
 import React from "react";
+import { Assets } from "../../../svg";
 import TopBar from "../../../common/TopBar";
-import ProfileBar from "../../../common/ProfileBar";
-import EmptyStateContainer from "../../../common/EmptyStateContainer";
-import { AppIcons, Assets } from "../../../svg";
 import { useNavigate } from "react-router-dom";
+import ProfileBar from "../../../common/ProfileBar";
 import PaginationTab from "../../../common/PaginationTab";
+import EmptyStateContainer from "../../../common/EmptyStateContainer";
+import { useSelector } from "react-redux";
 
 const PaymentLinks = () => {
   const notEmpty = true;
   let navigate = useNavigate();
+
+  const { paymentLinks } = useSelector(state => state.app);
+
+  console.log(paymentLinks);
 
   return (
     <>
@@ -17,10 +22,10 @@ const PaymentLinks = () => {
       <div className="home_container">
         {notEmpty ? (
           <TopBar
+            filter="filter"
             data="payment-links"
+            generate="generate"
             main={`${notEmpty ? "Payment links" : ""}`}
-            button1="filter"
-            button2="generate"
           />
         ) : null}
 
@@ -38,7 +43,7 @@ const PaymentLinks = () => {
                   <div className="row_member link">Link</div>
                 </div>
 
-                {[1, 2, 3, 4, 5].map((txn, index) => {
+                {paymentLinks?.map((link, index) => {
                   return (
                     <div className="table_row" key={index}>
                       <div
@@ -47,7 +52,7 @@ const PaymentLinks = () => {
                           navigate("./details", { replace: true });
                         }}
                       >
-                        <p>Heels page</p>
+                        <p>{link?.name}</p>
                       </div>
 
                       <div
@@ -56,7 +61,7 @@ const PaymentLinks = () => {
                           navigate("./details", { replace: true });
                         }}
                       >
-                        <p>2.2749</p>
+                        <p>{link?.amount}</p>
                       </div>
 
                       <div
@@ -89,7 +94,7 @@ const PaymentLinks = () => {
                           navigate("./details", { replace: true });
                         }}
                       >
-                        {index % 2 === 0 ? (
+                        {!link?.is_one_time ? (
                           <div className="status_block continual">
                             Continual
                           </div>
@@ -99,7 +104,7 @@ const PaymentLinks = () => {
                       </div>
 
                       <div className="row_member status">
-                        {index % 2 === 0 ? (
+                        {false ? (
                           <div className="status_block failed">Failed</div>
                         ) : (
                           <div className="status_block successful">
@@ -109,7 +114,7 @@ const PaymentLinks = () => {
                       </div>
 
                       <div className="row_member rev">
-                        <p>fp_927494_297</p>
+                        <p>{link?.slug}</p>
                       </div>
 
                       <a

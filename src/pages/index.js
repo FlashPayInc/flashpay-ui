@@ -1,8 +1,11 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import AppModals from "../modals/MainModals";
+import { Route, Routes } from "react-router-dom";
 import PortalModals from "../modals/PortalModals";
+import { FetchAssets } from "../features/requests";
+import { GetPaymentLinks } from "../features/requests/paymentLinks";
 
 import Home from "./Dashboard/Home";
 import Setup from "./Dashboard/Setup";
@@ -18,10 +21,16 @@ import Preferences from "./Dashboard/Settings/Preferences";
 import ProfileSettings from "./Dashboard/Settings/ProfileSettings";
 
 import PaymentPortal from "./Portal";
-import PaymentConnect from "./Portal/addwallet";
+import PaymentConnect from "./Portal/connect";
 import PaymentDescription from "./Portal/description";
 
 const DashboardRoutes = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(FetchAssets());
+    dispatch(GetPaymentLinks());
+  }, []);
+
   return (
     <>
       <AppModals />
@@ -47,7 +56,7 @@ const DashboardRoutes = () => {
   );
 };
 
-const index = () => {
+const MainApp = () => {
   return (
     <>
       <div className="main_app_container">
@@ -85,4 +94,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default MainApp;

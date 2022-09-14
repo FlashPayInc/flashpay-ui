@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TopBar from "../../../common/TopBar";
+import { useNavigate } from "react-router-dom";
 import ProfileBar from "../../../common/ProfileBar";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  LinkWalletAsync,
-  connectWallet,
-} from "../../../features/modals/modalSlice";
-import { useNavigate } from "react-router-dom";
+import { LinkWalletAsync } from "../../../features/requests";
+import { connectWallet } from "../../../features/modals/modalSlice";
 
 const Setup = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const { walletAddress, linkedStatus } = useSelector((state) => state.config);
+  const { walletAddress, linkedStatus } = useSelector(state => state.config);
 
   useEffect(() => {
     if (!!linkedStatus) {
