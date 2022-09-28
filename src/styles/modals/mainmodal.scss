@@ -12,13 +12,17 @@
   .modal_container {
     width: 460px;
     max-width: 90%;
-    max-height: 100vh;
+    overflow-y: scroll;
     border-radius: 10px;
     font-size: $font-sm;
     background: $col-wh;
     padding: 30px 28px;
-    overflow-y: scroll;
     flex-direction: column;
+    max-height: calc(100vh - 30px);
+
+    @include phone {
+      max-height: 100vh;
+    }
 
     @include scrollbars(10px, transparent, transparent);
 

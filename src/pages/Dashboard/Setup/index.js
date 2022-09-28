@@ -15,7 +15,7 @@ const Setup = () => {
     if (!!linkedStatus) {
       navigate("/", { replace: true });
     }
-  }, []);
+  }, [linkedStatus]);
 
   return (
     <>

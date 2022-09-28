@@ -1,72 +1,177 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TopBar from "../../../common/TopBar";
 import ProfileBar from "../../../common/ProfileBar";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { AppIcons, Assets } from "../../../svg";
 import { useWindowSize } from "@react-hook/window-size/throttled";
+import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { SpinnerCircular } from "spinners-react";
+import millify from "millify";
+import { constrictAddr, timeAgo } from "../../../utils/helpers";
+import PaymentDetailsBar from "./PaymentDetailsBar";
 
 const Details = () => {
+  let { slug } = useParams();
   const [width] = useWindowSize();
+  const { network } = useSelector(state => state.app);
+  const { linkedStatus } = useSelector(state => state.config);
 
-  const notEmpty = true;
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const FetchTxns = async () => {
+    if (!linkedStatus || !localStorage.getItem("access_token")) return;
+    setIsLoading(true);
+    try {
+      const result = await axios
+        .get(`/transactions?slug=${slug}`, {
+          headers: {
+            Authorization: localStorage.getItem("access_token")
+              ? `Bearer ${localStorage.getItem("access_token")}`
+              : "",
+          },
+        })
+        .then(response => response?.data?.data?.results);
+
+      if (!!result) setData(result);
+      setIsLoading(false);
+    } catch (error) {
+      setError(true);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    FetchTxns();
+  }, [linkedStatus, network]);
 
   return (
     <>
       <ProfileBar />
 
       <div className="home_container">
-        <TopBar
-          detailsPage={true}
-          copyLink="copyLink"
-          data="payment-links"
-          type="payment-details"
-          main={`${notEmpty ? "Payment links" : ""}`}
-        />
+        <PaymentDetailsBar slug={slug} />
 
-        {width <= 930 ? (
+        {width <= 930 && data?.length >= 1 ? (
           <div className="header-sm">
             <p>Transactions</p>
           </div>
         ) : null}
 
         <div className="page_content">
-          {notEmpty ? (
+          {!slug ? (
+            <EmptyStateContainer
+              vector="not-found"
+              text={`No payment link slug was provided`}
+            />
+          ) : isLoading ? (
+            <div
+              style={{
+                gap: "12px",
+                width: "100%",
+                height: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <SpinnerCircular
+                size={80}
+                color="#e5fff6"
+                secondaryColor="#1c7989"
+              />
+              <p style={{ fontSize: "18px" }}>Fetching payment links</p>
+            </div>
+          ) : error ? (
+            <EmptyStateContainer
+              vector="not-found"
+              text={`The payment link was not found`}
+            />
+          ) : data && data?.length >= 1 ? (
             <div className="transactions_table">
               <div className="table_header">
                 <div className="row_member ref">Reference</div>
                 <div className="row_member amt">Amount</div>
+                <div className="row_member asset">Asset</div>
+                <div className="row_member walletAddr">Sender</div>
+                <div className="row_member walletAddr">Recipient</div>
                 <div className="row_member status">Status</div>
-                <div className="row_member date">Date paid</div>
-                <div className="row_member time">Time paid</div>
-                <div className="row_member action">Action</div>
+                <div className="row_member date">Created On</div>
+                <div className="row_member preview">view</div>
               </div>
 
-              {[1, 2, 3, 4, 5].map((txn, index) => {
+              {[
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+                data[0],
+              ]?.map((txn, index) => {
                 return (
                   <div className="table_row" key={index}>
                     <div className="row_member ref">
-                      <p>fp_927494_297</p>
+                      <p>{txn?.txn_reference}</p>
                     </div>
+
                     <div className="row_member amt">
-                      <p>2.2749</p>
+                      <p>
+                        {!isNaN(txn?.amount)
+                          ? millify(txn?.amount, { precision: 3 })
+                          : 0}
+                      </p>
+                    </div>
+
+                    <div className="row_member asset">
+                      <img src={txn?.asset?.image_url} alt="" />
+                      <p>{txn.asset?.short_name}</p>
+                    </div>
+
+                    <div className="row_member walletAddr">
+                      <p>{constrictAddr(txn?.sender, 6, 4)}</p>
+                    </div>
+
+                    <div className="row_member walletAddr">
+                      <p>{constrictAddr(txn?.recipient, 6, 4)}</p>
                     </div>
 
                     <div className="row_member status">
-                      {true ? (
+                      {txn?.status === "failed" ? (
                         <div className="status_block failed">Failed</div>
-                      ) : (
+                      ) : txn?.status === "success" ? (
                         <div className="status_block successful">Succesful</div>
-                      )}
+                      ) : txn?.status === "pending" ? (
+                        <div className="status_block pending">Pending</div>
+                      ) : null}
                     </div>
+
                     <div className="row_member date">
-                      <p>06/05/2022</p>
+                      <p>{txn?.created_at ? timeAgo(txn?.created_at) : null}</p>
                     </div>
-                    <div className="row_member time">
-                      <p>12:49 AM</p>
-                    </div>
-                    <div className="row_member action">
-                      <p>View on Algoexplorer</p>
-                      <AppIcons type="export" />
+
+                    <div className="row_member preview">
+                      {!!txn?.txn_hash ? (
+                        <a
+                          target="_blank"
+                          href={`https://${
+                            network === "testnet" ? "testnet" : ""
+                          }.algoexplorer.io/tx/${txn?.txn_hash}`}
+                        >
+                          <AppIcons type="export" />
+                        </a>
+                      ) : null}
                     </div>
                   </div>
                 );
@@ -74,9 +179,8 @@ const Details = () => {
             </div>
           ) : (
             <EmptyStateContainer
-              vector="generatelinks"
-              text={`When you create a Payment link, it would so show here.`}
-              buttonText={"Generative Link"}
+              vector="no-transaction"
+              text={`No transactions on this payment link yet`}
             />
           )}
         </div>

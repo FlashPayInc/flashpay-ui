@@ -1,0 +1,51 @@
+.main_app_container {
+  width: 100vw;
+  // height: 100vh;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+
+  div,
+  li {
+    display: flex;
+  }
+
+  button {
+    width: max-content;
+    height: max-content;
+  }
+
+  .main_container {
+    flex: 1;
+    height: 100vh;
+    width: calc(100% - 270px);
+    // overflow: hidden;
+    flex-direction: column;
+  }
+}
+
+.transactions_table {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: scroll hidden;
+  flex-direction: column;
+}
+
+.home_container {
+  // flex: 1;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  // overflow: hidden scroll;
+
+  .page_content {
+    // flex: 1;
+    width: 100%;
+    height: max-content;
+    @include padHor;
+    // overflow: scroll hidden;
+    flex-direction: column;
+  }
+}

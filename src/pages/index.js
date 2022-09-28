@@ -5,7 +5,6 @@ import AppModals from "../modals/MainModals";
 import { Route, Routes } from "react-router-dom";
 import PortalModals from "../modals/PortalModals";
 import { FetchAssets } from "../features/requests";
-import { GetPaymentLinks } from "../features/requests/paymentLinks";
 
 import Home from "./Dashboard/Home";
 import Setup from "./Dashboard/Setup";
@@ -21,20 +20,17 @@ import Preferences from "./Dashboard/Settings/Preferences";
 import ProfileSettings from "./Dashboard/Settings/ProfileSettings";
 
 import PaymentPortal from "./Portal";
-import PaymentConnect from "./Portal/connect";
-import PaymentDescription from "./Portal/description";
 
 const DashboardRoutes = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(FetchAssets());
-    dispatch(GetPaymentLinks());
   }, []);
 
   return (
     <>
       <AppModals />
-
       <SideTab />
       <div className="main_container">
         <Routes>
@@ -47,7 +43,7 @@ const DashboardRoutes = () => {
           </Route>
 
           <Route path="/payment-links" element={<PaymentLinks />} />
-          <Route path="/payment-links/details" element={<Details />} />
+          <Route path="/payment-links/:slug" element={<Details />} />
 
           <Route path="/transactions" element={<Transactions />} />
         </Routes>
@@ -56,36 +52,20 @@ const DashboardRoutes = () => {
   );
 };
 
+const TxnPortal = () => (
+  <>
+    <PortalModals />
+    <PaymentPortal />
+  </>
+);
+
 const MainApp = () => {
   return (
     <>
       <div className="main_app_container">
         <Routes>
-          <Route
-            path="/payment-portal/:id"
-            element={
-              <>
-                <PortalModals />
-                <PaymentPortal />
-              </>
-            }
-          >
-            <Route path="connect" element={<PaymentConnect />} />
-            <Route path="" element={<PaymentDescription />} />
-          </Route>
-
-          <Route
-            path="/payment-portal/"
-            element={
-              <>
-                <PortalModals />
-                <PaymentPortal />
-              </>
-            }
-          >
-            <Route path="connect" element={<PaymentConnect />} />
-            <Route path="" element={<PaymentDescription />} />
-          </Route>
+          <Route path={"/payment-portal/:id"} element={<TxnPortal />} />
+          <Route path={"/payment-portal/"} element={<TxnPortal />} />
 
           <Route path="*" element={<DashboardRoutes />} />
         </Routes>

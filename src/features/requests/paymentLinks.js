@@ -2,6 +2,7 @@ import _ from "lodash";
 import axios from "axios";
 import { updatetLinks } from "./reqSlice";
 import { createLink } from "../modals/modalSlice";
+import { reloadPage } from "../config/configSlice";
 
 // PAYMENT LINKS
 export const GetPaymentLinks = _i => async dispatch => {
@@ -35,7 +36,7 @@ export const CreateNewLink = data => async dispatch => {
   await axios
     .post("payment-links", formData)
     .then(res => {
-      console.log(res);
+      dispatch(reloadPage(true));
       dispatch(createLink({ loading: false, error: false }));
     })
     .catch(err => {

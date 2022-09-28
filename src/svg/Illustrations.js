@@ -1,7 +1,182 @@
 import React from "react";
 
 const Illustrations = ({ type }) => {
-  return type === "empty-alert" ? (
+  return type === "not-found" ? (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="190"
+      height="191"
+      fill="none"
+      viewBox="0 0 190 191"
+      className="small_margin"
+    >
+      <circle cx="87.775" cy="94.775" r="71.775" fill="#F1F1F1"></circle>
+      <circle
+        cx="87.188"
+        cy="94.897"
+        r="41.919"
+        fill="#F1F1F1"
+        stroke="#C4C4C4"
+        strokeWidth="2"
+      ></circle>
+      <circle
+        cx="87.188"
+        cy="94.897"
+        r="29.657"
+        fill="#FFFEFF"
+        stroke="#C4C4C4"
+        strokeWidth="2"
+      ></circle>
+      <path
+        fill="#C4C4C4"
+        d="M87.188 72.359a.794.794 0 00-.816-.801A23.354 23.354 0 0063.954 92.54a.794.794 0 00.745.867.84.84 0 00.883-.759 21.723 21.723 0 0120.792-19.46.84.84 0 00.815-.83z"
+      ></path>
+      <rect
+        width="14"
+        height="42"
+        x="119.864"
+        y="140.411"
+        fill="#F1F1F1"
+        stroke="#C4C4C4"
+        strokeWidth="2"
+        rx="7"
+        transform="rotate(-45 119.864 140.411)"
+      ></rect>
+      <rect
+        width="1.948"
+        height="16.336"
+        x="134.64"
+        y="143.781"
+        fill="#fff"
+        rx="0.974"
+        transform="rotate(-45 134.64 143.781)"
+      ></rect>
+      <path
+        fill="#C4C4C4"
+        d="M118.442 130.504H120.442V138.504H118.442z"
+        transform="rotate(-45 118.442 130.504)"
+      ></path>
+      <rect
+        width="20"
+        height="2"
+        x="139.663"
+        y="89.861"
+        fill="#C4C4C4"
+        rx="1"
+      ></rect>
+      <rect
+        width="20"
+        height="2"
+        x="16"
+        y="106.406"
+        fill="#C4C4C4"
+        rx="1"
+      ></rect>
+      <rect
+        width="10"
+        height="2"
+        x="163.663"
+        y="89.861"
+        fill="#C4C4C4"
+        rx="1"
+      ></rect>
+      <rect
+        width="10"
+        height="2"
+        x="144.663"
+        y="97.199"
+        fill="#C4C4C4"
+        rx="1"
+      ></rect>
+      <rect
+        width="10"
+        height="2"
+        x="21"
+        y="113.744"
+        fill="#C4C4C4"
+        rx="1"
+      ></rect>
+    </svg>
+  ) : type === "no-transaction" ? (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="221"
+      height="102"
+      fill="none"
+      viewBox="0 0 221 102"
+      className="small_size large_margin"
+    >
+      <circle
+        cx="9.924"
+        cy="51.756"
+        r="8.751"
+        fill="#F1F1F1"
+        stroke="#000"
+        strokeWidth="0.646"
+      ></circle>
+      <rect
+        width="160.317"
+        height="18.149"
+        x="4.63"
+        y="6.383"
+        fill="#F1F1F1"
+        rx="7.755"
+      ></rect>
+      <rect
+        width="160.317"
+        height="18.149"
+        x="59.834"
+        y="42.682"
+        fill="#F1F1F1"
+        rx="7.755"
+      ></rect>
+      <rect
+        width="110.407"
+        height="18.149"
+        x="29.585"
+        y="79.736"
+        fill="#F1F1F1"
+        rx="7.755"
+      ></rect>
+      <rect
+        width="96.369"
+        height="63.096"
+        x="5.792"
+        y="23.13"
+        fill="#F3F3F3"
+        stroke="#999"
+        strokeWidth="1.939"
+        rx="4.2"
+        transform="rotate(-12.973 5.792 23.13)"
+      ></rect>
+      <rect
+        width="96.369"
+        height="63.096"
+        x="57.022"
+        y="37.601"
+        fill="#F3F3F3"
+        stroke="#999"
+        strokeWidth="1.939"
+        rx="4.2"
+      ></rect>
+      <path fill="#DDD" d="M58.321 54.025H152.091V67.637H58.321z"></path>
+      <path
+        stroke="#999"
+        strokeLinecap="round"
+        strokeWidth="1.939"
+        d="M58.321 54.025h35.542m3.403 0h8.697m3.403 0h34.785m7.563 13.612h-24.955m-8.697 0H74.958"
+      ></path>
+      <circle
+        cx="174.022"
+        cy="88.811"
+        r="8.751"
+        fill="#F1F1F1"
+        stroke="#000"
+        strokeWidth="0.646"
+      ></circle>
+      <circle cx="192.171" cy="15.458" r="9.075" fill="#F1F1F1"></circle>
+    </svg>
+  ) : type === "empty-alert" ? (
     <svg
       height="84"
       width="87"

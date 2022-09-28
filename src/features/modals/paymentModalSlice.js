@@ -1,7 +1,4 @@
-import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
-import { myAlgoConnect } from "../../utils";
-import { setLinkedStatus, setWallet } from "../config/configSlice";
 
 const initialState = {
   status: false,

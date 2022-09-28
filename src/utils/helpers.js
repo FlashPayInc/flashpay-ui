@@ -1,10 +1,40 @@
+import dayjs from "dayjs";
 import { useEffect } from "react";
 
 // Functions
-const constrictAddr = (address, start = 6, end = 6) =>
-  address.substring(0, start) +
-  "..." +
-  address.substring(address.length - end, address.length);
+const constrictAddr = (address, start = 6, end = 6) => {
+  if (address) {
+    return (
+      address.substring(0, start) +
+      "..." +
+      address.substring(address.length - end, address.length)
+    );
+  }
+};
+
+const timeAgo = date => {
+  if (!date) return;
+  const presentTime = dayjs();
+  const timer = dayjs(dayjs(date));
+  const tdHrs = presentTime.diff(timer, "h");
+  const tdMins = presentTime.diff(timer, "m");
+  const tdSecs = presentTime.diff(timer, "s");
+  const timerFormatted = timer.format("MMM DD, YYYY");
+  const presentTimeFormatted = presentTime.format("MMM DD, YYYY");
+
+  const processedTime =
+    tdSecs < 60
+      ? "Just now"
+      : tdMins < 60
+      ? tdMins + " mins ago"
+      : tdHrs < 24
+      ? tdHrs + " hours ago"
+      : presentTimeFormatted.slice(-4) === timerFormatted.slice(-4)
+      ? timerFormatted.slice(0)
+      : timerFormatted;
+
+  return processedTime;
+};
 
 function useOutsideAlerter(ref, ref2, callback) {
   useEffect(() => {
@@ -25,4 +55,4 @@ function useOutsideAlerter(ref, ref2, callback) {
   }, [ref]);
 }
 
-export { constrictAddr, useOutsideAlerter };
+export { timeAgo, constrictAddr, useOutsideAlerter };

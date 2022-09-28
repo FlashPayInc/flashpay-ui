@@ -53,7 +53,7 @@ const ApiSettings = () => {
       ) : (
         <EmptyStateContainer
           vector="comingsoon"
-          type="comingsoon"
+          type="bold"
           text={`COMING SOON`}
         />
       )}{" "}

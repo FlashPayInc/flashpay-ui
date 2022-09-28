@@ -1,5 +1,6 @@
+import _ from "lodash";
 import Icon from "../../svg/Icon";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppIcons, ConnectIcon } from "../../svg";
 import { useDispatch, useSelector } from "react-redux";
 import CopyToClipboard from "react-copy-to-clipboard";
@@ -26,9 +27,12 @@ const GenerateLinkModal = ({ data }) => {
   const dispatch = useDispatch();
   const [width] = useWindowSize();
   const [copy, setCopy] = useState("Copy link");
-  const { assets } = useSelector(state => state.app);
   const [validName, setValidName] = useState(true);
   const [validImage, setValidImage] = useState(true);
+
+  const { assets } = useSelector(state => state.app);
+  const [activeAssets, setActiveAssets] = useState([]);
+  const { network } = useSelector(state => state.app);
 
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
@@ -36,8 +40,18 @@ const GenerateLinkModal = ({ data }) => {
   const [isFixed, setIsFixed] = useState(true);
   const [preview, setPreview] = useState(null);
   const [description, setDescription] = useState("");
-  const [curAsset, setCurAsset] = useState(assets[0]);
+  const [curAsset, setCurAsset] = useState(activeAssets[0]);
   const [curFreq, setCurFreq] = useState("Conitinual");
+
+  const FilterAssets = () => {
+    const filter = _.filter(assets, i => i.network === network);
+    setActiveAssets(filter);
+    setCurAsset(filter[0]);
+  };
+
+  useEffect(() => {
+    FilterAssets();
+  }, []);
 
   const CopiedText = () => {
     if (copy === "Link copied") return;
@@ -184,7 +198,7 @@ const GenerateLinkModal = ({ data }) => {
           {isFixed ? (
             <div className="form_row">
               <SelectMenu
-                assets={assets}
+                assets={activeAssets}
                 type="assets-list"
                 curOption={curAsset}
                 setCurOption={setCurAsset}
@@ -200,7 +214,7 @@ const GenerateLinkModal = ({ data }) => {
           ) : (
             <div className="form_row contain">
               <SelectMenu
-                assets={assets}
+                assets={activeAssets}
                 type="assets-list"
                 curOption={curAsset}
                 setCurOption={setCurAsset}

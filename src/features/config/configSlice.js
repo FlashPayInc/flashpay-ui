@@ -2,6 +2,7 @@ import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  reload: false,
   openSidetab: false,
   walletAddress: localStorage.getItem("walletAddress"),
   walletProvider: localStorage.getItem("walletProvider"),
@@ -14,6 +15,9 @@ export const configSlice = createSlice({
   name: "root",
   initialState,
   reducers: {
+    reloadPage: (state, action) => {
+      state.reload = action.payload;
+    },
     openSideTab: state => {
       state.openSidetab = true;
     },
@@ -37,6 +41,11 @@ export const configSlice = createSlice({
   },
 });
 
-export const { setWallet, setLinkedStatus, openSideTab, closeSideTab } =
-  configSlice.actions;
+export const {
+  setWallet,
+  reloadPage,
+  openSideTab,
+  closeSideTab,
+  setLinkedStatus,
+} = configSlice.actions;
 export default configSlice.reducer;

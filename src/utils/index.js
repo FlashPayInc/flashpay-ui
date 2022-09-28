@@ -13,11 +13,13 @@ const fernetToken = new fernet.Token({
 
 // CONNECT WALLET
 const myAlgoConnect = new MyAlgoConnect();
-const algodClient = new algosdk.Algodv2(
-  "",
-  "https://node.testnet.algoexplorerapi.io",
-  ""
-);
+const algodClient = network =>
+  new algosdk.Algodv2(
+    "FP",
+    `https://node.${network === "testnet" ? "testnet." : ""}algoexplorerapi.io`,
+    { "X-API-KEY": "FP" }
+  );
+
 const indexerClient = new algosdk.Indexer(
   "",
   "https://algoindexer.testnet.algoexplorerapi.io",
@@ -54,12 +56,13 @@ const createTransaction = async (
   amount,
   senderAddr,
   noteSlug,
+  network,
   recipient = process.env.REACT_APP_SETUP_ADDRESS
 ) => {
   const enc = new TextEncoder();
   const note = enc.encode(noteSlug);
 
-  const returnData = await algodClient
+  const returnData = await algodClient(network)
     .getTransactionParams()
     .do()
     .then(suggestedParams => {

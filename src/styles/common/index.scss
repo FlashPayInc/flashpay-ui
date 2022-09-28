@@ -1,4 +1,5 @@
 nav {
+  top: 0;
   width: 100%;
   display: flex;
   padding-top: 20px;
@@ -29,11 +30,69 @@ nav {
     }
   }
 
-  .profile_img_bell {
+  .action-btns {
     gap: 5px;
 
     align-items: center;
     flex-direction: row;
+
+    .network-menu {
+      width: 100%;
+      min-width: 50px;
+      background: $bg;
+      overflow: hidden;
+      border-radius: 6px;
+      padding: 0px 0px !important;
+      .divider {
+        width: 100%;
+        height: 1px;
+        background: rgba($color: #000000, $alpha: 0.1);
+      }
+      .menu-item {
+        padding: 10px 10px;
+        align-items: center;
+        justify-content: center;
+        p {
+          font-size: 15px;
+          text-align: center;
+          &[data-active="true"] {
+            color: $main-col;
+            font-family: $sansmed;
+          }
+        }
+      }
+    }
+    .network-switch {
+      position: relative;
+      flex-direction: column;
+      .network-switch-btn {
+        gap: 6px;
+        display: flex;
+        cursor: pointer;
+        color: $main-col;
+        padding: 2.5px 10px;
+        align-items: center;
+        border-radius: 6px;
+        justify-content: center;
+        text-transform: capitalize;
+        border: 1px solid $main-col;
+        p {
+          font-size: 14px;
+        }
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          i {
+            font-size: 14px;
+          }
+        }
+        svg {
+          width: 13px;
+          stroke: $main-col;
+        }
+      }
+    }
 
     img {
       width: 46px;
@@ -78,6 +137,9 @@ nav {
         width: 280px;
         margin-bottom: 25px;
       }
+      &.large_margin {
+        margin-bottom: 40px;
+      }
       &.small_margin {
         margin-bottom: 20px;
       }
@@ -85,10 +147,13 @@ nav {
   }
 
   .text {
-    max-width: 443px;
+    opacity: 0.6;
     color: $col-br;
-    text-align: center;
     display: block;
+    font-size: 17px;
+    max-width: 443px;
+    text-align: center;
+    font-family: $sansmed;
     a {
       color: $main-col;
       font-family: $sansmed;
@@ -149,6 +214,10 @@ nav {
   @include medium {
     padding-top: 25px;
     padding-bottom: 10px;
+  }
+
+  &.payment-dets {
+    min-height: 150px;
   }
 
   .main {
@@ -233,39 +302,73 @@ nav {
       min-width: 160px;
       max-width: max-content;
       border-radius: 3px;
-      padding: 20px 20px;
+      padding: 16px 20px;
       white-space: nowrap;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       border: 1px solid #f2f2f2;
       @include tablet {
         flex: 1;
         max-width: none;
       }
 
+      &.name {
+        max-width: 250px;
+      }
+      &.amt,
+      &.rev,
+      &.interval {
+        align-items: center;
+        .main_text,
+        .sub_text {
+          text-align: center;
+        }
+      }
+      &.asset {
+        .main_text {
+          padding-left: 2px;
+        }
+      }
+      &.rev {
+        max-width: 200px;
+      }
+
       .main_text {
+        opacity: 0.8;
+        font-size: 14px;
         margin-bottom: 5px;
         text-transform: uppercase;
       }
       .sub_text {
+        width: 100%;
         color: #000;
+        overflow: hidden;
         font-family: $sansmed;
+        text-overflow: ellipsis;
       }
 
       .asset_cont {
-        gap: 15px;
+        gap: 8px;
         align-items: center;
         flex-direction: row;
-        svg {
-          width: 24px;
+        p {
+          opacity: 0.8;
+          font-size: 14px;
+          font-family: $sansmed;
+        }
+        img {
+          width: 20px;
+          height: 20px;
+          object-fit: cover;
+          border-radius: 100%;
         }
       }
       .status_block {
         width: max-content;
         align-items: center;
-        padding: 2px 10px;
+        padding: 1px 10px;
         border-radius: 30px;
-        font-size: $font-sl;
+        font-size: 12px;
         justify-content: center;
         &.failed {
           color: #ab0000;
@@ -284,10 +387,10 @@ nav {
           background: #d0dcff;
         }
       }
+    }
 
-      &.rev {
-        min-width: 255px;
-      }
+    @include tablet {
+      gap: 15px 20px;
     }
   }
 

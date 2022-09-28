@@ -1,5 +1,4 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
 import { AppIcons, Illustrations } from "../../svg";
 import Description from "./description";
 
@@ -21,7 +20,6 @@ const Portal = () => {
       </div>
 
       <div className="section_block main_container">
-        {/* <Outlet /> */}
         <Description />
       </div>
     </div>

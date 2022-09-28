@@ -46,7 +46,6 @@ const ConnectModal = () => {
         {[
           { type: "pera", name: "Pera wallet" },
           { type: "myalgo", name: "My Algo wallet" },
-          { type: "algosigner", name: "Install Algo Signer" },
         ].map((opt, index) => {
           return (
             <div

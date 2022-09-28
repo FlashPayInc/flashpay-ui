@@ -1,6 +1,21 @@
 //
 
 const Icon = {
+  caretdown: () => (
+    <svg
+      fill="none"
+      className="caret"
+      viewBox="0 0 7 4"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1.6665 0.833415L3.83317 3.16675L5.99984 0.833415"
+        strokeLinecap="round"
+        strokeWidth=".6"
+      />
+    </svg>
+  ),
+
   NavBtn: () => (
     <svg
       height="24"

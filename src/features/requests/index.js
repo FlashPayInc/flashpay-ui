@@ -8,20 +8,47 @@ import {
 } from "../../utils";
 import _ from "lodash";
 import axios from "axios";
-import { addAssets } from "./reqSlice";
+import { addAssets, updateNetwork } from "./reqSlice";
 import { waitForConfirmation } from "algosdk";
 import { setLinkedStatus, setWallet } from "../config/configSlice";
 import { verifyAcct, setupAcct, closeModal } from "../modals/modalSlice";
 import { InitializeTxn } from "./txnsReqs";
 
 // ACCOUNT CONNECT & SETUP
+export const GetNetwork = _i => async dispatch => {
+  await axios
+    .get(`/accounts/network`, {
+      headers: {
+        Authorization: localStorage.getItem("access_token")
+          ? `Bearer ${localStorage.getItem("access_token")}`
+          : "",
+      },
+    })
+    .then(res => {
+      dispatch(updateNetwork(res?.data?.data?.network));
+    })
+    .catch(err => {
+      localStorage.setItem("network", "testnet");
+    });
+};
+
+export const ChangeNetwork = network => async dispatch => {
+  await axios
+    .post(`/accounts/network`, { network })
+    .then(res => {
+      dispatch(updateNetwork(res?.data?.data?.network));
+    })
+    .catch(err => {
+      console.log(err?.message);
+    });
+};
+
 export const FetchAssets = _i => async dispatch => {
   await axios
     .get(`/core/assets`)
     .then(res => {
       if (!!res?.data?.data) {
-        const filter = _.filter(res?.data?.data, i => i.network === "mainnet");
-        dispatch(addAssets(filter));
+        dispatch(addAssets(res?.data?.data));
       }
     })
     .catch(err => {
@@ -117,36 +144,6 @@ export const ConnectWalletAsync = slug => async dispatch => {
         localStorage.clear();
         window.location.reload();
       });
-    } else if (slug.provider === "algosigner") {
-      if (typeof window.AlgoSigner === "undefined") {
-        window.open(
-          "https://chrome.google.com/webstore/detail/algosigner/kmmolakhbgdlpkjkcjkebenjheonagdm",
-          "_blank"
-        );
-      } else {
-        // console.log(window.AlgoSigner);
-
-        await window.AlgoSigner.connect({
-          ledger: "TestNet",
-        });
-        const accounts = await window.AlgoSigner.accounts({
-          ledger: "TestNet",
-        });
-
-        dispatch(
-          setWallet({
-            walletAddress: accounts[0].address,
-            walletProvider: slug.provider,
-          })
-        );
-
-        if (slug?.connectType === "payment") {
-          dispatch(InitializeTxn(paymentData(accounts[0])));
-        } else {
-          dispatch(verifyAcct({ loading: true }));
-          dispatch(VerifyWalletAsync(accounts[0].address));
-        }
-      }
     }
   } catch (err) {
     console.log(err.message);
@@ -165,29 +162,17 @@ export const LinkWalletAsync = slug => async dispatch => {
 
     if (provider === "myalgo") {
       const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-      submittedTxn = await algodClient.sendRawTransaction(signedTxn.blob).do();
-      await waitForConfirmation(algodClient, submittedTxn?.txId, 1000);
-    } else if (provider === "algosigner") {
-      let txn_b64 = window.AlgoSigner.encoding.msgpackToBase64(txn.toByte());
-      await window.AlgoSigner.signTxn([{ txn: txn_b64 }])
-        .then(signedTx => {
-          submittedTxn = signedTx[0];
-          submittedTxn.txId = signedTx[0].txID;
-          window.AlgoSigner.send({
-            ledger: "TestNet",
-            tx: signedTx.blob,
-          });
-        })
-        .catch(e => {
-          console.log(e.message);
-          dispatch(setupAcct({ status: "error" }));
-        });
+      submittedTxn = await algodClient(localStorage.getItem("network"))
+        .sendRawTransaction(signedTxn.blob)
+        .do();
+      await waitForConfirmation(
+        algodClient(localStorage.getItem("network")),
+        submittedTxn?.txId,
+        1000
+      );
     }
 
     if (!!submittedTxn?.txId) {
-      console.log(slug?.addr);
-      console.log(submittedTxn?.txId);
-
       const payload = SetupPayload(slug?.addr, nonce, submittedTxn?.txId);
 
       await axios
@@ -196,10 +181,6 @@ export const LinkWalletAsync = slug => async dispatch => {
           dispatch(setLinkedStatus("linked"));
           dispatch(verifyAcct({ loading: true }));
           dispatch(VerifyWalletAsync(slug?.addr));
-
-          // dispatch(
-          //   setupAcct({ status: "success", message: res.data?.message })
-          // );
         })
         .catch(err => {
           console.log(err?.response.data.message);

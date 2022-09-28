@@ -18,6 +18,7 @@ export const InitializeTxn = data => async dispatch => {
   formData.append("amount", data?.amount);
   formData.append("sender", data?.sender);
   formData.append("recipient", data?.recipient);
+  formData.append("payment_link", data?.payment_link);
 
   dispatch(txnProcessing());
 
@@ -33,6 +34,7 @@ export const InitializeTxn = data => async dispatch => {
           addr: data?.sender,
           amount: data?.amount,
           pub_key: data?.pub_key,
+          network: data?.network,
           recipient: data?.recipient,
           txnRef: res?.data?.data?.txn_reference,
         })
@@ -52,13 +54,20 @@ export const ProcessPayment = slug => async dispatch => {
       slug?.amount,
       slug?.addr,
       slug?.txnRef,
+      slug?.network,
       slug?.recipient
     );
 
     if (provider === "myalgo") {
       const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-      submittedTxn = await algodClient.sendRawTransaction(signedTxn.blob).do();
-      await waitForConfirmation(algodClient, submittedTxn?.txId, 1000);
+      submittedTxn = await algodClient(slug?.network)
+        .sendRawTransaction(signedTxn.blob)
+        .do();
+      await waitForConfirmation(
+        algodClient(slug?.network),
+        submittedTxn?.txId,
+        1000
+      );
     } else if (provider === "algosigner") {
       let txn_b64 = window.AlgoSigner.encoding.msgpackToBase64(txn.toByte());
       await window.AlgoSigner.signTxn([{ txn: txn_b64 }])
@@ -66,11 +75,11 @@ export const ProcessPayment = slug => async dispatch => {
           submittedTxn = signedTx[0];
           submittedTxn.txId = signedTx[0].txID;
 
-          const loko = await window.AlgoSigner.send({
+          const sndr = await window.AlgoSigner.send({
             ledger: "TestNet",
             tx: signedTx.blob,
           });
-          console.log(loko);
+          console.log(sndr);
         })
         .catch(e => {
           console.log(e?.message);

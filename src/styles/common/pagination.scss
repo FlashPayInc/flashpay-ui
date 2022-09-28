@@ -39,10 +39,18 @@
           color: $col-dk;
           cursor: not-allowed;
         }
+        &[data-hidden="true"] {
+          display: none;
+        }
       }
 
       &[data-active="true"] {
+        font-size: 18px;
         color: $main-col;
+        font-family: $sansmed;
+      }
+      &[data-hidden="true"] {
+        display: none;
       }
       &:last-child {
         border: none;

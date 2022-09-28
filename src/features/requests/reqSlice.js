@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   assets: [],
+  network:
+    localStorage.getItem("network") === "mainnet" ? "mainnet" : "testnet",
   paymentLinks: [],
 };
 
@@ -12,11 +14,15 @@ export const reqSlice = createSlice({
     addAssets: (state, action) => {
       state.assets = [...action.payload];
     },
+    updateNetwork: (state, action) => {
+      localStorage.setItem("network", action.payload);
+      state.network = action.payload;
+    },
     updatetLinks: (state, action) => {
       state.paymentLinks = [...action.payload];
     },
   },
 });
 
-export const { addAssets, updatetLinks } = reqSlice.actions;
+export const { addAssets, updatetLinks, updateNetwork } = reqSlice.actions;
 export default reqSlice.reducer;

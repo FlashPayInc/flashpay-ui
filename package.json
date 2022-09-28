@@ -8,6 +8,7 @@
     "@randlabs/myalgo-connect": "^1.2.0",
     "@react-hook/window-size": "^3.0.7",
     "@reduxjs/toolkit": "^1.8.2",
+    "@szhsin/react-menu": "^3.2.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -16,6 +17,7 @@
     "algosdk": "^1.15.0",
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
+    "dayjs": "^1.11.5",
     "fernet": "^0.4.0",
     "html-react-parser": "^2.0.0",
     "lodash": "^4.17.21",
@@ -26,6 +28,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.1.0",
     "react-lazy-load-image-component": "^1.5.5",
+    "react-loading-skeleton": "^3.1.0",
     "react-lottie": "^1.2.3",
     "react-query": "^3.39.1",
     "react-redux": "^8.0.2",
@@ -33,6 +36,7 @@
     "react-scripts": "5.0.1",
     "react-switch": "^7.0.0",
     "react-textarea-autosize": "^8.3.4",
+    "spinners-react": "^1.0.7",
     "web-vitals": "^2.1.0"
   },
   "scripts": {

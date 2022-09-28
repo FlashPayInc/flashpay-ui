@@ -1,6 +1,8 @@
 import store from "./store";
 import { Suspense } from "react";
 import { Provider } from "react-redux";
+import "@szhsin/react-menu/dist/index.css";
+import "@szhsin/react-menu/dist/transitions/slide.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 

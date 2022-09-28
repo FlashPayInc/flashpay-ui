@@ -37,14 +37,20 @@ const Description = () => {
   const [loggedIn, setLoggedIn] = useState(true);
   const [failedImg, setFailedImg] = useState(false);
   const { walletAddress } = useSelector(state => state.config);
-  const { isLoading, error, data } = useQuery("elections", () =>
-    axios
-      .get(`payment-links/${id}`, {
-        headers: {
-          Authorization: "",
-        },
-      })
-      .then(response => response.data.data)
+  const { isLoading, error, data } = useQuery(
+    "payment-portal",
+    () =>
+      axios
+        .get(`payment-links/${id}`, {
+          headers: {
+            Authorization: "",
+          },
+        })
+        .then(response => response.data.data),
+    {
+      enabled: !!id,
+      refetchOnWindowFocus: false,
+    }
   );
 
   const handlePayment = () => {
@@ -56,17 +62,43 @@ const Description = () => {
     dispatch(
       InitializeTxn({
         amount,
-        asset: data?.asset?.asa_id,
         sender: walletAddress,
+        payment_link: data?.uid,
+        network: data?.network,
         recipient: data?.creator,
         pub_key: data?.public_key,
+        asset: data?.asset?.asa_id,
       })
     );
   };
 
+  const LinkNotFound = () => (
+    <>
+      <div className="payment_illustration">
+        <Lottie options={brokenLink} speed={0.7} />
+      </div>
+
+      <div className="description_text">
+        <p className="main">Payment link not found</p>
+        <p className="sub">{error?.response?.data?.message}</p>
+      </div>
+
+      <NavLink to="/" className="continue_to_pay">
+        Go to Flashpay’s homepage
+      </NavLink>
+
+      <div className="powered_by_block">
+        <p>Powered by</p>
+        <AppIcons type="flashpay-main" />
+      </div>
+    </>
+  );
+
   return (
     <div className="description_container">
-      {!loggedIn ? (
+      {!id ? (
+        <LinkNotFound />
+      ) : !loggedIn ? (
         <Connect data={data} amount={amount} />
       ) : isLoading ? (
         <>
@@ -137,25 +169,7 @@ const Description = () => {
           </div>
         </>
       ) : (
-        <>
-          <div className="payment_illustration">
-            <Lottie options={brokenLink} speed={0.7} />
-          </div>
-
-          <div className="description_text">
-            <p className="main">Payment link not found</p>
-            <p className="sub">{error?.response?.data?.message}</p>
-          </div>
-
-          <NavLink to="/" className="continue_to_pay">
-            Go to Flashpay’s homepage
-          </NavLink>
-
-          <div className="powered_by_block">
-            <p>Powered by</p>
-            <AppIcons type="flashpay-main" />
-          </div>
-        </>
+        <LinkNotFound />
       )}
     </div>
   );
