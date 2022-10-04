@@ -106,19 +106,19 @@ const Details = () => {
 
               {[
                 data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
-                data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
+                // data[0],
               ]?.map((txn, index) => {
                 return (
                   <div className="table_row" key={index}>

@@ -68,25 +68,37 @@ export const ProcessPayment = slug => async dispatch => {
         submittedTxn?.txId,
         1000
       );
-    } else if (provider === "algosigner") {
-      let txn_b64 = window.AlgoSigner.encoding.msgpackToBase64(txn.toByte());
-      await window.AlgoSigner.signTxn([{ txn: txn_b64 }])
-        .then(async signedTx => {
-          submittedTxn = signedTx[0];
-          submittedTxn.txId = signedTx[0].txID;
+    } else if (provider === "pera") {
+      if (!connector.connected) {
+        console.log("Not connected");
+        return;
+      }
 
-          const sndr = await window.AlgoSigner.send({
-            ledger: "TestNet",
-            tx: signedTx.blob,
-          });
-          console.log(sndr);
-        })
-        .catch(e => {
-          console.log(e?.message);
-          dispatch(txnFailed());
-        });
+      const txnsToSign = [
+        {
+          txn: Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString(
+            "base64"
+          ),
+          message: `Sign transaction to complete payment on FlashPay`,
+        },
+      ];
 
-      console.log(submittedTxn);
+      const requestParams = [txnsToSign];
+      const request = formatJsonRpcRequest("algo_signTxn", requestParams);
+      const result = await connector.sendCustomRequest(request);
+      const decodedResult = result.map(element => {
+        return element ? new Uint8Array(Buffer.from(element, "base64")) : null;
+      });
+
+      submittedTxn = await algodClient(slug?.network)
+        .sendRawTransaction(decodedResult)
+        .do();
+
+      await waitForConfirmation(
+        algodClient(slug?.network),
+        submittedTxn?.txId,
+        1000
+      );
     }
 
     if (!!submittedTxn?.txId) {

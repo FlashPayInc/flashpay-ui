@@ -46,37 +46,39 @@ const ProfileBar = () => {
       )}
 
       <div className="action-btns">
-        <div className="network-switch">
-          <Menu
-            offsetY={2}
-            menuButton={
-              <button className="network-switch-btn">
-                <p>{network}</p>
-                <span>
-                  <Icon.caretdown />
-                </span>
-              </button>
-            }
-            align="end"
-            transition
-            onItemClick={e => {
-              if (e.value !== network) {
-                dispatch(ChangeNetwork(e.value));
+        {network ? (
+          <div className="network-switch">
+            <Menu
+              offsetY={2}
+              menuButton={
+                <button className="network-switch-btn">
+                  <p>{network}</p>
+                  <span>
+                    <Icon.caretdown />
+                  </span>
+                </button>
               }
-            }}
-            menuClassName="network-menu"
-          >
-            <MenuItem value="testnet" className="menu-item">
-              <p data-active={network === "testnet"}>Testnet</p>
-            </MenuItem>
-            <div className="divider" />
-            <MenuItem value="mainnet" className="menu-item">
-              <p data-active={network === "mainnet"}>Mainnet</p>
-            </MenuItem>
-          </Menu>
-        </div>
+              align="end"
+              transition
+              onItemClick={e => {
+                if (e.value !== network) {
+                  dispatch(ChangeNetwork(e.value));
+                }
+              }}
+              menuClassName="network-menu"
+            >
+              <MenuItem value="testnet" className="menu-item">
+                <p data-active={network === "testnet"}>Testnet</p>
+              </MenuItem>
+              <div className="divider" />
+              <MenuItem value="mainnet" className="menu-item">
+                <p data-active={network === "mainnet"}>Mainnet</p>
+              </MenuItem>
+            </Menu>
+          </div>
+        ) : null}
 
-        <Notifications />
+        {/* <Notifications /> */}
 
         {/* <img
           src="https://blush.design/api/download?shareUri=0I6cFC5NGKx-CnTR&c=Skin_0%7Ed08b5b&w=800&h=800&fm=png"

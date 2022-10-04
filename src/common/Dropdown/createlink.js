@@ -49,7 +49,7 @@ const CreateLink = ({ type, assets, curOption, UpdateOption }) => {
       >
         <div className="content">
           {type === "payment-frequency"
-            ? ["Conitinual", "One-time"].map((item, i, arr) => (
+            ? ["Continual", "One-time"].map((item, i, arr) => (
                 <Fragment key={i + item}>
                   <div
                     className={`list_item ${

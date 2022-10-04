@@ -41,7 +41,7 @@ const GenerateLinkModal = ({ data }) => {
   const [preview, setPreview] = useState(null);
   const [description, setDescription] = useState("");
   const [curAsset, setCurAsset] = useState(activeAssets[0]);
-  const [curFreq, setCurFreq] = useState("Conitinual");
+  const [curFreq, setCurFreq] = useState("Continual");
 
   const FilterAssets = () => {
     const filter = _.filter(assets, i => i.network === network);

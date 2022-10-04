@@ -44,7 +44,7 @@ const Transactions = () => {
         ) : null}
 
         <div className="page_content">
-          {isLoading || isRefetching || true ? (
+          {isLoading || isRefetching ? (
             <div
               style={{
                 gap: "12px",

@@ -90,18 +90,23 @@
   }
 }
 .api_settings {
+  gap: 25px;
   width: 100%;
   margin-top: 25px;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
 
   .api_keys {
+    gap: 20px;
     width: 500px;
+    max-width: 100vw;
+    overflow: hidden;
     flex-direction: column;
 
     .api_key {
+      gap: 15px;
       width: 100%;
-      margin: 10px 0px;
       padding: 10px 20px;
       border-radius: 10px;
       flex-direction: row;
@@ -110,29 +115,40 @@
       &_inner {
         flex: 1;
         height: 100%;
+        overflow: hidden;
         flex-direction: column;
         .title {
+          width: 100%;
           color: #6d6d6d;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .value {
           color: #16292d;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
       .copy_key {
         padding: 5px;
+        flex: none;
+        cursor: pointer;
+        svg {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
 
     .hide_secret_key {
       padding-left: 10px;
       font-family: $sansmed;
-      margin: 10px 0px 10px;
     }
 
     .save_changes {
       gap: 10px;
       display: flex;
-      margin-top: 25px;
+      margin-top: 16px;
       cursor: pointer;
       color: $main-col;
       padding: 12px 40px;
@@ -149,12 +165,17 @@
     display: flex;
     cursor: pointer;
     color: $col-wh;
+    white-space: nowrap;
     height: max-content;
-    padding: 18px 40px;
+    padding: 18px 35px;
     border-radius: 10px;
     border-radius: 10px;
     flex-direction: row;
     background: $main-col;
+    &.empty {
+      margin-top: 20px;
+      padding: 12px 20px;
+    }
   }
 }
 

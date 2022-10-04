@@ -46,9 +46,7 @@ const Success = () => {
               navigate("/");
             }}
           >
-            Dashboard
-            {/* <AppIcons type="download" /> */}
-            {/* <p>Download reciept</p> */}
+            Homepage
           </button>
         </div>
       </div>

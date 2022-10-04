@@ -9,10 +9,11 @@ import {
 import _ from "lodash";
 import axios from "axios";
 import { addAssets, updateNetwork } from "./reqSlice";
-import { waitForConfirmation } from "algosdk";
+import algosdk, { waitForConfirmation } from "algosdk";
 import { setLinkedStatus, setWallet } from "../config/configSlice";
 import { verifyAcct, setupAcct, closeModal } from "../modals/modalSlice";
 import { InitializeTxn } from "./txnsReqs";
+import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 
 // ACCOUNT CONNECT & SETUP
 export const GetNetwork = _i => async dispatch => {
@@ -67,6 +68,7 @@ export const VerifyWalletAsync = address => async dispatch => {
 
       dispatch(setLinkedStatus("linked"));
       dispatch(closeModal());
+      dispatch(GetNetwork());
     })
     .catch(err => {
       if (err?.response?.status === 401) {
@@ -162,11 +164,42 @@ export const LinkWalletAsync = slug => async dispatch => {
 
     if (provider === "myalgo") {
       const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-      submittedTxn = await algodClient(localStorage.getItem("network"))
+      submittedTxn = await algodClient("mainnet")
         .sendRawTransaction(signedTxn.blob)
         .do();
       await waitForConfirmation(
-        algodClient(localStorage.getItem("network")),
+        algodClient("mainnet"),
+        submittedTxn?.txId,
+        1000
+      );
+    } else if (provider === "pera") {
+      if (!connector.connected) {
+        console.log("Not connected");
+        return;
+      }
+
+      const txnsToSign = [
+        {
+          txn: Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString(
+            "base64"
+          ),
+          message: "Sign transaction to setup your FlashPay account",
+        },
+      ];
+
+      const requestParams = [txnsToSign];
+      const request = formatJsonRpcRequest("algo_signTxn", requestParams);
+      const result = await connector.sendCustomRequest(request);
+      const decodedResult = result.map(element => {
+        return element ? new Uint8Array(Buffer.from(element, "base64")) : null;
+      });
+
+      submittedTxn = await algodClient("mainnet")
+        .sendRawTransaction(decodedResult)
+        .do();
+
+      await waitForConfirmation(
+        algodClient("mainnet"),
         submittedTxn?.txId,
         1000
       );

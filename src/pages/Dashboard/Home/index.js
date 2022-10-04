@@ -1,9 +1,11 @@
 import AccountChart from "./AccountChart";
 import TopBar from "../../../common/TopBar";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProfileBar from "../../../common/ProfileBar";
 import SelectMenu from "../../../common/Dropdown/selectMenu";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
+import { GetNetwork } from "../../../features/requests";
+import { useDispatch, useSelector } from "react-redux";
 
 const ItemsMenu = ({ type, curOption, setCurOption }) => {
   const UpdateOption = item => setCurOption(item);
@@ -14,6 +16,14 @@ const ItemsMenu = ({ type, curOption, setCurOption }) => {
 
 const Home = () => {
   const notEmpty = true;
+  const dispatch = useDispatch();
+  const { network } = useSelector(state => state.app);
+  const { linkedStatus } = useSelector(state => state.config);
+
+  useEffect(() => {
+    if (linkedStatus && localStorage.getItem("walletAddress") && !network)
+      dispatch(GetNetwork());
+  }, [linkedStatus]);
 
   const [curAsset, setCurAsset] = useState("USDT");
   const [curTimeframe, setCurTimeframe] = useState("This year");

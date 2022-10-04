@@ -29,12 +29,6 @@ const Settings = () => {
             >
               <p>Webhooks & Api's</p>
             </NavLink>
-            <NavLink
-              to="./preferences"
-              className={({ isActive }) => (isActive ? "isActive" : undefined)}
-            >
-              <p>Preferences</p>
-            </NavLink>
           </div>
 
           <Outlet />

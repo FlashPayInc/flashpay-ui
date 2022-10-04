@@ -1,62 +1,142 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
+import { SpinnerCircular } from "spinners-react";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { AppIcons } from "../../../svg";
 
 const ApiSettings = () => {
-  const notEmpty = !true;
+  const notEmpty = true;
+
+  const { network } = useSelector(state => state.app);
+  const { reload, linkedStatus } = useSelector(state => state.config);
+
+  const { isLoading, isRefetching, error, data, refetch } = useQuery(
+    "payment-links",
+    () =>
+      axios
+        .get(`/accounts/api-keys`, {
+          headers: {
+            Authorization: !!localStorage.getItem("access_token")
+              ? `Bearer ${localStorage.getItem("access_token")}`
+              : "",
+          },
+        })
+        .then(response => response?.data?.data?.results),
+    { refetchOnWindowFocus: false }
+  );
+
+  useEffect(() => {
+    if (linkedStatus && !!localStorage.getItem("walletAddress")) refetch();
+  }, [linkedStatus, reload, network]);
+
+  const [generating, setGenerating] = useState(false);
+
+  const generateKey = async () => {
+    setGenerating(true);
+    try {
+      await axios
+        .post(
+          `/accounts/api-keys`,
+          { network },
+          {
+            headers: {
+              Authorization: !!localStorage.getItem("access_token")
+                ? `Bearer ${localStorage.getItem("access_token")}`
+                : "",
+            },
+          }
+        )
+        .then(response => {
+          setGenerating(false);
+          console.log(response?.data?.data);
+          refetch();
+        });
+    } catch (error) {
+      setGenerating(false);
+    }
+  };
 
   return (
     <div className="api_settings">
-      {notEmpty ? (
+      {isLoading || isRefetching ? (
+        <div
+          style={{
+            gap: "12px",
+            width: "100%",
+            height: "100%",
+            minHeight: "50vh",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <SpinnerCircular size={80} color="#e5fff6" secondaryColor="#1c7989" />
+          <p style={{ fontSize: "18px" }}>Fetching API keys</p>
+        </div>
+      ) : data && !error && data?.length >= 1 ? (
         <>
           <div className="api_keys">
-            <div className="api_key">
-              <div className="api_key_inner">
-                <p className="title">Secret key</p>
-                <p className="value">FL_jennv3095u385bo34bfn308_24825nnsvon</p>
-              </div>
+            {data?.map((key, index) => {
+              return (
+                <div className="api_key" key={index}>
+                  <div className="api_key_inner">
+                    <p className="title">Secret key</p>
+                    <p className="value">{key?.secret_key}</p>
+                  </div>
 
-              <div className="copy_key">
-                <AppIcons type="copy" />
-              </div>
-            </div>
+                  <div className="copy_key">
+                    <AppIcons type="copy" />
+                  </div>
+                </div>
+              );
+            })}
 
             <div className="hide_secret_key">Hide secret key</div>
 
-            <div className="api_key">
-              <div className="api_key_inner">
-                <p className="title">Public key</p>
-                <p className="value">FL_jennv3095u385bo34bfn308_24825nnsvon</p>
-              </div>
-
-              <div className="copy_key">
-                <AppIcons type="copy" />
-              </div>
-            </div>
-
-            <div className="api_key">
-              <div className="api_key_inner">
-                <p className="title">Public key</p>
-                <p className="value">FL_jennv3095u385bo34bfn308_24825nnsvon</p>
-              </div>
-
-              <div className="copy_key">
-                <AppIcons type="copy" />
-              </div>
-            </div>
-
-            <button className="save_changes">Save changes</button>
+            {/* <button className="save_changes">Save changes</button> */}
           </div>
 
-          <div className="generate_new_keys">Generate new keys</div>
+          <div className="generate_new_keys" onClick={generateKey}>
+            <p>Generate new key</p>
+
+            {generating ? (
+              <SpinnerCircular
+                size={18}
+                color="#fff"
+                secondaryColor="#1b8a9b"
+              />
+            ) : null}
+          </div>
         </>
       ) : (
-        <EmptyStateContainer
-          vector="comingsoon"
-          type="bold"
-          text={`COMING SOON`}
-        />
-      )}{" "}
+        <div
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <EmptyStateContainer
+            vector="not-found"
+            text={`You have not generated any API key`}
+          />
+
+          <div className="generate_new_keys" onClick={generateKey}>
+            <p>Generate new key</p>
+
+            {generating ? (
+              <SpinnerCircular
+                size={18}
+                color="#fff"
+                secondaryColor="#1b8a9b"
+              />
+            ) : null}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
