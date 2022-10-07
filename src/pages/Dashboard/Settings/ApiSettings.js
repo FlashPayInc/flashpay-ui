@@ -23,7 +23,7 @@ const ApiSettings = () => {
               : "",
           },
         })
-        .then(response => response?.data?.data?.results),
+        .then(response => response?.data?.data),
     { refetchOnWindowFocus: false }
   );
 
@@ -58,6 +58,8 @@ const ApiSettings = () => {
     }
   };
 
+  console.log(data);
+
   return (
     <div className="api_settings">
       {isLoading || isRefetching ? (
@@ -75,26 +77,20 @@ const ApiSettings = () => {
           <SpinnerCircular size={80} color="#e5fff6" secondaryColor="#1c7989" />
           <p style={{ fontSize: "18px" }}>Fetching API keys</p>
         </div>
-      ) : data && !error && data?.length >= 1 ? (
+      ) : !!data?.secret_key && !error ? (
         <>
           <div className="api_keys">
-            {data?.map((key, index) => {
-              return (
-                <div className="api_key" key={index}>
-                  <div className="api_key_inner">
-                    <p className="title">Secret key</p>
-                    <p className="value">{key?.secret_key}</p>
-                  </div>
+            <div className="api_key">
+              <div className="api_key_inner">
+                <p className="title">Secret key</p>
+                <p className="value">{data?.secret_key}</p>
+              </div>
 
-                  <div className="copy_key">
-                    <AppIcons type="copy" />
-                  </div>
-                </div>
-              );
-            })}
-
+              <div className="copy_key">
+                <AppIcons type="copy" />
+              </div>
+            </div>
             <div className="hide_secret_key">Hide secret key</div>
-
             {/* <button className="save_changes">Save changes</button> */}
           </div>
 

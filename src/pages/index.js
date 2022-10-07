@@ -39,7 +39,7 @@ const DashboardRoutes = () => {
           <Route path="/settings" element={<Settings />}>
             <Route path="" element={<ProfileSettings />} />
             <Route path="api" element={<ApiSettings />} />
-            <Route path="preferences" element={<Preferences />} />
+            {/* <Route path="preferences" element={<Preferences />} /> */}
           </Route>
 
           <Route path="/payment-links" element={<PaymentLinks />} />
