@@ -3,11 +3,13 @@ import {
   DecodePayload,
   myAlgoConnect,
   createTransaction,
+  connector,
 } from "../../utils";
 import _ from "lodash";
 import axios from "axios";
-import { waitForConfirmation } from "algosdk";
+import algosdk, { waitForConfirmation } from "algosdk";
 import { txnFailed, txnProcessing, txnSuccessful } from "../modals/modalSlice";
+import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 
 // TRANSACTIONS
 export const InitializeTxn = data => async dispatch => {
