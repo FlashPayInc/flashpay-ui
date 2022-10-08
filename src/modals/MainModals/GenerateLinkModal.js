@@ -3,7 +3,6 @@ import Icon from "../../svg/Icon";
 import { useEffect, useRef, useState } from "react";
 import { AppIcons, ConnectIcon } from "../../svg";
 import { useDispatch, useSelector } from "react-redux";
-import CopyToClipboard from "react-copy-to-clipboard";
 import TextareaAutosize from "react-textarea-autosize";
 import CreateLink from "../../common/Dropdown/createlink";
 import { closeModal } from "../../features/modals/modalSlice";
@@ -53,7 +52,8 @@ const GenerateLinkModal = ({ data }) => {
     FilterAssets();
   }, []);
 
-  const CopiedText = () => {
+  const copyText = text => {
+    navigator.clipboard.writeText(text);
     if (copy === "Link copied") return;
     setCopy("Link copied");
     setTimeout(() => setCopy("Copy link"), 2000);
@@ -284,18 +284,17 @@ const GenerateLinkModal = ({ data }) => {
         >
           Back
         </button>
-        <CopyToClipboard
-          text={"https://app.flashpay.finance/payment-portal/29747mfl"}
-          onCopy={() => CopiedText()}
+
+        <button
+          className={`continue_button ${
+            copy === "Link copied" ? "copied" : ""
+          }`}
+          onClick={e =>
+            copyText("https://app.flashpay.finance/payment-portal/29747mfl")
+          }
         >
-          <button
-            className={`continue_button ${
-              copy === "Link copied" ? "copied" : ""
-            }`}
-          >
-            {copy}
-          </button>
-        </CopyToClipboard>
+          {copy}
+        </button>
       </div>
     </div>
   );

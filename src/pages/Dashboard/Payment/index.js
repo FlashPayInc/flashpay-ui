@@ -15,20 +15,29 @@ import millify from "millify";
 const PaymentLinks = () => {
   let navigate = useNavigate();
   const { network } = useSelector(state => state.app);
-  const { reload, linkedStatus } = useSelector(state => state.config);
+  const { reload, linkedStatus, walletAddress } = useSelector(
+    state => state.config
+  );
+
+  const [page, setPage] = React.useState(1);
+
+  const fetchLinks = (pageNum = 1) => {
+    if (!walletAddress || !localStorage.getItem("access_token")) return;
+
+    return axios
+      .get(`/payment-links?page=` + pageNum, {
+        headers: {
+          Authorization: !!localStorage.getItem("access_token")
+            ? `Bearer ${localStorage.getItem("access_token")}`
+            : "",
+        },
+      })
+      .then(response => response?.data?.data);
+  };
 
   const { isLoading, isRefetching, error, data, refetch } = useQuery(
-    "payment-links",
-    () =>
-      axios
-        .get(`/payment-links`, {
-          headers: {
-            Authorization: !!localStorage.getItem("access_token")
-              ? `Bearer ${localStorage.getItem("access_token")}`
-              : "",
-          },
-        })
-        .then(response => response?.data?.data?.results),
+    ["payment-links", page],
+    () => fetchLinks(page),
     { refetchOnWindowFocus: false }
   );
 
@@ -43,7 +52,7 @@ const PaymentLinks = () => {
       <ProfileBar />
 
       <div className="home_container">
-        {data && data?.length >= 1 ? (
+        {data?.results && data?.results?.length >= 1 ? (
           <TopBar
             filter="filter"
             data="payment-links"
@@ -71,7 +80,7 @@ const PaymentLinks = () => {
               />
               <p style={{ fontSize: "18px" }}>Fetching payment links</p>
             </div>
-          ) : data && data?.length >= 1 ? (
+          ) : data?.results && data?.results?.length >= 1 ? (
             <>
               <div className="payment_table base-animation--fade-left">
                 <div className="table_header">
@@ -84,7 +93,7 @@ const PaymentLinks = () => {
                   <div className="row_member link">Preview</div>
                 </div>
 
-                {data?.map((link, index) => {
+                {data?.results?.map((link, index) => {
                   return (
                     <div className="table_row" key={index}>
                       <div
@@ -160,7 +169,11 @@ const PaymentLinks = () => {
                   );
                 })}
               </div>
-              <PaginationTab pageNum={Math.ceil(data?.length / 6)} />
+              <PaginationTab
+                pageNum={Math.ceil(data?.count / 5)}
+                active={page}
+                setActive={setPage}
+              />
             </>
           ) : (
             <EmptyStateContainer

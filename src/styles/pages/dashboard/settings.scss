@@ -141,8 +141,11 @@
     }
 
     .hide_secret_key {
+      cursor: pointer;
       padding-left: 10px;
+      padding-right: 20px;
       font-family: $sansmed;
+      max-width: max-content;
     }
 
     .save_changes {

@@ -15,11 +15,6 @@ const ProfileBar = () => {
   const { network } = useSelector(state => state.app);
   const { linkedStatus } = useSelector(state => state.config);
 
-  useEffect(() => {
-    if (linkedStatus && localStorage.getItem("walletAddress"))
-      dispatch(GetNetwork());
-  }, [linkedStatus]);
-
   const match = pathname.match(/^\/\w+/i);
   const currentPath = match
     ? match[0].slice(1)

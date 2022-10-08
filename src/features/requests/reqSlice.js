@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   assets: [],
-  network: localStorage.getItem("network") === "mainnet",
+  network: localStorage.getItem("network"),
   paymentLinks: [],
 };
 

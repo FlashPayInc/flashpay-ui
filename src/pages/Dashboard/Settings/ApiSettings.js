@@ -1,21 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SpinnerCircular } from "spinners-react";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
+import { hideApiKeys } from "../../../features/config/configSlice";
 import { AppIcons } from "../../../svg";
 
 const ApiSettings = () => {
-  const notEmpty = true;
-
+  const dispatch = useDispatch();
   const { network } = useSelector(state => state.app);
-  const { reload, linkedStatus } = useSelector(state => state.config);
+  const { reload, hideKeys, linkedStatus, walletAddress } = useSelector(
+    state => state.config
+  );
 
   const { isLoading, isRefetching, error, data, refetch } = useQuery(
     "payment-links",
-    () =>
-      axios
+    () => {
+      if (!walletAddress || !localStorage.getItem("access_token")) return;
+
+      return axios
         .get(`/accounts/api-keys`, {
           headers: {
             Authorization: !!localStorage.getItem("access_token")
@@ -23,7 +27,8 @@ const ApiSettings = () => {
               : "",
           },
         })
-        .then(response => response?.data?.data),
+        .then(response => response?.data?.data);
+    },
     { refetchOnWindowFocus: false }
   );
 
@@ -58,7 +63,16 @@ const ApiSettings = () => {
     }
   };
 
-  console.log(data);
+  const [copied, setCopied] = useState(0);
+
+  const copyText = (text, key) => {
+    navigator.clipboard.writeText(text);
+    if (copied === key) return;
+    setCopied(key);
+    setTimeout(() => setCopied(0), 2000);
+  };
+
+  console.log(hideKeys);
 
   return (
     <div className="api_settings">
@@ -83,15 +97,56 @@ const ApiSettings = () => {
             <div className="api_key">
               <div className="api_key_inner">
                 <p className="title">Secret key</p>
-                <p className="value">{data?.secret_key}</p>
+                <p className="value">
+                  {hideKeys?.secret === false
+                    ? "................................................................................."
+                    : data?.secret_key}
+                </p>
               </div>
 
-              <div className="copy_key">
-                <AppIcons type="copy" />
+              <div
+                className="copy_key"
+                onClick={e => copyText(data?.secret_key, 1)}
+              >
+                <AppIcons type={copied === 1 ? "tickcircle" : "copy"} />
               </div>
             </div>
-            <div className="hide_secret_key">Hide secret key</div>
-            {/* <button className="save_changes">Save changes</button> */}
+            <div
+              className="hide_secret_key"
+              onClick={e =>
+                dispatch(hideApiKeys({ secret: !hideKeys?.secret }))
+              }
+            >
+              {`${hideKeys?.secret === false ? "View" : "Hide"} secret key`}
+            </div>
+          </div>
+
+          <div className="api_keys">
+            <div className="api_key">
+              <div className="api_key_inner">
+                <p className="title">Public key</p>
+                <p className="value">
+                  {hideKeys?.public === false
+                    ? "................................................................................."
+                    : data?.public_key}
+                </p>
+              </div>
+
+              <div
+                className="copy_key"
+                onClick={e => copyText(data?.public_key, 2)}
+              >
+                <AppIcons type={copied === 2 ? "tickcircle" : "copy"} />
+              </div>
+            </div>
+            <div
+              className="hide_secret_key"
+              onClick={e =>
+                dispatch(hideApiKeys({ public: !hideKeys?.public }))
+              }
+            >
+              {`${hideKeys?.public === false ? "View" : "Hide"} public key`}
+            </div>
           </div>
 
           <div className="generate_new_keys" onClick={generateKey}>
@@ -110,6 +165,7 @@ const ApiSettings = () => {
         <div
           style={{
             flex: 1,
+            gap: "10px",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
@@ -117,20 +173,26 @@ const ApiSettings = () => {
         >
           <EmptyStateContainer
             vector="not-found"
-            text={`You have not generated any API key`}
+            text={
+              !walletAddress
+                ? "Nothing to see here"
+                : `You have not generated any API key`
+            }
           />
 
-          <div className="generate_new_keys" onClick={generateKey}>
-            <p>Generate new key</p>
+          {!!walletAddress && (
+            <div className="generate_new_keys" onClick={generateKey}>
+              <p>Generate new key</p>
 
-            {generating ? (
-              <SpinnerCircular
-                size={18}
-                color="#fff"
-                secondaryColor="#1b8a9b"
-              />
-            ) : null}
-          </div>
+              {generating ? (
+                <SpinnerCircular
+                  size={18}
+                  color="#fff"
+                  secondaryColor="#1b8a9b"
+                />
+              ) : null}
+            </div>
+          )}
         </div>
       )}
     </div>

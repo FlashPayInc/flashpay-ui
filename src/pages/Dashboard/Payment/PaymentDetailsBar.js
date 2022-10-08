@@ -40,6 +40,18 @@ const PaymentDetailsBar = ({ slug }) => {
     if (linkedStatus && localStorage.getItem("access_token")) refetch();
   }, [linkedStatus, network]);
 
+  const [copied, setCopied] = useState(false);
+
+  const copyText = () => {
+    if (!slug) return;
+    navigator.clipboard.writeText(
+      `${window.location.host}/payment-portal/${slug}`
+    );
+    if (copied === true) return;
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="top_bar payment-dets">
       <>
@@ -59,9 +71,9 @@ const PaymentDetailsBar = ({ slug }) => {
             </div>
           </div>
           <div className="bar_buttons">
-            <button className="copy_button">
-              <AppIcons type="copy-link" />
-              <p>Copy Link</p>
+            <button className="copy_button" onClick={copyText}>
+              {!copied && <AppIcons type="copy-link" />}
+              <p>{copied ? "Link copied" : "Copy Link"}</p>
             </button>
           </div>
         </div>

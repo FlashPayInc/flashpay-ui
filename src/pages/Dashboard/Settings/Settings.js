@@ -21,16 +21,9 @@ const Settings = () => {
               to="."
               className={({ isActive }) => (isActive ? "isActive" : undefined)}
             >
-              <p>Profile</p>
-            </NavLink>
-            <NavLink
-              to="./api"
-              className={({ isActive }) => (isActive ? "isActive" : undefined)}
-            >
               <p>Webhooks & Api's</p>
             </NavLink>
           </div>
-
           <Outlet />
         </div>
       </div>

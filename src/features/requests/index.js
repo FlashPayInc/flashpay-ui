@@ -45,6 +45,7 @@ export const ChangeNetwork = network => async dispatch => {
 };
 
 export const FetchAssets = _i => async dispatch => {
+  if (!localStorage.getItem("walletAddress")) return;
   await axios
     .get(`/core/assets`)
     .then(res => {

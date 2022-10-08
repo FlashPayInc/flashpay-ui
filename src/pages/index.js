@@ -37,8 +37,8 @@ const DashboardRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/setup" element={<Setup />} />
           <Route path="/settings" element={<Settings />}>
-            <Route path="" element={<ProfileSettings />} />
-            <Route path="api" element={<ApiSettings />} />
+            <Route path="" element={<ApiSettings />} />
+            {/* <Route path="profile" element={<ProfileSettings />} /> */}
             {/* <Route path="preferences" element={<Preferences />} /> */}
           </Route>
 

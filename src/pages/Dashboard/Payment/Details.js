@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import TopBar from "../../../common/TopBar";
 import ProfileBar from "../../../common/ProfileBar";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { AppIcons, Assets } from "../../../svg";

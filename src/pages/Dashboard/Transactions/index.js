@@ -13,20 +13,26 @@ import { constrictAddr, timeAgo } from "../../../utils/helpers";
 
 const Transactions = () => {
   const { network } = useSelector(state => state.app);
-  const { linkedStatus } = useSelector(state => state.config);
+  const { linkedStatus, walletAddress } = useSelector(state => state.config);
+
+  const [page, setPage] = React.useState(1);
+
+  const fetchTxns = (pageNum = 1) => {
+    if (!walletAddress || !localStorage.getItem("access_token")) return;
+    return axios
+      .get(`/transactions?page=` + pageNum, {
+        headers: {
+          Authorization: localStorage.getItem("access_token")
+            ? `Bearer ${localStorage.getItem("access_token")}`
+            : "",
+        },
+      })
+      .then(response => response?.data?.data);
+  };
 
   const { isLoading, isRefetching, error, data, refetch } = useQuery(
-    "transactions",
-    () =>
-      axios
-        .get(`/transactions`, {
-          headers: {
-            Authorization: localStorage.getItem("access_token")
-              ? `Bearer ${localStorage.getItem("access_token")}`
-              : "",
-          },
-        })
-        .then(response => response?.data?.data?.results),
+    ["transactions", page],
+    () => fetchTxns(page),
     { refetchOnWindowFocus: false }
   );
 
@@ -39,7 +45,7 @@ const Transactions = () => {
       <ProfileBar />
 
       <div className="home_container">
-        {data && data?.length >= 1 ? (
+        {data?.results && data?.results?.length >= 1 ? (
           <TopBar data="transactions" main="Transactions" filter="filter" />
         ) : null}
 
@@ -62,7 +68,7 @@ const Transactions = () => {
               />
               <p style={{ fontSize: "18px" }}>Fetching transactions</p>
             </div>
-          ) : data && data?.length >= 1 ? (
+          ) : data?.results && data?.results?.length >= 1 ? (
             <>
               <div className="transactions_table base-animation--fade-left">
                 <div className="table_header">
@@ -76,7 +82,7 @@ const Transactions = () => {
                   <div className="row_member preview">view</div>
                 </div>
 
-                {data?.map((txn, index) => {
+                {data?.results?.map((txn, index) => {
                   return (
                     <div className="table_row" key={index}>
                       <div className="row_member ref">
@@ -139,7 +145,11 @@ const Transactions = () => {
                 })}
               </div>
 
-              <PaginationTab pageNum={Math.ceil(data?.length / 6)} />
+              <PaginationTab
+                pageNum={Math.ceil(data?.count / 5)}
+                active={page}
+                setActive={setPage}
+              />
             </>
           ) : (
             <EmptyStateContainer

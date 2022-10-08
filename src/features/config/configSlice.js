@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   reload: false,
   openSidetab: false,
+  hideKeys: JSON.parse(localStorage.getItem("hideKeys")),
   walletAddress: localStorage.getItem("walletAddress"),
   walletProvider: localStorage.getItem("walletProvider"),
   darkTheme: localStorage.getItem("mode") === "dark" ? true : false,
@@ -18,6 +19,21 @@ export const configSlice = createSlice({
     reloadPage: (state, action) => {
       state.reload = action.payload;
     },
+
+    hideApiKeys: (state, action) => {
+      localStorage.setItem(
+        "hideKeys",
+        JSON.stringify({
+          ...state.hideKeys,
+          ...action.payload,
+        })
+      );
+      state.hideKeys = {
+        ...state.hideKeys,
+        ...action.payload,
+      };
+    },
+
     openSideTab: state => {
       state.openSidetab = true;
     },
@@ -45,6 +61,7 @@ export const {
   setWallet,
   reloadPage,
   openSideTab,
+  hideApiKeys,
   closeSideTab,
   setLinkedStatus,
 } = configSlice.actions;

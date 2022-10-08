@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
-const PaginationTab = ({ pageNum }) => {
-  const [active, setActive] = useState(1);
-
+const PaginationTab = ({ pageNum, active, setActive }) => {
   const handleChange = num => {
     if (num < 1 || num > pageNum) return;
     setActive(num);

@@ -16,14 +16,6 @@ const ItemsMenu = ({ type, curOption, setCurOption }) => {
 
 const Home = () => {
   const notEmpty = true;
-  const dispatch = useDispatch();
-  const { network } = useSelector(state => state.app);
-  const { linkedStatus } = useSelector(state => state.config);
-
-  useEffect(() => {
-    if (linkedStatus && localStorage.getItem("walletAddress") && !network)
-      dispatch(GetNetwork());
-  }, [linkedStatus]);
 
   const [curAsset, setCurAsset] = useState("USDT");
   const [curTimeframe, setCurTimeframe] = useState("This year");
