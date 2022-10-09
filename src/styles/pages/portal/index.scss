@@ -13,14 +13,14 @@
     width: 635px;
     max-width: 50%;
     position: relative;
-    background: $main-col;
+    background: var(--orient);
     flex-direction: column;
     padding: 92px 0vw 0px 120px;
     .logo_white {
       margin-bottom: 97px;
     }
     .side_decor_text {
-      color: $col-wh;
+      color: var(--white);
       font-size: $font-xl;
       font-family: $sansbold;
     }
@@ -50,7 +50,7 @@
     .powered_by_block {
       gap: 20px;
       margin-top: 30px;
-      color: $main-col;
+      color: var(--orient);
       align-items: center;
       flex-direction: row;
       font-family: $sansbold !important;
@@ -62,14 +62,14 @@
     .continue_to_pay {
       width: 100%;
       display: flex;
-      color: $col-wh;
+      color: var(--white);
       height: 55px;
       cursor: pointer;
       font-family: $sansmed;
       align-items: center;
       justify-content: center;
       border-radius: 10px;
-      background: $main-col;
+      background: var(--orient);
     }
 
     .description_container {
@@ -85,7 +85,7 @@
         border-radius: 100%;
         align-items: center;
         justify-content: center;
-        border: 1px solid #f1f1f1;
+        border: 1px solid var(--seashell);
         img {
           width: 100%;
           height: 100%;
@@ -109,7 +109,7 @@
           &.main {
             font-family: $sansbold;
             font-size: $font-md;
-            color: #16292d;
+            color: var(--timber-green);
           }
           &.sub {
             margin-bottom: 15px;
@@ -133,7 +133,7 @@
           width: max-content;
           align-items: center;
           border-radius: 10px;
-          border: 1px solid #f1f1f1;
+          border: 1px solid var(--seashell);
           .asset_info {
             gap: 10px;
             align-items: center;
@@ -162,7 +162,7 @@
           height: 100%;
           padding: 0px 16px;
           border-radius: 10px;
-          border: 1px solid #f1f1f1;
+          border: 1px solid var(--seashell);
         }
       }
     }
@@ -171,7 +171,7 @@
       width: 100%;
       border-radius: 10px;
       font-size: $font-sm;
-      background: $col-wh;
+      background: var(--white);
       flex-direction: column;
 
       div {
@@ -183,7 +183,7 @@
         height: 20px;
         overflow: hidden;
         border-radius: 100%;
-        background: #f0f0f0;
+        background: var(--gallery);
         svg {
           width: 100%;
           height: 100%;
@@ -199,7 +199,7 @@
           font-family: $sansmed;
         }
         .sub {
-          color: $col-dk;
+          color: var(--dove-gray);
         }
       }
       .connect_option {
@@ -212,7 +212,7 @@
         flex-direction: row;
         border-radius: 10px;
         margin-bottom: 20px;
-        border: 1px solid #f2f2f2;
+        border: 1px solid var(--concrete);
         justify-content: space-between;
         .option_info {
           gap: 10px;
@@ -223,7 +223,7 @@
           }
           p {
             flex: 1;
-            color: $col-dk;
+            color: var(--dove-gray);
           }
         }
       }

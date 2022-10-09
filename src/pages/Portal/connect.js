@@ -16,6 +16,8 @@ const Connect = ({ data, amount }) => {
         amount,
         provider: option,
         connectType: "payment",
+        payment_link: data?.uid,
+        network: data?.network,
         recipient: data?.creator,
         pub_key: data?.public_key,
         asset: data?.asset?.asa_id,

@@ -1,5 +1,6 @@
 import React from "react";
-import { AppIcons, Illustrations } from "../../svg";
+import { AppIcons } from "../../svg";
+import Vectors from "../../svg/Vectors";
 import Description from "./description";
 
 const Portal = () => {
@@ -15,7 +16,7 @@ const Portal = () => {
         </div>
 
         <div className="bg_decor">
-          <Illustrations type="portalbg" />
+          <Vectors.portalbg />
         </div>
       </div>
 

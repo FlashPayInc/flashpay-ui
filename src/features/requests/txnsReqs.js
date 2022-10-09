@@ -15,11 +15,11 @@ import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 export const InitializeTxn = data => async dispatch => {
   const formData = new FormData();
   formData.append("txn_type", "normal");
-  formData.append("network", "testnet");
   formData.append("asset", data?.asset);
-  formData.append("amount", data?.amount);
   formData.append("sender", data?.sender);
+  formData.append("network", data?.network);
   formData.append("recipient", data?.recipient);
+  formData.append("amount", Number(data?.amount));
   formData.append("payment_link", data?.payment_link);
 
   dispatch(txnProcessing());
@@ -37,6 +37,7 @@ export const InitializeTxn = data => async dispatch => {
           amount: data?.amount,
           pub_key: data?.pub_key,
           network: data?.network,
+          provider: data?.provider,
           recipient: data?.recipient,
           txnRef: res?.data?.data?.txn_reference,
         })
@@ -51,7 +52,6 @@ export const InitializeTxn = data => async dispatch => {
 export const ProcessPayment = slug => async dispatch => {
   try {
     let submittedTxn = null;
-    const provider = localStorage.getItem("walletProvider");
     const txn = await createTransaction(
       slug?.amount,
       slug?.addr,
@@ -60,7 +60,7 @@ export const ProcessPayment = slug => async dispatch => {
       slug?.recipient
     );
 
-    if (provider === "myalgo") {
+    if (slug?.provider === "myalgo") {
       const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
       submittedTxn = await algodClient(slug?.network)
         .sendRawTransaction(signedTxn.blob)
@@ -70,7 +70,7 @@ export const ProcessPayment = slug => async dispatch => {
         submittedTxn?.txId,
         1000
       );
-    } else if (provider === "pera") {
+    } else if (slug?.provider === "pera") {
       if (!connector.connected) {
         console.log("Not connected");
         return;

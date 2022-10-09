@@ -6,11 +6,12 @@ import { SpinnerCircular } from "spinners-react";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { hideApiKeys } from "../../../features/config/configSlice";
 import { AppIcons } from "../../../svg";
+import Vectors from "../../../svg/Vectors";
 
 const ApiSettings = () => {
   const dispatch = useDispatch();
   const { network } = useSelector(state => state.app);
-  const { reload, hideKeys, linkedStatus, walletAddress } = useSelector(
+  const { theme, reload, hideKeys, linkedStatus, walletAddress } = useSelector(
     state => state.config
   );
 
@@ -71,8 +72,6 @@ const ApiSettings = () => {
     setCopied(key);
     setTimeout(() => setCopied(0), 2000);
   };
-
-  console.log(hideKeys);
 
   return (
     <div className="api_settings">
@@ -178,7 +177,9 @@ const ApiSettings = () => {
                 ? "Nothing to see here"
                 : `You have not generated any API key`
             }
-          />
+          >
+            <Vectors.search dark={theme === "dark"} />
+          </EmptyStateContainer>
 
           {!!walletAddress && (
             <div className="generate_new_keys" onClick={generateKey}>

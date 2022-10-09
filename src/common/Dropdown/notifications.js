@@ -1,10 +1,11 @@
 import HorLine from "../HorLine";
 import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useOutsideAlerter } from "../../utils/helpers";
-import { AppIcons, MainIcons, Illustrations } from "../../svg";
+import { AppIcons, MainIcons } from "../../svg";
 import { notifications } from "../../features/modals/modalSlice";
 import { useWindowSize } from "@react-hook/window-size/throttled";
+import Vectors from "../../svg/Vectors";
 
 const Notifications = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Notifications = () => {
   const dropDownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const closeDropdown = () => setIsOpen(false);
+  const { theme } = useSelector(state => state.config);
   useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
 
   return (
@@ -75,7 +77,7 @@ const Notifications = () => {
           ) : (
             <div className="empty_notificationn">
               <div className="empty_illustration">
-                <Illustrations type="empty-alert" />
+                <Vectors.emptyMail dark={theme === "dark"} />
               </div>
               <p>You have no notifications yet.</p>
             </div>

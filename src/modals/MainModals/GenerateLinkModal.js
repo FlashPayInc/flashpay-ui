@@ -42,15 +42,12 @@ const GenerateLinkModal = ({ data }) => {
   const [curAsset, setCurAsset] = useState(activeAssets[0]);
   const [curFreq, setCurFreq] = useState("Continual");
 
-  const FilterAssets = () => {
+  useEffect(() => {
+    if (activeAssets.length > 0) return;
     const filter = _.filter(assets, i => i.network === network);
     setActiveAssets(filter);
     setCurAsset(filter[0]);
-  };
-
-  useEffect(() => {
-    FilterAssets();
-  }, []);
+  }, [assets]);
 
   const copyText = text => {
     navigator.clipboard.writeText(text);

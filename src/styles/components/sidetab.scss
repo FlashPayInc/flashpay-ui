@@ -8,18 +8,14 @@
   position: absolute;
   position: sticky;
   width: $sidebar_width;
-  background: rgba($color: #000000, $alpha: 0.25);
-
+  background: rgba($color: var(--black), $alpha: 0.25);
   .overlay {
     flex: 1;
     height: 100%;
   }
-
   @include medium {
     width: 100vw;
-    // left: -$sidebar_width;
     position: absolute;
-
     &[data-open-tab="true"] {
       display: flex;
     }
@@ -32,16 +28,10 @@
 .sidetab_container {
   width: $sidebar_width;
   height: 100%;
-  background: $bg-b;
+  background: var(--alabaster);
   padding-top: 40px;
   align-items: center;
   flex-direction: column;
-
-  // @include medium {
-  //   top: 0;
-  //   // left: -$sidebar_width;
-  //   position: absolute;
-  // }
 
   div,
   button {
@@ -49,14 +39,38 @@
     height: max-content;
   }
 
+  .dark-mode-switch {
+    width: 38px;
+    height: 20px;
+    display: flex;
+    cursor: pointer;
+    position: relative;
+    border-radius: 30px;
+    flex-direction: row;
+    align-items: center;
+    background: var(--silver);
+    &__toggle {
+      left: 3.5px;
+      width: 13px;
+      height: 13px;
+      position: absolute;
+      background: #fff;
+      border-radius: 15px;
+      transition: left 0.3s;
+    }
+    &[data-move="true"] {
+      background: var(--orient);
+      .dark-mode-switch__toggle {
+        left: calc(50% + 2.5px);
+      }
+    }
+  }
+
   .app_logo {
     width: 100%;
     display: flex;
     align-items: center;
     width: calc(100% - (44px * 2));
-    img {
-      width: 130px;
-    }
   }
 
   .connect_wallet {
@@ -64,9 +78,9 @@
     cursor: pointer;
     align-items: center;
     border-radius: 10px;
-    background: $main-col;
+    background: var(--orient);
     flex-direction: row;
-    color: $col-wh;
+    color: var(--white);
     padding: 14px 20px;
     margin-top: 60px;
     i {
@@ -94,7 +108,7 @@
         width: 100%;
         gap: 10px;
         display: flex;
-        color: #6d6d6d;
+        color: var(--dove-gray);
         padding: 0px 44px;
         align-items: center;
         flex-direction: row;
@@ -103,21 +117,20 @@
 
         svg {
           width: 22px;
-          stroke: #6d6d6d;
+          stroke: var(--dove-gray);
         }
         p {
           flex: 1;
+          font-size: 16px;
           @include hdLineHeight();
-          // font-size: $font-rg;
           padding: 16px 0px;
         }
 
         &.isActive {
-          background: white;
-          color: $main-col;
-          color: #006174;
+          color: var(--orient-white);
+          background: var(--white-shaft);
           svg {
-            stroke: #006174;
+            stroke: var(--orient-white);
           }
           p {
             font-family: $sansmed;
@@ -130,7 +143,7 @@
       margin-bottom: 14px;
       .hor_line {
         width: 100%;
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 1px solid var(--alto);
       }
     }
 

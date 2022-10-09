@@ -1,3 +1,9 @@
+// @mixin dark {
+//   @media (prefers-color-scheme: dark) {
+//     @content;
+//   }
+// }
+
 @mixin lgscreen {
   @media (max-width: 1150px) {
     @content;

@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: rgba($color: #000000, $alpha: 0.25);
+  background: rgba($color: black, $alpha: 0.25);
 
   .modal_container {
     width: 460px;
@@ -15,7 +15,7 @@
     overflow-y: scroll;
     border-radius: 10px;
     font-size: $font-sm;
-    background: $col-wh;
+    background: var(--alabaster);
     padding: 30px 28px;
     flex-direction: column;
     max-height: calc(100vh - 30px);
@@ -29,7 +29,7 @@
     .warning_text {
       gap: 10px;
       padding: 5px 5px;
-      color: #f4861e;
+      color: var(--tango);
       border-radius: 5px;
       flex-direction: row;
       text-transform: uppercase;
@@ -59,7 +59,7 @@
           margin-bottom: 25px;
           align-items: center;
           flex-direction: row;
-          border-bottom: 1px solid #e0e0e0;
+          border-bottom: 1px solid var(--alto);
           .back-btn {
             padding: 5px;
             cursor: pointer;
@@ -87,7 +87,7 @@
         margin-bottom: 0px;
       }
       a {
-        color: $main-col;
+        color: var(--orient);
         font-family: $sansmed;
       }
       .main {
@@ -96,7 +96,7 @@
           font-size: $font-rg;
           font-family: $sansmed;
           &.delete {
-            color: #eb5757;
+            color: var(--burnt-sienna);
           }
         }
         .closemodal-x {
@@ -107,14 +107,16 @@
           .back-btn {
             padding: 8px 5px;
             cursor: pointer;
+            svg path {
+              stroke: var(--timber-altra);
+            }
           }
         }
       }
       .sub {
-        color: $col-dk;
+        color: var(--dove-gray);
         .note {
-          color: #0bd98e;
-          // font-size: $font-sl;
+          color: var(--caribbean-green);
         }
       }
     }
@@ -127,7 +129,7 @@
         height: 20px;
         overflow: hidden;
         border-radius: 100%;
-        background: #f0f0f0;
+        background: var(--gallery-shaft);
         svg {
           width: 100%;
           height: 100%;
@@ -155,11 +157,11 @@
           font-family: $sansmed;
         }
         .sub {
-          color: $col-dk;
+          color: var(--dove-gray);
           display: inline;
         }
         a {
-          color: $main-col;
+          color: var(--orient);
           font-family: $sansmed;
         }
       }
@@ -175,7 +177,7 @@
         flex-direction: row;
         border-radius: 10px;
         margin-bottom: 20px;
-        border: 1px solid #f2f2f2;
+        border: 1px solid var(--alto);
         justify-content: space-between;
         .option_info {
           gap: 10px;
@@ -186,7 +188,7 @@
           }
           p {
             flex: 1;
-            color: $col-dk;
+            color: var(--dove-gray);
           }
         }
       }
@@ -206,7 +208,7 @@
           border-radius: 100%;
           align-items: center;
           justify-content: center;
-          border: 1px solid #f2f2f2;
+          border: 1px solid var(--alto);
           img {
             width: 100%;
             height: 100%;
@@ -214,25 +216,25 @@
           }
         }
         .edit_img {
-          color: $main-col;
+          color: var(--orient-altra);
           cursor: pointer;
           font-family: $sansmed;
         }
       }
       .generate_link_form {
         gap: 16px;
-        color: $col-dk;
+        color: var(--dove-gray);
         margin-bottom: 20px;
         flex-direction: column;
         .caret_down {
-          color: $col-br;
+          color: var(--timber-green);
         }
         input {
-          color: #000000;
           height: 60px;
           padding: 0px 20px;
           border-radius: 10px;
-          border: 1px solid #f2f2f2;
+          color: var(--timber-alto);
+          border: 1px solid var(--alto);
         }
 
         textarea {
@@ -245,8 +247,9 @@
           line-height: 1.5;
           overflow: hidden;
           border-radius: 10px;
+          color: var(--timber-alto);
           background: transparent;
-          border: 1px solid #f2f2f2;
+          border: 1px solid var(--alto);
         }
 
         .form_row {
@@ -280,7 +283,7 @@
             flex-direction: row;
             align-items: center;
             border-radius: 10px;
-            border: 1px solid #f2f2f2;
+            border: 1px solid var(--alto);
             justify-content: space-between;
           }
           .payment_link_preview {
@@ -319,7 +322,7 @@
             flex: none;
             width: 100%;
             i {
-              color: #6d6d6d;
+              color: var(--dove-gray);
               font-size: 20px;
             }
           }
@@ -327,10 +330,10 @@
         .warning_component {
           gap: 10px;
           padding: 15px;
-          color: #f2994a;
+          color: var(--jaffa-tussock);
           border-radius: 5px;
           flex-direction: row;
-          background: #fff6ec;
+          background: var(--serenade-bistre);
 
           .warn_icon {
             font-size: 24px;
@@ -341,14 +344,14 @@
 
       // Delete account Modal
       .optional_email {
-        color: $col-dk;
+        color: var(--dove-gray);
         margin-bottom: 20px;
         flex-direction: column;
         input {
           height: 60px;
           padding: 0px 20px;
           border-radius: 10px;
-          border: 1px solid #f2f2f2;
+          border: 1px solid var(--concrete);
         }
       }
 
@@ -370,14 +373,14 @@
             align-items: center;
             flex-direction: row;
             p {
-              color: #0bd98e;
+              color: var(--caribbean-green);
               font-size: $font-sm;
             }
             svg {
               width: 16px;
               height: 16px;
               cursor: pointer;
-              stroke: #bdbdbd;
+              stroke: var(--silver);
             }
           }
         }
@@ -399,7 +402,7 @@
             flex: 1;
             display: inline;
             a {
-              color: $main-col;
+              color: var(--orient);
               font-family: $sansmed;
             }
           }
@@ -423,7 +426,7 @@
           }
           p {
             font-size: $font-sm;
-            color: #6d6d6d;
+            color: var(--dove-gray);
             text-align: center;
           }
         }
@@ -441,24 +444,24 @@
         flex: 1;
         height: 100%;
         display: flex;
-        color: $col-wh;
+        color: var(--white);
         cursor: pointer;
         align-items: center;
         border-radius: 10px;
         font-family: $sansmed;
         justify-content: center;
         &.cancel_button {
-          background: #bdbdbd;
+          background: var(--silver-shaft);
         }
         &.continue_button {
-          background: $main-col;
+          background: var(--orient);
           &.copied {
-            color: $main-col;
-            background: #b4eaf4;
+            color: var(--orient);
+            background: var(--ice-cold);
           }
         }
         &.delete_button {
-          background: #eb5757;
+          background: var(--burnt-sienna);
         }
       }
       @include phone {

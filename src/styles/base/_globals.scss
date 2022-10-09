@@ -2,22 +2,19 @@ body {
   height: 100vh;
   padding: 0px;
   min-height: 100vh;
-  background: $bg;
+  background: var(--bg-color);
+  background: var(--bg-color);
+  // transition: background-color 0.2s ease-in;
 }
 
 #root {
   min-height: 100vh;
 }
 
-:root {
-  --nav-height: 87px;
-  --nav-height-sm: 79px;
-}
-
 .container {
   width: 100vw;
   display: flex;
-  color: $col-br;
+  color: var(--timber-altra);
   font-family: $sans;
   position: relative;
   flex-direction: column;

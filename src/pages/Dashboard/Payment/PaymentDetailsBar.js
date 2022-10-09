@@ -10,7 +10,7 @@ import millify from "millify";
 const PaymentDetailsBar = ({ slug }) => {
   const [width] = useWindowSize();
   const { network } = useSelector(state => state.app);
-  const { linkedStatus } = useSelector(state => state.config);
+  const { theme, linkedStatus } = useSelector(state => state.config);
 
   const [data, setData] = useState(null);
 
@@ -84,7 +84,14 @@ const PaymentDetailsBar = ({ slug }) => {
           <div className="row_member name">
             <p className="main_text">Link name</p>
             <p className="sub_text">
-              {isLoading ? <Skeleton height={14} /> : data?.name || "--"}
+              {isLoading ? (
+                <Skeleton
+                  height={14}
+                  baseColor={theme === "dark" ? "#2a2a2a" : ""}
+                />
+              ) : (
+                data?.name || "--"
+              )}
             </p>
           </div>
 
@@ -92,7 +99,10 @@ const PaymentDetailsBar = ({ slug }) => {
             <p className="main_text">Amount</p>
             <p className="sub_text">
               {isLoading ? (
-                <Skeleton height={14} />
+                <Skeleton
+                  height={14}
+                  baseColor={theme === "dark" ? "#2a2a2a" : ""}
+                />
               ) : !isNaN(data?.amount) ? (
                 millify(data?.amount, { precision: 3 })
               ) : (
@@ -104,7 +114,10 @@ const PaymentDetailsBar = ({ slug }) => {
           <div className="row_member asset">
             <p className="main_text">Asset</p>
             {isLoading ? (
-              <Skeleton height={14} />
+              <Skeleton
+                height={14}
+                baseColor={theme === "dark" ? "#2a2a2a" : ""}
+              />
             ) : data?.asset ? (
               <div className="asset_cont">
                 {data?.asset?.image_url && (
@@ -122,7 +135,10 @@ const PaymentDetailsBar = ({ slug }) => {
 
             {isLoading ? (
               <p className="sub_text">
-                <Skeleton height={14} />
+                <Skeleton
+                  height={14}
+                  baseColor={theme === "dark" ? "#2a2a2a" : ""}
+                />
               </p>
             ) : !!data?.is_one_time ? (
               <div
@@ -141,7 +157,10 @@ const PaymentDetailsBar = ({ slug }) => {
             <p className="main_text">Total revenue</p>
             <p className="sub_text">
               {isLoading ? (
-                <Skeleton height={14} />
+                <Skeleton
+                  height={14}
+                  baseColor={theme === "dark" ? "#2a2a2a" : ""}
+                />
               ) : !isNaN(data?.total_revenue) ? (
                 millify(data?.total_revenue, { precision: 3 })
               ) : (

@@ -3,12 +3,13 @@ import { NavLink } from "react-router-dom";
 import { AppIcons, NavIcons } from "../svg";
 import LogoutButton from "./Dropdown/logoutButton";
 import { useDispatch, useSelector } from "react-redux";
-import { closeSideTab } from "../features/config/configSlice";
+import { closeSideTab, setTheme } from "../features/config/configSlice";
 import { connectWallet } from "../features/modals/modalSlice";
+import Vectors from "../svg/Vectors";
 
 const SideTab = () => {
   const dispatch = useDispatch();
-  const { walletAddress, linkedStatus, openSidetab } = useSelector(
+  const { theme, walletAddress, linkedStatus, openSidetab } = useSelector(
     state => state.config
   );
 
@@ -20,6 +21,18 @@ const SideTab = () => {
     dispatch(closeSideTab());
   };
 
+  const toggleTheme = () => {
+    dispatch(setTheme(theme === "light" ? "dark" : "light"));
+
+    if (theme === "dark") {
+      localStorage.theme = "light";
+      document.documentElement.setAttribute("data-theme", "light");
+    } else {
+      localStorage.theme = "dark";
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  };
+
   return (
     <>
       <div className="sidetab_overlay" data-open-tab={openSidetab}>
@@ -29,7 +42,7 @@ const SideTab = () => {
             href="https://flashpay.finance/"
             className="app_logo"
           >
-            <AppIcons type="flashpay-main" />
+            <Vectors.logo dark={theme === "dark"} />
           </a>
 
           {!!walletAddress ? (
@@ -115,7 +128,13 @@ const SideTab = () => {
               <HorLine pad={44} />
               <div className="theme_config">
                 <p>Dark mode</p>
-                <NavIcons type="theme" />
+                <button
+                  className="dark-mode-switch"
+                  data-move={theme === "dark"}
+                  onClick={toggleTheme}
+                >
+                  <div className="dark-mode-switch__toggle" />
+                </button>
               </div>
             </div>
           </div>

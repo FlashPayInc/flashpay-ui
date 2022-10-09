@@ -11,12 +11,13 @@ import { SpinnerCircular } from "spinners-react";
 import millify from "millify";
 import { constrictAddr, timeAgo } from "../../../utils/helpers";
 import PaymentDetailsBar from "./PaymentDetailsBar";
+import Vectors from "../../../svg/Vectors";
 
 const Details = () => {
   let { slug } = useParams();
   const [width] = useWindowSize();
   const { network } = useSelector(state => state.app);
-  const { linkedStatus } = useSelector(state => state.config);
+  const { theme, linkedStatus } = useSelector(state => state.config);
 
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
@@ -66,7 +67,9 @@ const Details = () => {
             <EmptyStateContainer
               vector="not-found"
               text={`No payment link slug was provided`}
-            />
+            >
+              <Vectors.search dark={theme === "dark"} />
+            </EmptyStateContainer>
           ) : isLoading ? (
             <div
               style={{
@@ -180,7 +183,9 @@ const Details = () => {
             <EmptyStateContainer
               vector="no-transaction"
               text={`No transactions on this payment link yet`}
-            />
+            >
+              <Vectors.wallets dark={theme === "dark"} />
+            </EmptyStateContainer>
           )}
         </div>
       </div>

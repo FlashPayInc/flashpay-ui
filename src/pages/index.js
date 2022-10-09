@@ -20,12 +20,41 @@ import Preferences from "./Dashboard/Settings/Preferences";
 import ProfileSettings from "./Dashboard/Settings/ProfileSettings";
 
 import PaymentPortal from "./Portal";
+import { setTheme } from "../features/config/configSlice";
 
 const DashboardRoutes = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(FetchAssets());
+
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      dispatch(setTheme("dark"));
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      dispatch(setTheme("light"));
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", function (e) {
+        const colorScheme = e.matches ? "dark" : "light";
+
+        if (!!localStorage.theme) return;
+
+        if (colorScheme === "dark") {
+          dispatch(setTheme("dark"));
+          document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+          dispatch(setTheme("light"));
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      });
   }, []);
 
   return (

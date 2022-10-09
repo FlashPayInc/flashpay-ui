@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../features/modals/modalSlice";
 import { useWindowSize } from "@react-hook/window-size/throttled";
-import { AppIcons, Illustrations, MainIcons } from "../../svg";
+import { AppIcons, MainIcons } from "../../svg";
 import Icon from "../../svg/Icon";
 import HorLine from "../../common/HorLine";
+import Vectors from "../../svg/Vectors";
 
 const NotificationModal = () => {
-  const [width] = useWindowSize();
-
   const dispatch = useDispatch();
+  const [width] = useWindowSize();
+  const { theme } = useSelector(state => state.config);
 
   return (
     <div className={`modal_container ${width < 570 ? "fill-screen" : ""}`}>
@@ -62,7 +63,7 @@ const NotificationModal = () => {
           ) : (
             <div className="empty_notificationn">
               <div className="empty_illustration">
-                <Illustrations type="empty-alert" />
+                <Vectors.emptyMail dark={theme === "dark"} />
               </div>
               <p>You have no notifications yet.</p>
             </div>

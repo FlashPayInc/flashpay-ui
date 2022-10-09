@@ -1,15 +1,111 @@
-$bg: #fff;
+:root,
+[data-theme="light"] {
+  --black: #000;
+  --white: #fff;
+  --alto: #e0e0e0;
+  --bg-color: #fff;
+  --derby: #ffedd8;
+  --altra: #e0e0e0;
+  --tango: #f4861e;
+  --jaffa: #f2994a;
+  --orient: #006174;
+  --silver: #bdbdbd;
+  --cosmos: #ffd7d7;
+  --onahau: #cef7ff;
+  --mercury: #e8e8e8;
+  --gallery: #f0f0f0;
+  --seashell: #f1f1f1;
+  --concrete: #f2f2f2;
+  --ice-cold: #b4eaf4;
+  --serenade: #fff6ec;
+  --alabaster: #fafafa;
+  --dove-gray: #6d6d6d;
+  --snowy-mint: #d7ffdb;
+  --mine-shaft: #2d2d2d;
+  --bright-red: #ab0000;
+  --periwinkle: #d0dcff;
+  --active-text: #16292d;
+  --blue-ribbon: #063ff1;
+  --burnt-sienna: #eb5757;
+  --timber-green: #16292d;
+  --frosted-mint: #e5fff6;
+  --caribbean-green: #0bd98e;
+  --japenese-laurel: #00ab11;
 
-$col-br: #16292d;
-$col-dk: #6d6d6d;
-$col-wh: #fff;
+  --rhino: #263b58;
+  --celtic: #1a2d25;
+  --bistre: #382b1e;
+  --tussock: #c98d3d;
+  --sea-green: #319760;
+  --armadillo: #473f36;
+  --cocoa-bean: #4e1c23;
+  --jordy-blue: #79b4ed;
+  --cloud-burst: #283766;
 
-$bg-a: #16292d;
-$bg-b: #fafafa;
+  --timber-altra: #16292d;
+  --none-alto: transparent;
+  --gallery-alto: #ebebeb;
+  --orient-caribbean: #006174;
+  --orient-snowy: #006174;
+  --orient-altra: #006174;
+  --black-white: #000;
+  --dove-mercury: #6d6d6d;
+  --timber-white: #16292d;
+  --timber-caribbean: #16292d;
+  --orient-white: #006174;
+  --white-shaft: #fff;
+  --gallery-shaft: #f0f0f0;
+  --silver-shaft: #bdbdbd;
+  --white-alabaster: #fff;
 
-$col-a: #e5fff6;
+  --jaffa-tussock: #f2994a;
+  --derby-bistre: #ffedd8;
+  --serenade-bistre: #fff6ec;
+  --red-cocoa: #ab0000;
+  --cosmos-mauvelous: #ffd7d7;
+  --japanese-sea: #00ab11;
+  --snowy-celtic: #d7ffdb;
+  --orient-jordy: #006174;
+  --onahau-rhino: #cef7ff;
+  --blue-periwinkle: #063ff1;
+  --periwinkle-cloud: #d0dcff;
+}
+[data-theme="dark"] {
+  --alto: #333;
+  --mercury: #333;
+  --bg-color: #141316;
+  --alabaster: #1b1a1d;
+  --timber-green: #fff;
+  --dove-gray: #a1a1a1;
 
-$main-col: #006174;
+  --timber-altra: #e0e0e0;
+  --none-alto: #333;
+  --gallery-alto: #333;
+  --orient-caribbean: #0bd98e;
+  --orient-snowy: #d7ffdb;
+  --orient-altra: #e0e0e0;
+  --black-white: #fff;
+  --dove-mercury: #e8e8e8;
+  --timber-white: #fff;
+  --timber-caribbean: #0bd98e;
+  --orient-white: #fff;
+  --white-shaft: #2d2d2d;
+  --gallery-shaft: #2d2d2d;
+  --silver-shaft: #2d2d2d;
+  --white-alabaster: #1b1a1d;
+
+  --jaffa-tussock: #c98d3d;
+  --derby-bistre: #382b1e;
+  --serenade-bistre: #382b1e;
+  --red-cocoa: #4e1c23;
+  --cosmos-mauvelous: #f18a8a;
+  --japanese-sea: #319760;
+  --snowy-celtic: #1a2d25;
+  --orient-jordy: #79b4ed;
+  --onahau-rhino: #253b58;
+  --blue-periwinkle: #d0dcff;
+  --periwinkle-cloud: #283766;
+}
 
 // Dimensions
 $font-sl: 14px;
@@ -19,12 +115,9 @@ $font-md: 24px;
 $font-bg: 30px;
 $font-lg: 48px;
 $font-xl: 64px;
-
 $nav-height: 87px;
 $nav-height-sm: 79px;
-
 $sidebar_width: 270px;
-
 $padding-horizontal: 7vw;
 $padding-horizontal-phone: 20px;
 

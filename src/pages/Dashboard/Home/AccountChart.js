@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useSelector } from "react-redux";
 
 ChartJS.register(
   CategoryScale,
@@ -21,60 +22,62 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      grid: {
-        drawOnChartArea: false,
+const AccountChart = ({ data }) => {
+  const { theme } = useSelector(state => state.config);
+
+  const options = {
+    plugins: {
+      legend: {
+        display: false,
       },
     },
-    y: {
-      beginAtZero: true,
-      ticks: {
-        min: 0,
-        max: 1500,
-        stepSize: 500,
+    parsing: {
+      xAxisKey: "asset",
+      yAxisKey: "amount",
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        grid: {
+          borderColor: theme === "dark" ? "#333" : "#e0e0e0",
+          drawOnChartArea: false,
+          tickColor: "transparent",
+        },
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          min: 0,
+          max: 1500,
+          stepSize: 500,
+        },
+        grid: {
+          color: theme === "dark" ? "#333" : "#e0e0e0",
+          borderColor: theme === "dark" ? "#333" : "#e0e0e0",
+          tickColor: "transparent",
+        },
       },
     },
-  },
-};
+  };
 
-const labels = !true
-  ? [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "Augut",
-      "September",
-    ]
-  : ["Jan", "Feb", "Mar", "Apr", "Ma", "Jun", "Jul", "Aug", "Sep"];
+  if (!data) return;
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: [65, 1200, 800, 381, 900, 1700, 400, 600, 81],
-      borderColor: "#0BD98E",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-      tension: 0.28,
-    },
-  ],
-};
+  const chartData = {
+    // labels,
+    // labels: data.map(i => i?.asset),
+    datasets: [
+      {
+        data,
+        tension: 0.28,
+        label: "Amount",
+        borderColor: "#0BD98E",
+        backgroundColor: "#006174",
+      },
+    ],
+  };
 
-const AccountChart = () => {
-  return <Line options={options} data={data} />;
+  return <Line options={options} data={chartData} />;
 };
 
 export default AccountChart;

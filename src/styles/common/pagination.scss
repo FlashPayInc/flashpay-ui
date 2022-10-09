@@ -13,21 +13,25 @@
     border-radius: 8px;
     align-content: center;
     border: 1px solid rgba(100, 100, 100, 0.4);
+
+    background: var(--alabaster);
     &__item {
       height: 36px;
       display: flex;
       opacity: 0.7;
       cursor: pointer;
-      padding: 0px 12px;
+      padding: 0px 14px;
       align-items: center;
+      font-family: $sansmed;
       justify-content: center;
+      color: var(--timber-white);
       border-right: 1px solid rgba(100, 100, 100, 0.4);
 
       &.nav-btn {
         gap: 2px;
         align-items: center;
         padding: 0px 8px;
-        color: $main-col;
+        color: var(--orient-caribbean);
         flex-direction: row;
         p {
           font-family: $sansmed;
@@ -36,17 +40,14 @@
           margin-bottom: -1px;
         }
         &[data-inactive="true"] {
-          color: $col-dk;
+          color: var(--dove-mercury);
           cursor: not-allowed;
-        }
-        &[data-hidden="true"] {
-          display: none;
         }
       }
 
       &[data-active="true"] {
         font-size: 18px;
-        color: $main-col;
+        color: var(--orient-caribbean);
         font-family: $sansmed;
       }
       &[data-hidden="true"] {

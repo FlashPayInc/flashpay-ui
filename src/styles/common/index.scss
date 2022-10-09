@@ -9,7 +9,7 @@ nav {
   align-items: center;
   justify-content: flex-end;
   justify-content: space-between;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--alto);
 
   height: $nav-height;
   @include phone {
@@ -39,14 +39,16 @@ nav {
     .network-menu {
       width: 100%;
       min-width: 50px;
-      background: $bg;
+      color: var(--timber-altra);
+      background: var(--bg-color);
       overflow: hidden;
       border-radius: 6px;
       padding: 0px 0px !important;
+      border: 1px solid var(--none-alto);
       .divider {
         width: 100%;
         height: 1px;
-        background: rgba($color: #000000, $alpha: 0.1);
+        background: var(--alto);
       }
       .menu-item {
         padding: 10px 10px;
@@ -56,9 +58,12 @@ nav {
           font-size: 15px;
           text-align: center;
           &[data-active="true"] {
-            color: $main-col;
+            color: var(--orient-caribbean);
             font-family: $sansmed;
           }
+        }
+        &:hover {
+          background: var(--gallery-alto);
         }
       }
     }
@@ -69,13 +74,13 @@ nav {
         gap: 6px;
         display: flex;
         cursor: pointer;
-        color: $main-col;
+        color: var(--orient-snowy);
         padding: 2.5px 10px;
         align-items: center;
         border-radius: 6px;
         justify-content: center;
         text-transform: capitalize;
-        border: 1px solid $main-col;
+        border: 1px solid var(--orient-snowy);
         p {
           font-size: 14px;
         }
@@ -89,7 +94,7 @@ nav {
         }
         svg {
           width: 13px;
-          stroke: $main-col;
+          stroke: var(--orient-snowy);
         }
       }
     }
@@ -147,20 +152,19 @@ nav {
   }
 
   .text {
-    opacity: 0.6;
-    color: $col-br;
+    color: var(--dove-gray);
     display: block;
     font-size: 17px;
     max-width: 443px;
     text-align: center;
     font-family: $sansmed;
     a {
-      color: $main-col;
+      color: var(--orient-caribbean);
       font-family: $sansmed;
     }
 
     &.bold_text {
-      color: #16292d;
+      color: var(--timber-green);
       font-size: $font-bg;
       font-family: $sansbold;
       text-transform: uppercase;
@@ -192,9 +196,9 @@ nav {
   button {
     display: flex;
     border-radius: 10px;
-    background: $main-col;
+    background: var(--orient);
     flex-direction: row;
-    color: $col-wh;
+    color: var(--white);
     padding: 16px 20px;
     gap: 10px;
     cursor: pointer;
@@ -236,13 +240,13 @@ nav {
       justify-content: space-between;
       .link_name {
         span {
-          color: #16292d;
+          color: var(--timber-green);
           font-family: $sansmed;
         }
       }
       .set_link {
         gap: 10px;
-        color: #16292d;
+        color: var(--timber-green);
         align-items: center;
         flex-direction: row;
         p {
@@ -263,13 +267,13 @@ nav {
         display: flex;
         align-items: center;
         cursor: pointer;
-        color: $main-col;
+        color: var(--orient);
         padding: 14px 40px;
         border-radius: 10px;
         border-radius: 10px;
         flex-direction: row;
-        background: $main-col;
-        background: #b4eaf4;
+        background: var(--orient);
+        background: var(--ice-cold);
         p {
           font-size: $font-sm;
           font-family: $sansmed;
@@ -277,15 +281,15 @@ nav {
       }
 
       .generate_link {
-        color: $col-wh;
+        color: var(--white);
         padding: 14px 30px;
-        background: $main-col;
+        background: var(--orient);
       }
     }
   }
 
   .sub {
-    color: #6d6d6d;
+    color: var(--dove-gray);
     margin-top: 9px;
   }
 
@@ -306,7 +310,7 @@ nav {
       white-space: nowrap;
       flex-direction: column;
       justify-content: space-between;
-      border: 1px solid #f2f2f2;
+      border: 1px solid var(--alto);
       @include tablet {
         flex: 1;
         max-width: none;
@@ -341,7 +345,7 @@ nav {
       }
       .sub_text {
         width: 100%;
-        color: #000;
+        color: var(--black-white);
         overflow: hidden;
         font-family: $sansmed;
         text-overflow: ellipsis;
@@ -370,21 +374,14 @@ nav {
         border-radius: 30px;
         font-size: 12px;
         justify-content: center;
-        &.failed {
-          color: #ab0000;
-          background: #ffd7d7;
-        }
-        &.successful {
-          color: #00ab11;
-          background: #d7ffdb;
-        }
+
         &.continual {
-          color: $main-col;
-          background: #cef7ff;
+          color: var(--orient-jordy);
+          background: var(--onahau-rhino);
         }
         &.onetime {
-          color: #063ff1;
-          background: #d0dcff;
+          color: var(--blue-periwinkle);
+          background: var(--periwinkle-cloud);
         }
       }
     }
@@ -421,7 +418,7 @@ nav {
   width: 100%;
   .hor_line {
     width: 100%;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--alto);
   }
 }
 
@@ -443,23 +440,24 @@ nav {
     height: max-content;
     border-radius: 5px;
     position: absolute;
-    background: #fff;
+    background: var(--bg-color);
     flex-direction: column;
     overflow: hidden scroll;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--alto);
 
     &.solid-border {
+      background: var(--alabaster);
       padding: 10px 20px !important;
-      border: 1.2px solid #ccc !important;
+      // border: 1.2px solid var(--silver) !important;
     }
 
     .content {
       gap: 10px;
       width: 100%;
-      color: $col-dk;
+      color: var(--dove-gray);
       flex-direction: column;
       .header {
-        color: #0bd98e;
+        color: var(--caribbean-green);
       }
       .content_list {
         gap: 18px;
@@ -468,10 +466,17 @@ nav {
         flex-direction: column;
       }
       .list_item {
+        gap: 10px;
         cursor: pointer;
+        img {
+          width: 25px;
+          height: 25px;
+          border-radius: 100%;
+          object-fit: cover;
+        }
         &.current,
         &.current p {
-          color: $main-col;
+          color: var(--orient-caribbean);
           font-family: $sansmed;
         }
       }
@@ -485,6 +490,7 @@ nav {
     justify-content: center;
     p {
       font-family: $sansmed;
+      color: var(--orient-white);
     }
   }
 
@@ -493,7 +499,7 @@ nav {
     .drop_down_list {
       padding: 15px 20px;
       border-radius: 10px;
-      border: 1px solid #f2f2f2;
+      border: 1px solid var(--alto);
       .content {
         gap: 15px;
       }
@@ -519,13 +525,13 @@ nav {
             align-items: center;
             flex-direction: row;
             p {
-              color: #0bd98e;
+              color: var(--caribbean-green);
               font-size: $font-sm;
             }
             svg {
               width: 16px;
               height: 16px;
-              stroke: #bdbdbd;
+              stroke: var(--silver);
             }
           }
         }
@@ -547,7 +553,7 @@ nav {
             flex: 1;
             display: inline;
             a {
-              color: $main-col;
+              color: var(--orient);
               font-family: $sansmed;
             }
           }
@@ -568,7 +574,7 @@ nav {
           }
           p {
             font-size: $font-sm;
-            color: #6d6d6d;
+            color: var(--dove-gray);
             text-align: center;
           }
         }
@@ -581,7 +587,7 @@ nav {
     .drop_down_list {
       padding: 15px 10px;
       border-radius: 10px;
-      border: 1px solid #f2f2f2;
+      border: 1px solid var(--alto);
       .content {
         gap: 15px;
         .list_item {

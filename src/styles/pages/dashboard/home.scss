@@ -23,8 +23,9 @@
   border-radius: 5px;
   overflow: hidden;
   flex-direction: column;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--alto);
   position: relative;
+  background: var(--white-alabaster);
 
   @include tablet {
     border: none;
@@ -45,7 +46,7 @@
       gap: 6px;
       padding: 10px 5px;
       cursor: pointer;
-      color: #6d6d6d;
+      color: var(--dove-gray);
       align-items: center;
       flex-direction: row;
       height: max-content;

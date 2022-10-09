@@ -1,9 +1,10 @@
 import HorLine from "../HorLine";
 import { DropDownContent } from "./data";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useOutsideAlerter } from "../../utils/helpers";
+import { useSelector } from "react-redux";
 
-const SelectMenu = ({ type, curOption, UpdateOption }) => {
+const SelectMenu = ({ type, assets, curOption, UpdateOption }) => {
   const wrapperRef = useRef(null);
   const dropDownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,7 @@ const SelectMenu = ({ type, curOption, UpdateOption }) => {
           className="asset_revenue"
           onClick={() => setIsOpen(p => !p)}
         >
-          <p>{curOption} revenue</p>
+          <p>{curOption?.short_name} revenue</p>
           <i className="ph-caret-down-bold"></i>
         </div>
       ) : type === "timeframe" ? (
@@ -42,28 +43,46 @@ const SelectMenu = ({ type, curOption, UpdateOption }) => {
         style={{ display: isOpen ? "flex" : "none" }}
       >
         <div className="content">
-          <div className="header">All</div>
-          <HorLine />
+          {/* <div className="header">All</div> */}
+          {/* <HorLine /> */}
           <div className="content_list">
-            {DropDownContent[type]?.map((category, i, arr) => (
-              <Fragment key={i}>
-                {category.map((item, index) => (
-                  <div
-                    className={`list_item ${
-                      curOption === item ? "current" : ""
-                    }`}
-                    key={index + item}
-                    onClick={() => {
-                      closeDropdown();
-                      UpdateOption(item);
-                    }}
-                  >
-                    {item}
-                  </div>
+            {type === "assets-revenue"
+              ? assets?.map((item, i, arr) => (
+                  <Fragment key={i}>
+                    <div
+                      className={`list_item ${
+                        curOption === item ? "current" : ""
+                      }`}
+                      onClick={() => {
+                        closeDropdown();
+                        UpdateOption(item);
+                      }}
+                    >
+                      <img src={item?.image_url} alt="" />
+                      <p>{item?.short_name}</p>
+                    </div>
+                    {i + 1 < arr.length ? <HorLine /> : null}
+                  </Fragment>
+                ))
+              : DropDownContent[type]?.map((category, i, arr) => (
+                  <Fragment key={i}>
+                    {category.map((item, index) => (
+                      <div
+                        className={`list_item ${
+                          curOption === item ? "current" : ""
+                        }`}
+                        key={index + item}
+                        onClick={() => {
+                          closeDropdown();
+                          UpdateOption(item);
+                        }}
+                      >
+                        {item}
+                      </div>
+                    ))}
+                    {i + 1 < arr.length ? <HorLine /> : null}
+                  </Fragment>
                 ))}
-                {i + 1 < arr.length ? <HorLine /> : null}
-              </Fragment>
-            ))}
           </div>
         </div>
       </div>

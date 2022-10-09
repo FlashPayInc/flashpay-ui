@@ -15,7 +15,7 @@
       align-items: center;
       flex-direction: row;
       border-radius: 10px;
-      border: 1px solid #e9e9e9;
+      border: 1px solid var(--mercury);
       justify-content: space-between;
       .icon_name {
         gap: 10px;
@@ -35,7 +35,7 @@
       height: 54px;
       padding: 0px 10px;
       border-radius: 10px;
-      border: 1px solid #e9e9e9;
+      border: 1px solid var(--mercury);
     }
   }
 
@@ -44,8 +44,8 @@
     padding: 18px 15px;
     border-radius: 5px;
     flex-direction: row;
-    color: #f2994a;
-    background: #fff6ec;
+    color: var(--jaffa-tussock);
+    background: var(--serenade-bistre);
 
     .warn_icon {
       font-size: 24px;
@@ -56,9 +56,9 @@
   .continue_button {
     display: flex;
     border-radius: 10px;
-    background: $main-col;
+    background: var(--orient);
     flex-direction: row;
-    color: $col-wh;
+    color: var(--white);
     padding: 16px 50px;
     cursor: pointer;
   }

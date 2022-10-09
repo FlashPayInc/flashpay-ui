@@ -56,7 +56,7 @@
       left: 0px;
       width: 150px;
       max-width: 150px;
-      padding-left: 10px;
+      padding-left: 20px;
       p {
         width: 100%;
         overflow: hidden;
@@ -109,20 +109,20 @@
         border-radius: 30px;
         font-size: $font-sl;
         &.failed {
-          color: #ab0000;
-          background: #ffd7d7;
+          background: var(--red-cocoa);
+          color: var(--cosmos-mauvelous);
         }
         &.successful {
-          color: #00ab11;
-          background: #d7ffdb;
+          color: var(--japenese-sea);
+          background: var(--snowy-celtic);
         }
         &.continual {
-          color: $main-col;
-          background: #cef7ff;
+          color: var(--orient-jordy);
+          background: var(--onahau-rhino);
         }
         &.onetime {
-          color: #063ff1;
-          background: #d0dcff;
+          color: var(--blue-periwinkle);
+          background: var(--periwinkle-cloud);
         }
       }
     }
@@ -134,32 +134,32 @@
       justify-content: center;
       p {
         font-family: $sansmed;
-        color: $main-col;
+        color: var(--orient-caribbean);
         text-align: center;
       }
     }
   }
   .table_header {
     .row_member {
-      color: #6d6d6d;
+      color: var(--dove-gray);
       font-size: $font-sl;
       text-transform: uppercase;
     }
     .amt {
-      background: #fff;
+      background: var(--bg-color);
     }
   }
 
   .table_row {
     &:nth-child(odd) {
       .amt {
-        background: #fff;
+        background: var(--bg-color);
       }
     }
     &:nth-child(even) {
-      background: #f9f9f9;
+      background: var(--alabaster);
       .amt {
-        background: #f9f9f9;
+        background: var(--alabaster);
       }
     }
   }

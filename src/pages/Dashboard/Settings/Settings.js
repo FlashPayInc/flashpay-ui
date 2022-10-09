@@ -1,7 +1,6 @@
 import React from "react";
 import TopBar from "../../../common/TopBar";
 import ProfileBar from "../../../common/ProfileBar";
-import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { NavLink, Outlet } from "react-router-dom";
 import { useWindowSize } from "@react-hook/window-size/throttled";
 

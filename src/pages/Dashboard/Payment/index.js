@@ -11,11 +11,12 @@ import axios from "axios";
 import { SpinnerCircular } from "spinners-react";
 import { useEffect } from "react";
 import millify from "millify";
+import Vectors from "../../../svg/Vectors";
 
 const PaymentLinks = () => {
   let navigate = useNavigate();
   const { network } = useSelector(state => state.app);
-  const { reload, linkedStatus, walletAddress } = useSelector(
+  const { theme, reload, linkedStatus, walletAddress } = useSelector(
     state => state.config
   );
 
@@ -180,7 +181,9 @@ const PaymentLinks = () => {
               vector="generatelinks"
               text={`When you create a Payment link, it would so show here.`}
               buttonText={"Generate Link"}
-            />
+            >
+              <Vectors.connectivity dark={theme === "dark"} />
+            </EmptyStateContainer>
           )}
         </div>
       </div>

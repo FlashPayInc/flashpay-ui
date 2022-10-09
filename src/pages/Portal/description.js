@@ -1,17 +1,15 @@
-import millify from "millify";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { AppIcons } from "../../svg";
-import Lottie from "react-lottie";
-import brokenData from "../../lotties/Broken-Link.json";
-import loadingTxns from "../../lotties/Loading.json";
-import { useQuery } from "react-query";
 import axios from "axios";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import millify from "millify";
 import Connect from "./connect";
-import { InitializeTxn } from "../../features/requests/txnsReqs";
+import { useState } from "react";
+import Lottie from "react-lottie";
+import { AppIcons } from "../../svg";
+import { useQuery } from "react-query";
+import { NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import loadingTxns from "../../lotties/Loading.json";
+import brokenData from "../../lotties/Broken-Link.json";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const brokenLink = {
   loop: false,
@@ -32,11 +30,9 @@ const fetchingTxns = {
 
 const Description = () => {
   let { id } = useParams();
-  const dispatch = useDispatch();
   const [amount, setAmount] = useState(1);
   const [loggedIn, setLoggedIn] = useState(true);
   const [failedImg, setFailedImg] = useState(false);
-  const { walletAddress } = useSelector(state => state.config);
   const { isLoading, error, data } = useQuery(
     "payment-portal",
     () =>
@@ -52,25 +48,6 @@ const Description = () => {
       refetchOnWindowFocus: false,
     }
   );
-
-  const handlePayment = () => {
-    if (!walletAddress) {
-      setLoggedIn(false);
-      return;
-    }
-
-    dispatch(
-      InitializeTxn({
-        amount,
-        sender: walletAddress,
-        payment_link: data?.uid,
-        network: data?.network,
-        recipient: data?.creator,
-        pub_key: data?.public_key,
-        asset: data?.asset?.asa_id,
-      })
-    );
-  };
 
   const LinkNotFound = () => (
     <>
@@ -99,7 +76,10 @@ const Description = () => {
       {!id ? (
         <LinkNotFound />
       ) : !loggedIn ? (
-        <Connect data={data} amount={amount} />
+        <Connect
+          data={data}
+          amount={data?.has_fixed_amount ? data?.amount : amount}
+        />
       ) : isLoading ? (
         <>
           <div className="payment_illustration">
@@ -132,7 +112,10 @@ const Description = () => {
           </div>
 
           {data?.has_fixed_amount ? (
-            <button className="continue_to_pay" onClick={handlePayment}>
+            <button
+              className="continue_to_pay"
+              onClick={() => setLoggedIn(false)}
+            >
               {`Pay ${millify(Number(data?.amount), {
                 precision: 3,
               })} ${data?.asset?.short_name}`}
@@ -157,7 +140,10 @@ const Description = () => {
                   placeholder="Amount"
                 />
               </div>
-              <button className="continue_to_pay" onClick={handlePayment}>
+              <button
+                className="continue_to_pay"
+                onClick={() => setLoggedIn(false)}
+              >
                 Pay
               </button>
             </>

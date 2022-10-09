@@ -10,10 +10,13 @@ import axios from "axios";
 import { SpinnerCircular } from "spinners-react";
 import millify from "millify";
 import { constrictAddr, timeAgo } from "../../../utils/helpers";
+import Vectors from "../../../svg/Vectors";
 
 const Transactions = () => {
   const { network } = useSelector(state => state.app);
-  const { linkedStatus, walletAddress } = useSelector(state => state.config);
+  const { theme, linkedStatus, walletAddress } = useSelector(
+    state => state.config
+  );
 
   const [page, setPage] = React.useState(1);
 
@@ -156,7 +159,9 @@ const Transactions = () => {
               vector="handshake"
               link={{ path: "/payment-links", text: "payment links" }}
               text={`When a transaction has been performed, you will see them here. Share <p id="navlink">payment links</p> now.`}
-            />
+            >
+              <Vectors.social dark={theme === "dark"} />
+            </EmptyStateContainer>
           )}
         </div>
       </div>

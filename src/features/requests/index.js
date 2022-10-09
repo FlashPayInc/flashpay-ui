@@ -85,7 +85,10 @@ export const ConnectWalletAsync = slug => async dispatch => {
       asset: slug?.asset,
       amount: slug?.amount,
       pub_key: slug?.pub_key,
+      network: slug?.network,
+      provider: slug.provider,
       recipient: slug?.recipient,
+      payment_link: slug?.payment_link,
     };
   };
 
@@ -95,16 +98,15 @@ export const ConnectWalletAsync = slug => async dispatch => {
         shouldSelectOneAccount: true,
       });
 
-      dispatch(
-        setWallet({
-          walletAddress: accounts[0].address,
-          walletProvider: slug.provider,
-        })
-      );
-
       if (slug?.connectType === "payment") {
         dispatch(InitializeTxn(paymentData(accounts[0].address)));
       } else {
+        dispatch(
+          setWallet({
+            walletAddress: accounts[0].address,
+            walletProvider: slug.provider,
+          })
+        );
         dispatch(verifyAcct({ loading: true }));
         dispatch(VerifyWalletAsync(accounts[0].address));
       }
@@ -116,15 +118,16 @@ export const ConnectWalletAsync = slug => async dispatch => {
       connector.on("connect", (error, payload) => {
         if (error) throw error;
         const { accounts } = payload.params[0];
-        dispatch(
-          setWallet({
-            walletAddress: accounts[0],
-            walletProvider: slug.provider,
-          })
-        );
+
         if (slug?.connectType === "payment") {
           dispatch(InitializeTxn(paymentData(accounts[0])));
         } else {
+          dispatch(
+            setWallet({
+              walletAddress: accounts[0],
+              walletProvider: slug.provider,
+            })
+          );
           dispatch(verifyAcct({ loading: true }));
           dispatch(VerifyWalletAsync(accounts[0]));
         }

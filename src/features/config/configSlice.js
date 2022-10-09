@@ -7,9 +7,10 @@ const initialState = {
   hideKeys: JSON.parse(localStorage.getItem("hideKeys")),
   walletAddress: localStorage.getItem("walletAddress"),
   walletProvider: localStorage.getItem("walletProvider"),
-  darkTheme: localStorage.getItem("mode") === "dark" ? true : false,
   linkedStatus:
     localStorage.getItem("linkedStatus") === "linked" ? true : false,
+
+  theme: localStorage?.theme,
 };
 
 export const configSlice = createSlice({
@@ -18,6 +19,10 @@ export const configSlice = createSlice({
   reducers: {
     reloadPage: (state, action) => {
       state.reload = action.payload;
+    },
+
+    setTheme: (state, action) => {
+      state.theme = action.payload;
     },
 
     hideApiKeys: (state, action) => {
@@ -58,6 +63,7 @@ export const configSlice = createSlice({
 });
 
 export const {
+  setTheme,
   setWallet,
   reloadPage,
   openSideTab,
