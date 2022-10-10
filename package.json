@@ -5,6 +5,7 @@
   "dependencies": {
     "@json-rpc-tools/utils": "^1.7.6",
     "@msgpack/msgpack": "^2.7.2",
+    "@perawallet/connect": "0.2.2",
     "@randlabs/myalgo-connect": "^1.2.0",
     "@react-hook/window-size": "^3.0.7",
     "@reduxjs/toolkit": "^1.8.2",

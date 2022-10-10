@@ -136,8 +136,8 @@ const Transactions = () => {
                           <a
                             target="_blank"
                             href={`https://${
-                              network === "testnet" ? "testnet" : ""
-                            }.algoexplorer.io/tx/${txn?.txn_hash}`}
+                              network === "testnet" ? "testnet." : ""
+                            }algoexplorer.io/tx/${txn?.txn_hash}`}
                           >
                             <AppIcons type="export" />
                           </a>

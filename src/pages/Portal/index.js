@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AppIcons } from "../../svg";
 import Vectors from "../../svg/Vectors";
+import { peraWalletPortal } from "../../utils";
 import Description from "./description";
 
 const Portal = () => {
+  useEffect(() => {
+    // Reconnect to the session when the component is mounted
+    peraWalletPortal.disconnect();
+
+    return () => {
+      console.log("Disconnected PeraPortal");
+      peraWalletPortal.disconnect();
+    };
+  }, []);
+
   return (
     <div className="payment_portal_container">
       <div className="section_block side_decor">

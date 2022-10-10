@@ -57,7 +57,7 @@ const GenerateLinkModal = ({ data }) => {
   };
 
   const handleSubmit = () => {
-    if (!curAsset?.asa_id) return;
+    if (!curAsset?.asa_id && curAsset?.asa_id !== 0) return;
     if (!name) {
       setValidName(false);
       return;
@@ -116,10 +116,6 @@ const GenerateLinkModal = ({ data }) => {
               <p>Generate link</p>
             </>
           )}
-        </div>
-        <div className="sub">
-          Table the discussion; I just wanted to give you a heads-up, and run it
-          up the flag pole for a performance review.
         </div>
       </div>
 

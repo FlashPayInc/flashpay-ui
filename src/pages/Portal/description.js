@@ -136,13 +136,23 @@ const Description = () => {
                   type="number"
                   min={0}
                   value={amount}
-                  onChange={e => setAmount(e.target.value)}
+                  onChange={e => {
+                    console.log(e);
+                    setAmount(e.target.value);
+                  }}
+                  // onKeyUp={e => {
+                  //   if (isNaN(e.key)) return;
+                  //   setAmount(e.key);
+                  // }}
                   placeholder="Amount"
                 />
               </div>
               <button
                 className="continue_to_pay"
-                onClick={() => setLoggedIn(false)}
+                onClick={() => {
+                  if (amount <= 0) return;
+                  setLoggedIn(false);
+                }}
               >
                 Pay
               </button>

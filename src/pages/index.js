@@ -20,10 +20,32 @@ import Preferences from "./Dashboard/Settings/Preferences";
 import ProfileSettings from "./Dashboard/Settings/ProfileSettings";
 
 import PaymentPortal from "./Portal";
-import { setTheme } from "../features/config/configSlice";
+import { setTheme, setWallet } from "../features/config/configSlice";
+import { peraWallet } from "../utils";
 
 const DashboardRoutes = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Reconnect to the session when the component is mounted
+    peraWallet
+      .reconnectSession()
+      .then(accounts => {
+        peraWallet.connector.on("disconnect", () => {
+          peraWallet.disconnect();
+          localStorage.clear();
+          window.location.reload();
+        });
+
+        if (accounts.length) {
+          setWallet({
+            walletAddress: accounts[0],
+            walletProvider: "pera",
+          });
+        }
+      })
+      .catch(e => console.log(e));
+  }, []);
 
   useEffect(() => {
     dispatch(FetchAssets());
@@ -81,12 +103,14 @@ const DashboardRoutes = () => {
   );
 };
 
-const TxnPortal = () => (
-  <>
-    <PortalModals />
-    <PaymentPortal />
-  </>
-);
+const TxnPortal = () => {
+  return (
+    <>
+      <PortalModals />
+      <PaymentPortal />
+    </>
+  );
+};
 
 const MainApp = () => {
   return (

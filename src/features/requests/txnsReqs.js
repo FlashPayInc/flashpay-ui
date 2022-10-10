@@ -4,6 +4,8 @@ import {
   myAlgoConnect,
   createTransaction,
   connector,
+  peraWallet,
+  peraWalletPortal,
 } from "../../utils";
 import _ from "lodash";
 import axios from "axios";
@@ -71,29 +73,10 @@ export const ProcessPayment = slug => async dispatch => {
         1000
       );
     } else if (slug?.provider === "pera") {
-      if (!connector.connected) {
-        console.log("Not connected");
-        return;
-      }
-
-      const txnsToSign = [
-        {
-          txn: Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString(
-            "base64"
-          ),
-          message: `Sign transaction to complete payment on FlashPay`,
-        },
-      ];
-
-      const requestParams = [txnsToSign];
-      const request = formatJsonRpcRequest("algo_signTxn", requestParams);
-      const result = await connector.sendCustomRequest(request);
-      const decodedResult = result.map(element => {
-        return element ? new Uint8Array(Buffer.from(element, "base64")) : null;
-      });
+      const signedTxn = await peraWalletPortal.signTransaction([[{ txn }]]);
 
       submittedTxn = await algodClient(slug?.network)
-        .sendRawTransaction(decodedResult)
+        .sendRawTransaction(signedTxn)
         .do();
 
       await waitForConfirmation(
@@ -119,7 +102,7 @@ export const ProcessPayment = slug => async dispatch => {
         });
     }
   } catch (err) {
-    console.log(err?.message);
+    console.log(err);
     dispatch(txnFailed());
   }
 };

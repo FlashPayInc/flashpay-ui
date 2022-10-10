@@ -140,7 +140,7 @@ const PaymentDetailsBar = ({ slug }) => {
                   baseColor={theme === "dark" ? "#2a2a2a" : ""}
                 />
               </p>
-            ) : !!data?.is_one_time ? (
+            ) : !!data?.asset ? (
               <div
                 className={`status_block ${
                   data?.is_one_time ? "onetime" : "continual"

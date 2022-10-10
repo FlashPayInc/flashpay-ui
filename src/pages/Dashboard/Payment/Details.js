@@ -106,22 +106,7 @@ const Details = () => {
                 <div className="row_member preview">view</div>
               </div>
 
-              {[
-                data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-                // data[0],
-              ]?.map((txn, index) => {
+              {data?.map((txn, index) => {
                 return (
                   <div className="table_row" key={index}>
                     <div className="row_member ref">
@@ -168,8 +153,8 @@ const Details = () => {
                         <a
                           target="_blank"
                           href={`https://${
-                            network === "testnet" ? "testnet" : ""
-                          }.algoexplorer.io/tx/${txn?.txn_hash}`}
+                            network === "testnet" ? "testnet." : ""
+                          }algoexplorer.io/tx/${txn?.txn_hash}`}
                         >
                           <AppIcons type="export" />
                         </a>

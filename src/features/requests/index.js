@@ -5,6 +5,8 @@ import {
   myAlgoConnect,
   ConnectPayload,
   createTransaction,
+  peraWallet,
+  peraWalletPortal,
 } from "../../utils";
 import _ from "lodash";
 import axios from "axios";
@@ -14,6 +16,7 @@ import { setLinkedStatus, setWallet } from "../config/configSlice";
 import { verifyAcct, setupAcct, closeModal } from "../modals/modalSlice";
 import { InitializeTxn } from "./txnsReqs";
 import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
+import { PeraWalletConnect } from "@perawallet/connect";
 
 // ACCOUNT CONNECT & SETUP
 export const GetNetwork = _i => async dispatch => {
@@ -111,27 +114,34 @@ export const ConnectWalletAsync = slug => async dispatch => {
         dispatch(VerifyWalletAsync(accounts[0].address));
       }
     } else if (slug.provider === "pera") {
-      if (!connector.connected) {
-        connector.createSession();
-      }
+      const peraWall =
+        slug?.connectType === "payment" ? peraWalletPortal : peraWallet;
 
-      connector.on("connect", (error, payload) => {
-        if (error) throw error;
-        const { accounts } = payload.params[0];
+      peraWall
+        .connect()
+        .then(newAccounts => {
+          peraWall.connector.on("disconnect", () => {
+            peraWall.disconnect();
+            localStorage.clear();
+            window.location.reload();
+          });
 
-        if (slug?.connectType === "payment") {
-          dispatch(InitializeTxn(paymentData(accounts[0])));
-        } else {
-          dispatch(
-            setWallet({
-              walletAddress: accounts[0],
-              walletProvider: slug.provider,
-            })
-          );
-          dispatch(verifyAcct({ loading: true }));
-          dispatch(VerifyWalletAsync(accounts[0]));
-        }
-      });
+          if (slug?.connectType === "payment") {
+            dispatch(InitializeTxn(paymentData(newAccounts[0])));
+          } else {
+            dispatch(
+              setWallet({
+                walletAddress: newAccounts[0],
+                walletProvider: slug.provider,
+              })
+            );
+            dispatch(verifyAcct({ loading: true }));
+            dispatch(VerifyWalletAsync(newAccounts[0]));
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
 
       connector.on("session_update", (error, payload) => {
         if (error) throw error;
@@ -143,12 +153,6 @@ export const ConnectWalletAsync = slug => async dispatch => {
             walletProvider: "pera",
           })
         );
-      });
-
-      connector.on("disconnect", (error, payload) => {
-        if (error) throw error;
-        localStorage.clear();
-        window.location.reload();
       });
     }
   } catch (err) {

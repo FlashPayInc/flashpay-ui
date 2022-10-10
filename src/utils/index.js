@@ -2,7 +2,11 @@ import fernet from "fernet";
 import algosdk from "algosdk";
 import WalletConnect from "@walletconnect/client";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
+import { PeraWalletConnect } from "@perawallet/connect";
 import WalletConnectQRCodeModal from "algorand-walletconnect-qrcode-modal";
+
+const peraWallet = new PeraWalletConnect();
+const peraWalletPortal = new PeraWalletConnect();
 
 // FERNET ENCRYPTION SETUP
 const fernetSecret = new fernet.Secret(process.env.REACT_APP_ENCRYPTION_KEY);
@@ -22,7 +26,7 @@ const algodClient = network =>
 
 const indexerClient = new algosdk.Indexer(
   "",
-  "https://algoindexer.testnet.algoexplorerapi.io",
+  `https://algoindexer.testnet.algoexplorerapi.io`,
   ""
 );
 const connector = new WalletConnect({
@@ -82,6 +86,8 @@ const createTransaction = async (
 };
 
 export {
+  peraWallet,
+  peraWalletPortal,
   myAlgoConnect,
   algodClient,
   connector,

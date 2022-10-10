@@ -11,6 +11,10 @@ body {
   min-height: 100vh;
 }
 
+#pera-wallet-connect-modal-wrapper .pera-wallet-connect-modal {
+  z-index: 9999 * 9;
+}
+
 .container {
   width: 100vw;
   display: flex;

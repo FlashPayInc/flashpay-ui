@@ -33,7 +33,7 @@ const Setup = () => {
             <div className="warning_component">
               <i className="ph-warning-circle-fill warn_icon"></i>
               <p>
-                By signing this contract, you agree that you are the owner of
+                By signing this transaction, you agree that you are the owner of
                 the wallet you have connected.
               </p>
             </div>

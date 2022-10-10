@@ -98,7 +98,7 @@ const ApiSettings = () => {
                 <p className="title">Secret key</p>
                 <p className="value">
                   {hideKeys?.secret === false
-                    ? "................................................................................."
+                    ? "**************"
                     : data?.secret_key}
                 </p>
               </div>
@@ -126,7 +126,7 @@ const ApiSettings = () => {
                 <p className="title">Public key</p>
                 <p className="value">
                   {hideKeys?.public === false
-                    ? "................................................................................."
+                    ? "**************"
                     : data?.public_key}
                 </p>
               </div>

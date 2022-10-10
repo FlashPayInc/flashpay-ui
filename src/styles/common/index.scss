@@ -57,6 +57,7 @@ nav {
         p {
           font-size: 15px;
           text-align: center;
+          text-transform: uppercase;
           &[data-active="true"] {
             color: var(--orient-caribbean);
             font-family: $sansmed;
@@ -80,6 +81,8 @@ nav {
         border-radius: 6px;
         justify-content: center;
         text-transform: capitalize;
+        text-transform: uppercase;
+        // font-family: $sansmed;
         border: 1px solid var(--orient-snowy);
         p {
           font-size: 14px;

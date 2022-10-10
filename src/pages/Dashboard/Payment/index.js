@@ -91,7 +91,7 @@ const PaymentLinks = () => {
                   <div className="row_member interval">Interval</div>{" "}
                   <div className="row_member rev">Total revenue</div>
                   <div className="row_member status">Status</div>
-                  <div className="row_member link">Preview</div>
+                  <div className="row_member link">Link</div>
                 </div>
 
                 {data?.results?.map((link, index) => {
@@ -151,12 +151,10 @@ const PaymentLinks = () => {
                         className="row_member status"
                         onClick={() => navigateToLink(link?.slug)}
                       >
-                        {false ? (
-                          <div className="status_block failed">Failed</div>
+                        {link?.is_active ? (
+                          <div className="status_block successful">Active</div>
                         ) : (
-                          <div className="status_block successful">
-                            Succesful
-                          </div>
+                          <div className="status_block failed">Inactive</div>
                         )}
                       </div>
 
@@ -164,7 +162,7 @@ const PaymentLinks = () => {
                         href={`./payment-portal/${link?.slug}`}
                         className="row_member link"
                       >
-                        <p>{link?.slug}</p>
+                        <p>Preview</p>
                       </a>
                     </div>
                   );
@@ -179,7 +177,7 @@ const PaymentLinks = () => {
           ) : (
             <EmptyStateContainer
               vector="generatelinks"
-              text={`When you create a Payment link, it would so show here.`}
+              text={`When you create a Payment link, it would show here.`}
               buttonText={"Generate Link"}
             >
               <Vectors.connectivity dark={theme === "dark"} />

@@ -28,13 +28,13 @@ const Home = () => {
   const { theme, walletAddress } = useSelector(state => state.config);
 
   const [activeAssets, setActiveAssets] = useState([]);
-  const [curAsset, setCurAsset] = useState(activeAssets[0]);
+  const [curAsset, setCurAsset] = useState(activeAssets[2]);
 
   useEffect(() => {
     if (activeAssets.length > 0) return;
     const filter = _.filter(assets, i => i.network === network);
     setActiveAssets(filter);
-    setCurAsset(filter[0]);
+    setCurAsset(filter[2]);
   }, [assets]);
 
   const [curTimeframe, setCurTimeframe] = useState("This year");
@@ -94,7 +94,7 @@ const Home = () => {
           ) : (
             <EmptyStateContainer
               vector="ghost"
-              text={`Here you would see data analtytics of your transactions over a period of time.`}
+              text={`Here you would see data analytics of your transactions over a period of time.`}
             >
               <Vectors.ghost dark={theme === "dark"} />
             </EmptyStateContainer>

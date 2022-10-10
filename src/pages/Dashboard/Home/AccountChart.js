@@ -22,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-const AccountChart = ({ data }) => {
+const AccountChart = ({ data = [] }) => {
   const { theme } = useSelector(state => state.config);
 
   const options = {
@@ -61,7 +61,7 @@ const AccountChart = ({ data }) => {
     },
   };
 
-  if (!data) return;
+  // if (!data) return;
 
   const chartData = {
     // labels,
