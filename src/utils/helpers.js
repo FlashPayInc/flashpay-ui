@@ -1,7 +1,29 @@
+import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 
 // Functions
+
+const axiosGet = async (url, auth = true) => {
+  return axios.get(url, {
+    headers: {
+      Authorization:
+        !!localStorage.getItem("access_token") && auth
+          ? `Bearer ${localStorage.getItem("access_token")}`
+          : "",
+    },
+  });
+};
+const axiosPost = async (url, data, method = "post") => {
+  return axios[method](url, data, {
+    headers: {
+      Authorization: !!localStorage.getItem("access_token")
+        ? `Bearer ${localStorage.getItem("access_token")}`
+        : "",
+    },
+  });
+};
+
 const isValidUrl = urlString => {
   try {
     return Boolean(new URL(urlString));
@@ -63,4 +85,11 @@ function useOutsideAlerter(ref, ref2, callback) {
   }, [ref]);
 }
 
-export { timeAgo, isValidUrl, constrictAddr, useOutsideAlerter };
+export {
+  timeAgo,
+  axiosGet,
+  axiosPost,
+  isValidUrl,
+  constrictAddr,
+  useOutsideAlerter,
+};

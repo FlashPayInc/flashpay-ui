@@ -6,10 +6,9 @@ import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import PaginationTab from "../../../common/PaginationTab";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import { SpinnerCircular } from "spinners-react";
 import millify from "millify";
-import { constrictAddr, timeAgo } from "../../../utils/helpers";
+import { axiosGet, constrictAddr, timeAgo } from "../../../utils/helpers";
 import Vectors from "../../../svg/Vectors";
 import {
   filteredTxnState,
@@ -31,18 +30,12 @@ const Transactions = () => {
 
   const fetchTxns = (pageNum = 1) => {
     if (!walletAddress || !localStorage.getItem("access_token")) return;
-    return axios
-      .get(`/transactions?page=` + pageNum, {
-        headers: {
-          Authorization: localStorage.getItem("access_token")
-            ? `Bearer ${localStorage.getItem("access_token")}`
-            : "",
-        },
-      })
-      .then(response => setTxnData(response?.data?.data));
+    return axiosGet(`/transactions?page=` + pageNum).then(response =>
+      setTxnData(response?.data?.data)
+    );
   };
 
-  const { isLoading, isRefetching, error, data, refetch } = useQuery(
+  const { isLoading, isRefetching, error, refetch } = useQuery(
     ["transactions", page],
     () => fetchTxns(page),
     { refetchOnWindowFocus: false }

@@ -16,6 +16,7 @@ import {
   linkFilterState,
 } from "../../../atoms/appState";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { axiosGet } from "../../../utils/helpers";
 
 const PaymentLinks = () => {
   let navigate = useNavigate();
@@ -32,15 +33,9 @@ const PaymentLinks = () => {
   const fetchLinks = (pageNum = 1) => {
     if (!walletAddress || !localStorage.getItem("access_token")) return;
 
-    return axios
-      .get(`/payment-links?page=` + pageNum, {
-        headers: {
-          Authorization: !!localStorage.getItem("access_token")
-            ? `Bearer ${localStorage.getItem("access_token")}`
-            : "",
-        },
-      })
-      .then(response => setLinkData(response?.data?.data));
+    return axiosGet(`/payment-links?page=` + pageNum).then(response =>
+      setLinkData(response?.data?.data)
+    );
   };
 
   const { isLoading, isRefetching, error, refetch } = useQuery(

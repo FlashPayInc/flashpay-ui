@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
@@ -6,6 +5,7 @@ import { AppIcons, Assets, NavIcons } from "../../../svg";
 import { useWindowSize } from "@react-hook/window-size/throttled";
 import Skeleton from "react-loading-skeleton";
 import millify from "millify";
+import { axiosGet, axiosPost } from "../../../utils/helpers";
 
 const PaymentDetailsBar = ({ slug }) => {
   const [width] = useWindowSize();
@@ -17,19 +17,13 @@ const PaymentDetailsBar = ({ slug }) => {
   const { error, refetch, isLoading } = useQuery(
     "payment-portal",
     () =>
-      axios
-        .get(`payment-links/${slug}`, {
-          headers: {
-            Authorization: "",
-          },
-        })
-        .then(response => {
-          if (response.data.data?.network === network) {
-            setData(response.data.data);
-          } else {
-            setData(null);
-          }
-        }),
+      axiosGet(`payment-links/${slug}`, false).then(response => {
+        if (response.data.data?.network === network) {
+          setData(response.data.data);
+        } else {
+          setData(null);
+        }
+      }),
     {
       refetchOnWindowFocus: false,
       enabled: !!slug && linkedStatus && !!localStorage.getItem("access_token"),
@@ -53,21 +47,13 @@ const PaymentDetailsBar = ({ slug }) => {
   };
 
   const toggleLinkStatus = async () => {
-    axios
-      .patch(`payment-links/${slug}`, null, {
-        headers: {
-          Authorization: !!localStorage.getItem("access_token")
-            ? `Bearer ${localStorage.getItem("access_token")}`
-            : "",
-        },
-      })
-      .then(res => {
-        if (res.data.data?.network === network) {
-          setData(res.data.data);
-        } else {
-          setData(null);
-        }
-      });
+    axiosPost(`payment-links/${slug}`, null, "patch").then(res => {
+      if (res.data.data?.network === network) {
+        setData(res.data.data);
+      } else {
+        setData(null);
+      }
+    });
   };
 
   return (

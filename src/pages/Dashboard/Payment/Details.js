@@ -5,11 +5,10 @@ import { AppIcons, Assets } from "../../../svg";
 import { useWindowSize } from "@react-hook/window-size/throttled";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { SpinnerCircular } from "spinners-react";
 import millify from "millify";
-import { constrictAddr, timeAgo } from "../../../utils/helpers";
+import { axiosGet, constrictAddr, timeAgo } from "../../../utils/helpers";
 import PaymentDetailsBar from "./PaymentDetailsBar";
 import Vectors from "../../../svg/Vectors";
 
@@ -27,15 +26,9 @@ const Details = () => {
     if (!linkedStatus || !localStorage.getItem("access_token")) return;
     setIsLoading(true);
     try {
-      const result = await axios
-        .get(`/transactions?slug=${slug}`, {
-          headers: {
-            Authorization: localStorage.getItem("access_token")
-              ? `Bearer ${localStorage.getItem("access_token")}`
-              : "",
-          },
-        })
-        .then(response => response?.data?.data?.results);
+      const result = await axiosGet(`/transactions?slug=${slug}`).then(
+        response => response?.data?.data?.results
+      );
 
       if (!!result) setData(result);
       setIsLoading(false);

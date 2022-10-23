@@ -1,13 +1,11 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SpinnerCircular } from "spinners-react";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
-import { hideApiKeys } from "../../../features/config/configSlice";
 import { AppIcons } from "../../../svg";
 import Vectors from "../../../svg/Vectors";
-import { isValidUrl } from "../../../utils/helpers";
+import { axiosGet, axiosPost, isValidUrl } from "../../../utils/helpers";
 
 const Webhook = () => {
   const [copied, setCopied] = useState(0);
@@ -28,15 +26,9 @@ const Webhook = () => {
     "webhook",
     () => {
       if (!walletAddress || !localStorage.getItem("access_token")) return;
-      return axios
-        .get(`/accounts/webhook`, {
-          headers: {
-            Authorization: !!localStorage.getItem("access_token")
-              ? `Bearer ${localStorage.getItem("access_token")}`
-              : "",
-          },
-        })
-        .then(response => setData(response?.data?.data));
+      return axiosGet(`/accounts/webhook`).then(response =>
+        setData(response?.data?.data)
+      );
     },
     { refetchOnWindowFocus: false }
   );
@@ -60,19 +52,11 @@ const Webhook = () => {
     const formData = new FormData();
     formData.append("url", webUrl);
     try {
-      await axios
-        .post(`/accounts/webhook`, formData, {
-          headers: {
-            Authorization: !!localStorage.getItem("access_token")
-              ? `Bearer ${localStorage.getItem("access_token")}`
-              : "",
-          },
-        })
-        .then(response => {
-          setGenerating(false);
-          setData(response?.data?.data);
-          setWebUrl("");
-        });
+      await axiosPost(`/accounts/webhook`, formData).then(response => {
+        setGenerating(false);
+        setData(response?.data?.data);
+        setWebUrl("");
+      });
     } catch (error) {
       setGenerating(false);
     }

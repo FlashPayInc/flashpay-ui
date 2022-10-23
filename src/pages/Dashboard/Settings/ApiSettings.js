@@ -7,6 +7,7 @@ import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { hideApiKeys } from "../../../features/config/configSlice";
 import { AppIcons } from "../../../svg";
 import Vectors from "../../../svg/Vectors";
+import { axiosGet } from "../../../utils/helpers";
 
 const ApiSettings = () => {
   const dispatch = useDispatch();
@@ -20,15 +21,9 @@ const ApiSettings = () => {
     () => {
       if (!walletAddress || !localStorage.getItem("access_token")) return;
 
-      return axios
-        .get(`/accounts/api-keys`, {
-          headers: {
-            Authorization: !!localStorage.getItem("access_token")
-              ? `Bearer ${localStorage.getItem("access_token")}`
-              : "",
-          },
-        })
-        .then(response => response?.data?.data);
+      return axiosGet(`/accounts/api-keys`).then(
+        response => response?.data?.data
+      );
     },
     { refetchOnWindowFocus: false }
   );
@@ -42,23 +37,11 @@ const ApiSettings = () => {
   const generateKey = async () => {
     setGenerating(true);
     try {
-      await axios
-        .post(
-          `/accounts/api-keys`,
-          { network },
-          {
-            headers: {
-              Authorization: !!localStorage.getItem("access_token")
-                ? `Bearer ${localStorage.getItem("access_token")}`
-                : "",
-            },
-          }
-        )
-        .then(response => {
-          setGenerating(false);
-          console.log(response?.data?.data);
-          refetch();
-        });
+      await axiosGet(`/accounts/api-keys`, { network }).then(response => {
+        setGenerating(false);
+        console.log(response?.data?.data);
+        refetch();
+      });
     } catch (error) {
       setGenerating(false);
     }

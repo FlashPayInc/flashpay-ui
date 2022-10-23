@@ -1,15 +1,15 @@
 import _ from "lodash";
 import AccountChart from "./AccountChart";
 import TopBar from "../../../common/TopBar";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileBar from "../../../common/ProfileBar";
 import SelectMenu from "../../../common/Dropdown/selectMenu";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import Vectors from "../../../svg/Vectors";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import { useQuery } from "react-query";
 import { SpinnerCircular } from "spinners-react";
+import { axiosGet } from "../../../utils/helpers";
 
 const Home = () => {
   const [currAsset, setCurrAsset] = useState(null);
@@ -31,15 +31,9 @@ const Home = () => {
     if (!walletAddress || !localStorage.getItem("access_token") || !asa_id)
       return;
 
-    return axios
-      .get(`/daily-revenue?asa_id=${asa_id}&date_range=${range}'`, {
-        headers: {
-          Authorization: !!localStorage.getItem("access_token")
-            ? `Bearer ${localStorage.getItem("access_token")}`
-            : "",
-        },
-      })
-      .then(response => response?.data?.data?.results);
+    return axiosGet(
+      `/daily-revenue?asa_id=${asa_id}&date_range=${range}'`
+    ).then(response => response?.data?.data?.results);
   };
 
   const { isLoading, isRefetching, error, data, refetch } = useQuery(
