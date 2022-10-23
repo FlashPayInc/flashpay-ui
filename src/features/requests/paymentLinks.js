@@ -7,7 +7,13 @@ import { reloadPage } from "../config/configSlice";
 // PAYMENT LINKS
 export const GetPaymentLinks = _i => async dispatch => {
   await axios
-    .get(`/payment-links`)
+    .get(`/payment-links`, {
+      headers: {
+        Authorization: !!localStorage.getItem("access_token")
+          ? `Bearer ${localStorage.getItem("access_token")}`
+          : "",
+      },
+    })
     .then(res => {
       if (!!res?.data?.data?.results) {
         console.log(res?.data?.data?.results);
@@ -34,7 +40,13 @@ export const CreateNewLink = data => async dispatch => {
   dispatch(createLink({ loading: true, error: false }));
 
   await axios
-    .post("payment-links", formData)
+    .post("payment-links", formData, {
+      headers: {
+        Authorization: !!localStorage.getItem("access_token")
+          ? `Bearer ${localStorage.getItem("access_token")}`
+          : "",
+      },
+    })
     .then(res => {
       dispatch(reloadPage(true));
       dispatch(createLink({ loading: false, error: false }));

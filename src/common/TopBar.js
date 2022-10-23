@@ -3,13 +3,10 @@ import { AppIcons } from "../svg";
 import { useDispatch } from "react-redux";
 import TxnsFilters from "./Dropdown/txnFilters";
 import { generateLink } from "../features/modals/modalSlice";
+import LinkFilters from "./Dropdown/linkFilters";
 
-const TopBar = ({ sub, main, filter, generate, copyLink }) => {
+const TopBar = ({ sub, data, main, filter, generate, copyLink }) => {
   const dispatch = useDispatch();
-  const [curOption, setCurOption] = useState("");
-  const UpdateOption = item => {
-    setCurOption(item);
-  };
 
   return (
     <div className="top_bar">
@@ -18,7 +15,11 @@ const TopBar = ({ sub, main, filter, generate, copyLink }) => {
 
         <div className="bar_buttons">
           {filter ? (
-            <TxnsFilters UpdateOption={UpdateOption} curOption={curOption} />
+            data === "transactions" ? (
+              <TxnsFilters />
+            ) : (
+              <LinkFilters />
+            )
           ) : null}
           {generate ? (
             <button

@@ -10,13 +10,12 @@ import {
 } from "../../utils";
 import _ from "lodash";
 import axios from "axios";
+import { InitializeTxn } from "./txnsReqs";
 import { addAssets, updateNetwork } from "./reqSlice";
 import algosdk, { waitForConfirmation } from "algosdk";
+import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 import { setLinkedStatus, setWallet } from "../config/configSlice";
 import { verifyAcct, setupAcct, closeModal } from "../modals/modalSlice";
-import { InitializeTxn } from "./txnsReqs";
-import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
-import { PeraWalletConnect } from "@perawallet/connect";
 
 // ACCOUNT CONNECT & SETUP
 export const GetNetwork = _i => async dispatch => {
@@ -38,7 +37,17 @@ export const GetNetwork = _i => async dispatch => {
 
 export const ChangeNetwork = network => async dispatch => {
   await axios
-    .post(`/accounts/network`, { network })
+    .post(
+      `/accounts/network`,
+      { network },
+      {
+        headers: {
+          Authorization: !!localStorage.getItem("access_token")
+            ? `Bearer ${localStorage.getItem("access_token")}`
+            : "",
+        },
+      }
+    )
     .then(res => {
       dispatch(updateNetwork(res?.data?.data?.network));
     })
@@ -73,6 +82,7 @@ export const VerifyWalletAsync = address => async dispatch => {
       dispatch(setLinkedStatus("linked"));
       dispatch(closeModal());
       dispatch(GetNetwork());
+      dispatch(FetchAssets());
     })
     .catch(err => {
       if (err?.response?.status === 401) {

@@ -8,11 +8,7 @@ const Portal = () => {
   useEffect(() => {
     // Reconnect to the session when the component is mounted
     peraWalletPortal.disconnect();
-
-    return () => {
-      console.log("Disconnected PeraPortal");
-      peraWalletPortal.disconnect();
-    };
+    return () => peraWalletPortal.disconnect();
   }, []);
 
   return (

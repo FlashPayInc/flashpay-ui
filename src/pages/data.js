@@ -1,7 +1,6 @@
 export const DropDownContent = {
   "payment-links": [
-    ["Continual", "One-time"],
-    ["Inactive", "Active"],
+    ["Successful", "Failed"],
     ["Tether", "Algo", "Yieldly", "Tinyman"],
   ],
   transactions: [

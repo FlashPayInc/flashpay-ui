@@ -26,13 +26,11 @@ const Icon = {
     >
       <path
         d="M6 19.84L12.52 13.32C13.29 12.55 13.29 11.29 12.52 10.52L6 4"
-        stroke="#16292D"
         strokeLinecap="round"
         strokeWidth="1.5"
       />
       <path
         d="M11 19.84L17.52 13.32C18.29 12.55 18.29 11.29 17.52 10.52L11 4"
-        stroke="#16292D"
         strokeLinecap="round"
         strokeWidth="1.5"
       />

@@ -29,9 +29,8 @@ const GenerateLinkModal = ({ data }) => {
   const [validName, setValidName] = useState(true);
   const [validImage, setValidImage] = useState(true);
 
-  const { assets } = useSelector(state => state.app);
+  const { assets, network } = useSelector(state => state.app);
   const [activeAssets, setActiveAssets] = useState([]);
-  const { network } = useSelector(state => state.app);
 
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);

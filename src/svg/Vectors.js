@@ -435,17 +435,21 @@ const Vectors = {
           cx="87.188"
           cy="94.897"
           r="41.919"
-          fill="#F1F1F1"
           stroke="#C4C4C4"
           strokeWidth="2"
+          style={{
+            fill: "var(--bg-color)",
+          }}
         ></circle>
         <circle
+          r="29.657"
           cx="87.188"
           cy="94.897"
-          r="29.657"
-          fill="#FFFEFF"
           stroke="#C4C4C4"
           strokeWidth="2"
+          style={{
+            fill: "var(--bg-color)",
+          }}
         ></circle>
         <path
           fill="#C4C4C4"
@@ -456,7 +460,9 @@ const Vectors = {
           height="42"
           x="119.864"
           y="140.411"
-          fill="#F1F1F1"
+          style={{
+            fill: "var(--bg-color)",
+          }}
           stroke="#C4C4C4"
           strokeWidth="2"
           rx="7"
@@ -467,7 +473,7 @@ const Vectors = {
           height="16.336"
           x="134.64"
           y="143.781"
-          fill="#fff"
+          fill="#c4c4c4"
           rx="0.974"
           transform="rotate(-45 134.64 143.781)"
         ></rect>
@@ -492,14 +498,14 @@ const Vectors = {
           fill="#C4C4C4"
           rx="1"
         ></rect>
-        <rect
+        {/* <rect
           width="10"
           height="2"
           x="163.663"
           y="89.861"
           fill="#C4C4C4"
           rx="1"
-        ></rect>
+        ></rect> */}
         <rect
           width="10"
           height="2"
@@ -529,18 +535,22 @@ const Vectors = {
         <circle
           cx="71.1878"
           cy="71.8973"
-          fill="#0E0E0E"
           r="41.9195"
           stroke="#9F9F9F"
           strokeWidth="2"
+          style={{
+            fill: "var(--bg-color)",
+          }}
         />
         <circle
           cx="71.1878"
           cy="71.8973"
-          fill="#0E0E0E"
           r="29.6568"
           stroke="#9F9F9F"
           strokeWidth="2"
+          style={{
+            fill: "var(--bg-color)",
+          }}
         />
         <path
           d="M71.1876 49.3588C71.1876 48.9087 70.8224 48.5422 70.3725 48.5579C64.7399 48.7545 59.3574 50.983 55.2292 54.8468C51.1009 58.7107 48.5215 63.9341 47.9531 69.5414C47.9077 69.9893 48.2492 70.3779 48.6984 70.4077V70.4077C49.1476 70.4374 49.5343 70.097 49.5809 69.6493C50.1212 64.4549 52.517 59.6182 56.3432 56.0371C60.1694 52.456 65.1538 50.3851 70.3726 50.1893C70.8224 50.1724 71.1876 49.809 71.1876 49.3588V49.3588Z"
@@ -549,18 +559,20 @@ const Vectors = {
         <rect
           height="42"
           width="14"
-          fill="#0E0E0E"
           rx="7"
           stroke="#9F9F9F"
           strokeWidth="2"
           transform="rotate(-45 103.864 117.411)"
           x="103.864"
           y="117.411"
+          style={{
+            fill: "var(--bg-color)",
+          }}
         />
         <rect
           height="16.3364"
           width="1.94836"
-          fill="black"
+          fill="#9f9f9f"
           rx="0.974179"
           transform="rotate(-45 118.64 120.781)"
           x="118.64"
@@ -583,14 +595,14 @@ const Vectors = {
           y="66.8611"
         />
         <rect height="2" width="20" fill="#9F9F9F" rx="1" y="83.4059" />
-        <rect
+        {/* <rect
           height="2"
           width="10"
           fill="#9F9F9F"
           rx="1"
           x="147.663"
           y="66.8611"
-        />
+        /> */}
         <rect
           height="2"
           width="10"

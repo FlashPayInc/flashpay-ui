@@ -3,15 +3,12 @@ import {
   DecodePayload,
   myAlgoConnect,
   createTransaction,
-  connector,
-  peraWallet,
   peraWalletPortal,
 } from "../../utils";
 import _ from "lodash";
 import axios from "axios";
-import algosdk, { waitForConfirmation } from "algosdk";
+import { waitForConfirmation } from "algosdk";
 import { txnFailed, txnProcessing, txnSuccessful } from "../modals/modalSlice";
-import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 
 // TRANSACTIONS
 export const InitializeTxn = data => async dispatch => {
@@ -30,6 +27,9 @@ export const InitializeTxn = data => async dispatch => {
     .post("transactions", formData, {
       headers: {
         "X-public-key": DecodePayload(data?.pub_key),
+        Authorization: !!localStorage.getItem("access_token")
+          ? `Bearer ${localStorage.getItem("access_token")}`
+          : "",
       },
     })
     .then(res => {
@@ -91,6 +91,9 @@ export const ProcessPayment = slug => async dispatch => {
         .post(`/transactions/verify/${slug?.txnRef}`, null, {
           headers: {
             "X-public-key": DecodePayload(slug?.pub_key),
+            Authorization: !!localStorage.getItem("access_token")
+              ? `Bearer ${localStorage.getItem("access_token")}`
+              : "",
           },
         })
         .then(res => {

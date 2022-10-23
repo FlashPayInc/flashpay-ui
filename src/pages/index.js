@@ -1,32 +1,30 @@
 import React from "react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { peraWallet } from "../utils";
 import AppModals from "../modals/MainModals";
 import { Route, Routes } from "react-router-dom";
 import PortalModals from "../modals/PortalModals";
 import { FetchAssets } from "../features/requests";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme, setWallet } from "../features/config/configSlice";
 
+import PaymentPortal from "./Portal";
 import Home from "./Dashboard/Home";
 import Setup from "./Dashboard/Setup";
 import SideTab from "../common/SideTab";
-import Transactions from "./Dashboard/Transactions";
-
 import PaymentLinks from "./Dashboard/Payment";
 import Details from "./Dashboard/Payment/Details";
-
+import Webhook from "./Dashboard/Settings/Webhook";
+import Transactions from "./Dashboard/Transactions";
 import Settings from "./Dashboard/Settings/Settings";
 import ApiSettings from "./Dashboard/Settings/ApiSettings";
-import Preferences from "./Dashboard/Settings/Preferences";
-import ProfileSettings from "./Dashboard/Settings/ProfileSettings";
-
-import PaymentPortal from "./Portal";
-import { setTheme, setWallet } from "../features/config/configSlice";
-import { peraWallet } from "../utils";
 
 const DashboardRoutes = () => {
   const dispatch = useDispatch();
+  const { walletProvider } = useSelector(state => state.config);
 
   useEffect(() => {
+    if (walletProvider !== "pera") return;
     // Reconnect to the session when the component is mounted
     peraWallet
       .reconnectSession()
@@ -44,7 +42,7 @@ const DashboardRoutes = () => {
           });
         }
       })
-      .catch(e => console.log(e));
+      .catch(e => console.log(e.message));
   }, []);
 
   useEffect(() => {
@@ -89,13 +87,10 @@ const DashboardRoutes = () => {
           <Route path="/setup" element={<Setup />} />
           <Route path="/settings" element={<Settings />}>
             <Route path="" element={<ApiSettings />} />
-            {/* <Route path="profile" element={<ProfileSettings />} /> */}
-            {/* <Route path="preferences" element={<Preferences />} /> */}
+            <Route path="webhook" element={<Webhook />} />
           </Route>
-
           <Route path="/payment-links" element={<PaymentLinks />} />
           <Route path="/payment-links/:slug" element={<Details />} />
-
           <Route path="/transactions" element={<Transactions />} />
         </Routes>
       </div>

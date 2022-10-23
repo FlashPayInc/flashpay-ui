@@ -49,14 +49,16 @@ const Description = () => {
     }
   );
 
-  const LinkNotFound = () => (
+  const LinkNotFound = ({ message }) => (
     <>
-      <div className="payment_illustration">
-        <Lottie options={brokenLink} speed={0.7} />
-      </div>
+      {!message && (
+        <div className="payment_illustration">
+          <Lottie options={brokenLink} speed={0.7} />
+        </div>
+      )}
 
       <div className="description_text">
-        <p className="main">Payment link not found</p>
+        <p className="main">{message || "Payment link not found"}</p>
         <p className="sub">{error?.response?.data?.message}</p>
       </div>
 
@@ -70,6 +72,8 @@ const Description = () => {
       </div>
     </>
   );
+
+  console.log();
 
   return (
     <div className="description_container">
@@ -91,6 +95,8 @@ const Description = () => {
             <p className="sub">Please wait while we fetch the payment link</p>
           </div>
         </>
+      ) : !data?.is_active ? (
+        <LinkNotFound message={`This payment link has been deactivated`} />
       ) : !!data && !error ? (
         <>
           <div className="logo_img">
@@ -99,6 +105,7 @@ const Description = () => {
                 effect="blur"
                 alt="payment-image"
                 src={data?.image_url}
+                className="lazy-loader"
                 onError={e => setFailedImg(true)}
                 placeholder={<AppIcons type="flashpay" />}
               />

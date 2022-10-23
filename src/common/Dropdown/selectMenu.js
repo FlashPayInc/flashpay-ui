@@ -4,12 +4,13 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { useOutsideAlerter } from "../../utils/helpers";
 import { useSelector } from "react-redux";
 
-const SelectMenu = ({ type, assets, curOption, UpdateOption }) => {
+const SelectMenu = ({ type, curOption, UpdateOption }) => {
   const wrapperRef = useRef(null);
   const dropDownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const closeDropdown = () => setIsOpen(false);
   useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
+  const { assets, network } = useSelector(state => state.app);
 
   return (
     <div
@@ -47,23 +48,26 @@ const SelectMenu = ({ type, assets, curOption, UpdateOption }) => {
           {/* <HorLine /> */}
           <div className="content_list">
             {type === "assets-revenue"
-              ? assets?.map((item, i, arr) => (
-                  <Fragment key={i}>
-                    <div
-                      className={`list_item ${
-                        curOption === item ? "current" : ""
-                      }`}
-                      onClick={() => {
-                        closeDropdown();
-                        UpdateOption(item);
-                      }}
-                    >
-                      <img src={item?.image_url} alt="" />
-                      <p>{item?.short_name}</p>
-                    </div>
-                    {i + 1 < arr.length ? <HorLine /> : null}
-                  </Fragment>
-                ))
+              ? assets?.map(
+                  (item, i, arr) =>
+                    item?.network === network && (
+                      <Fragment key={i}>
+                        <div
+                          className={`list_item ${
+                            curOption === item ? "current" : ""
+                          }`}
+                          onClick={() => {
+                            closeDropdown();
+                            UpdateOption(item);
+                          }}
+                        >
+                          <img src={item?.image_url} alt="" />
+                          <p>{item?.short_name}</p>
+                        </div>
+                        {i + 1 < arr.length ? <HorLine /> : null}
+                      </Fragment>
+                    )
+                )
               : DropDownContent[type]?.map((category, i, arr) => (
                   <Fragment key={i}>
                     {category.map((item, index) => (

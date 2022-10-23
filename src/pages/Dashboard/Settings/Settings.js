@@ -20,7 +20,14 @@ const Settings = () => {
               to="."
               className={({ isActive }) => (isActive ? "isActive" : undefined)}
             >
-              <p>Webhook & Api keys</p>
+              <p>Api keys</p>
+            </NavLink>
+            <NavLink
+              end
+              to="./webhook"
+              className={({ isActive }) => (isActive ? "isActive" : undefined)}
+            >
+              <p>Webhook</p>
             </NavLink>
           </div>
           <Outlet />

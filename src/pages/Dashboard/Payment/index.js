@@ -1,5 +1,3 @@
-import React from "react";
-import { Assets } from "../../../svg";
 import TopBar from "../../../common/TopBar";
 import { useNavigate } from "react-router-dom";
 import ProfileBar from "../../../common/ProfileBar";
@@ -9,18 +7,27 @@ import { useSelector } from "react-redux";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { SpinnerCircular } from "spinners-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import millify from "millify";
 import Vectors from "../../../svg/Vectors";
+import {
+  filteredLinkState,
+  linkDataState,
+  linkFilterState,
+} from "../../../atoms/appState";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const PaymentLinks = () => {
   let navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [linkData, setLinkData] = useRecoilState(linkDataState);
+
   const { network } = useSelector(state => state.app);
   const { theme, reload, linkedStatus, walletAddress } = useSelector(
     state => state.config
   );
-
-  const [page, setPage] = React.useState(1);
+  const linksFilter = useRecoilValue(linkFilterState);
+  const filteredLinks = useRecoilValue(filteredLinkState);
 
   const fetchLinks = (pageNum = 1) => {
     if (!walletAddress || !localStorage.getItem("access_token")) return;
@@ -33,10 +40,10 @@ const PaymentLinks = () => {
             : "",
         },
       })
-      .then(response => response?.data?.data);
+      .then(response => setLinkData(response?.data?.data));
   };
 
-  const { isLoading, isRefetching, error, data, refetch } = useQuery(
+  const { isLoading, isRefetching, error, refetch } = useQuery(
     ["payment-links", page],
     () => fetchLinks(page),
     { refetchOnWindowFocus: false }
@@ -48,12 +55,14 @@ const PaymentLinks = () => {
 
   const navigateToLink = slug => navigate(`./${slug}`);
 
+  console.log(linkData?.results?.length >= 1);
+
   return (
     <>
       <ProfileBar />
 
       <div className="home_container">
-        {data?.results && data?.results?.length >= 1 ? (
+        {linkData?.results && linkData?.results?.length >= 1 ? (
           <TopBar
             filter="filter"
             data="payment-links"
@@ -81,7 +90,7 @@ const PaymentLinks = () => {
               />
               <p style={{ fontSize: "18px" }}>Fetching payment links</p>
             </div>
-          ) : data?.results && data?.results?.length >= 1 ? (
+          ) : linkData?.results && linkData?.results?.length >= 1 ? (
             <>
               <div className="payment_table base-animation--fade-left">
                 <div className="table_header">
@@ -94,82 +103,92 @@ const PaymentLinks = () => {
                   <div className="row_member link">Link</div>
                 </div>
 
-                {data?.results?.map((link, index) => {
-                  return (
-                    <div className="table_row" key={index}>
-                      <div
-                        className="row_member name"
-                        onClick={() => navigateToLink(link?.slug)}
-                      >
-                        <p>{link?.name}</p>
-                      </div>
+                {filteredLinks?.length !== 0 ? (
+                  filteredLinks?.map((link, index) => {
+                    return (
+                      <div className="table_row" key={index}>
+                        <div
+                          className="row_member name"
+                          onClick={() => navigateToLink(link?.slug)}
+                        >
+                          <p>{link?.name}</p>
+                        </div>
 
-                      <div
-                        className="row_member amt"
-                        onClick={() => navigateToLink(link?.slug)}
-                      >
-                        <p>
-                          {!isNaN(link?.amount)
-                            ? millify(link?.amount, { precision: 3 })
-                            : 0}
-                        </p>
-                      </div>
+                        <div
+                          className="row_member amt"
+                          onClick={() => navigateToLink(link?.slug)}
+                        >
+                          <p>
+                            {!isNaN(link?.amount)
+                              ? millify(link?.amount, { precision: 3 })
+                              : 0}
+                          </p>
+                        </div>
 
-                      <div
-                        className="row_member asset"
-                        onClick={() => navigateToLink(link?.slug)}
-                      >
-                        <img src={link?.asset?.image_url} alt="" />
-                        <p>{link.asset?.short_name}</p>
-                      </div>
+                        <div
+                          className="row_member asset"
+                          onClick={() => navigateToLink(link?.slug)}
+                        >
+                          <img src={link?.asset?.image_url} alt="" />
+                          <p>{link.asset?.short_name}</p>
+                        </div>
 
-                      <div
-                        className="row_member interval"
-                        onClick={() => navigateToLink(link?.slug)}
-                      >
-                        {!link?.is_one_time ? (
-                          <div className="status_block continual">
-                            Continual
-                          </div>
-                        ) : (
-                          <div className="status_block onetime">One-time</div>
-                        )}
-                      </div>
+                        <div
+                          className="row_member interval"
+                          onClick={() => navigateToLink(link?.slug)}
+                        >
+                          {!link?.is_one_time ? (
+                            <div className="status_block continual">
+                              Continual
+                            </div>
+                          ) : (
+                            <div className="status_block onetime">One-time</div>
+                          )}
+                        </div>
 
-                      <div
-                        className="row_member rev"
-                        onClick={() => navigateToLink(link?.slug)}
-                      >
-                        <p>
-                          {!isNaN(link?.total_revenue)
-                            ? millify(link?.total_revenue, { precision: 3 })
-                            : 0}
-                        </p>
-                      </div>
+                        <div
+                          className="row_member rev"
+                          onClick={() => navigateToLink(link?.slug)}
+                        >
+                          <p>
+                            {!isNaN(link?.total_revenue)
+                              ? millify(link?.total_revenue, { precision: 3 })
+                              : 0}
+                          </p>
+                        </div>
 
-                      <div
-                        className="row_member status"
-                        onClick={() => navigateToLink(link?.slug)}
-                      >
-                        {link?.is_active ? (
-                          <div className="status_block successful">Active</div>
-                        ) : (
-                          <div className="status_block failed">Inactive</div>
-                        )}
-                      </div>
+                        <div
+                          className="row_member status"
+                          onClick={() => navigateToLink(link?.slug)}
+                        >
+                          {link?.is_active ? (
+                            <div className="status_block successful">
+                              Active
+                            </div>
+                          ) : (
+                            <div className="status_block failed">Inactive</div>
+                          )}
+                        </div>
 
-                      <a
-                        href={`./payment-portal/${link?.slug}`}
-                        className="row_member link"
-                      >
-                        <p>Preview</p>
-                      </a>
-                    </div>
-                  );
-                })}
+                        <a
+                          target="_blank"
+                          href={`./payment-portal/${link?.slug}`}
+                          className="row_member link"
+                        >
+                          <p>Preview</p>
+                        </a>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="filtered_list-empty">
+                    <Vectors.search dark={theme === "dark"} />
+                    <p>No {linksFilter} payment links on current page</p>
+                  </div>
+                )}
               </div>
               <PaginationTab
-                pageNum={Math.ceil(data?.count / 5)}
+                pageNum={Math.ceil(linkData?.count / 5)}
                 active={page}
                 setActive={setPage}
               />
@@ -177,10 +196,14 @@ const PaymentLinks = () => {
           ) : (
             <EmptyStateContainer
               vector="generatelinks"
-              text={`When you create a Payment link, it would show here.`}
+              text={
+                !error
+                  ? `When you create a Payment link, it would show here.`
+                  : "An error occurred while fetching payment links. <br/> Please try again"
+              }
               buttonText={"Generate Link"}
             >
-              <Vectors.connectivity dark={theme === "dark"} />
+              {!error && <Vectors.connectivity dark={theme === "dark"} />}
             </EmptyStateContainer>
           )}
         </div>

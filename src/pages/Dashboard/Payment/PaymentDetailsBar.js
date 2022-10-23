@@ -52,6 +52,24 @@ const PaymentDetailsBar = ({ slug }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const toggleLinkStatus = async () => {
+    axios
+      .patch(`payment-links/${slug}`, null, {
+        headers: {
+          Authorization: !!localStorage.getItem("access_token")
+            ? `Bearer ${localStorage.getItem("access_token")}`
+            : "",
+        },
+      })
+      .then(res => {
+        if (res.data.data?.network === network) {
+          setData(res.data.data);
+        } else {
+          setData(null);
+        }
+      });
+  };
+
   return (
     <div className="top_bar payment-dets">
       <>
@@ -65,10 +83,19 @@ const PaymentDetailsBar = ({ slug }) => {
               </div>
             ) : null}
 
-            <div className="set_link">
-              <p>Set link as </p>
-              <NavIcons type="theme" />
-            </div>
+            {data?.is_one_time === false && (
+              <div className="set_link">
+                <p>Set link as </p>
+
+                <button
+                  className="switch-btn"
+                  data-move={data?.is_active}
+                  onClick={toggleLinkStatus}
+                >
+                  <div className="switch-btn__toggle" />
+                </button>
+              </div>
+            )}
           </div>
           <div className="bar_buttons">
             <button className="copy_button" onClick={copyText}>

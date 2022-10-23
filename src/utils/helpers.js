@@ -2,6 +2,14 @@ import dayjs from "dayjs";
 import { useEffect } from "react";
 
 // Functions
+const isValidUrl = urlString => {
+  try {
+    return Boolean(new URL(urlString));
+  } catch (e) {
+    return false;
+  }
+};
+
 const constrictAddr = (address, start = 6, end = 6) => {
   if (address) {
     return (
@@ -55,4 +63,4 @@ function useOutsideAlerter(ref, ref2, callback) {
   }, [ref]);
 }
 
-export { timeAgo, constrictAddr, useOutsideAlerter };
+export { timeAgo, isValidUrl, constrictAddr, useOutsideAlerter };

@@ -4,7 +4,6 @@ const PaginationTab = ({ pageNum, active, setActive }) => {
   const handleChange = num => {
     if (num < 1 || num > pageNum) return;
     setActive(num);
-    console.log(num);
   };
 
   return pageNum <= 1 ? (

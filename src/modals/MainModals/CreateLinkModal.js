@@ -45,7 +45,7 @@ const CreateLinkModal = ({ data }) => {
                 dispatch(closeModal());
               }}
             >
-              Cancel
+              Close
             </button>
           </div>
         ) : null}

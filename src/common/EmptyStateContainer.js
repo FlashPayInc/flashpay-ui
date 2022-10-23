@@ -9,6 +9,7 @@ const EmptyStateContainer = ({
   text,
   link,
   type,
+  process,
   buttonText,
   children,
 }) => {
@@ -19,13 +20,16 @@ const EmptyStateContainer = ({
     <div className="empty_state">
       <div className="illustration_cover">{children}</div>
       <div className={`text ${type === "bold" ? "bold_text" : ""}`}>
-        {parse(text, {
-          replace: domNode => {
-            if (domNode.attribs && domNode.attribs.id === "navlink") {
-              return <NavLink to={link?.path}>{link?.text}</NavLink>;
-            }
-          },
-        })}
+        {parse(
+          text,
+          process !== "plain" && {
+            replace: domNode => {
+              if (domNode.attribs && domNode.attribs.id === "navlink") {
+                return <NavLink to={link?.path}>{link?.text}</NavLink>;
+              }
+            },
+          }
+        )}
       </div>
       {!!buttonText ? (
         <button

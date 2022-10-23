@@ -164,7 +164,7 @@ const ApiSettings = () => {
         <div
           style={{
             flex: 1,
-            gap: "10px",
+            gap: "30px",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
@@ -175,13 +175,18 @@ const ApiSettings = () => {
             text={
               !walletAddress
                 ? "Nothing to see here"
-                : `You have not generated any API key`
+                : !error
+                ? `You have not generated any API key`
+                : "An error occurred fetching Api keys. <br/> Please try again"
             }
+            process="plain"
           >
-            <Vectors.search dark={theme === "dark"} />
+            {Vectors[!error ? "search" : "connectivity"]({
+              dark: theme === "dark",
+            })}
           </EmptyStateContainer>
 
-          {!!walletAddress && (
+          {!!walletAddress && !error && (
             <div className="generate_new_keys" onClick={generateKey}>
               <p>Generate new key</p>
 

@@ -3,17 +3,17 @@ import { AppIcons } from "../../svg";
 import { useRecoilState } from "recoil";
 import { useSelector } from "react-redux";
 import { Fragment, useRef, useState } from "react";
-import { txnFilterState } from "../../atoms/appState";
 import { useOutsideAlerter } from "../../utils/helpers";
+import { linkFilterState } from "../../atoms/appState";
 
-const TxnsFilters = () => {
+const LinkFilters = () => {
   const wrapperRef = useRef(null);
   const dropDownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const closeDropdown = () => setIsOpen(false);
-  useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
   const { assets, network } = useSelector(state => state.app);
-  const [txnFilter, setTxnFilter] = useRecoilState(txnFilterState);
+  useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
+  const [linkFilter, setLinkFilter] = useRecoilState(linkFilterState);
 
   return (
     <div className="drop_down_cover">
@@ -34,9 +34,9 @@ const TxnsFilters = () => {
         <div className="content">
           <div className="content_list">
             <div
-              onClick={() => setTxnFilter("all")}
+              onClick={() => setLinkFilter("all")}
               className="list_item"
-              data-active={txnFilter === "all"}
+              data-active={linkFilter === "all"}
             >
               All
             </div>
@@ -48,8 +48,8 @@ const TxnsFilters = () => {
                   <div
                     key={index}
                     className="list_item"
-                    data-active={txnFilter === item?.short_name}
-                    onClick={() => setTxnFilter(item?.short_name)}
+                    data-active={linkFilter === item?.short_name}
+                    onClick={() => setLinkFilter(item?.short_name)}
                   >
                     {item?.short_name}
                   </div>
@@ -59,12 +59,12 @@ const TxnsFilters = () => {
             </Fragment>
 
             <Fragment>
-              {["successful", "pending", "failed"].map((item, _i) => (
+              {["active", "inactive"].map((item, _i) => (
                 <div
                   key={_i}
-                  onClick={() => setTxnFilter(item)}
+                  onClick={() => setLinkFilter(item)}
                   className="list_item"
-                  data-active={txnFilter === item}
+                  data-active={linkFilter === item}
                   style={{ textTransform: "capitalize" }}
                 >
                   {item}
@@ -78,4 +78,4 @@ const TxnsFilters = () => {
   );
 };
 
-export default TxnsFilters;
+export default LinkFilters;

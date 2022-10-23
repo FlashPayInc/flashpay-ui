@@ -28,6 +28,9 @@ nav {
         text-transform: capitalize;
       }
     }
+    svg {
+      stroke: var(--timber-white);
+    }
   }
 
   .action-btns {
@@ -255,8 +258,32 @@ nav {
         p {
           font-family: $sansmed;
         }
-        svg {
+
+        .switch-btn {
+          width: 38px;
           height: 20px;
+          display: flex;
+          cursor: pointer;
+          position: relative;
+          border-radius: 30px;
+          flex-direction: row;
+          align-items: center;
+          background: var(--silver);
+          &__toggle {
+            left: 3.5px;
+            width: 13px;
+            height: 13px;
+            position: absolute;
+            background: #fff;
+            border-radius: 15px;
+            transition: left 0.3s;
+          }
+          &[data-move="true"] {
+            background: var(--orient);
+            .switch-btn__toggle {
+              left: calc(50% + 2.5px);
+            }
+          }
         }
       }
     }
@@ -476,6 +503,10 @@ nav {
           height: 25px;
           border-radius: 100%;
           object-fit: cover;
+        }
+        &[data-active="true"] {
+          color: var(--orient-caribbean);
+          font-family: $sansmed;
         }
         &.current,
         &.current p {

@@ -9,35 +9,23 @@ import Vectors from "../../../svg/Vectors";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useQuery } from "react-query";
-
-const ItemsMenu = ({ type, assets, curOption, setCurOption }) => {
-  const UpdateOption = item => setCurOption(item);
-  return (
-    <SelectMenu
-      type={type}
-      assets={assets}
-      curOption={curOption}
-      UpdateOption={UpdateOption}
-    />
-  );
-};
+import { SpinnerCircular } from "spinners-react";
 
 const Home = () => {
-  // const [curAsset, setCurAsset] = useState("USDT");
+  const [currAsset, setCurrAsset] = useState(null);
   const { assets, network } = useSelector(state => state.app);
+  const [curTimeframe, setCurTimeframe] = useState("This year");
   const { theme, walletAddress } = useSelector(state => state.config);
 
-  const [activeAssets, setActiveAssets] = useState([]);
-  const [curAsset, setCurAsset] = useState(activeAssets[2]);
+  const assetSetup = () => {
+    const filter = _.filter(assets, i => i.network === network);
+    setCurrAsset(filter[0]);
+  };
 
   useEffect(() => {
-    if (activeAssets.length > 0) return;
-    const filter = _.filter(assets, i => i.network === network);
-    setActiveAssets(filter);
-    setCurAsset(filter[2]);
-  }, [assets]);
-
-  const [curTimeframe, setCurTimeframe] = useState("This year");
+    // if (!!currAsset) return;
+    assetSetup();
+  }, [assets, network]);
 
   const fetchLinks = (asa_id, range = "all") => {
     if (!walletAddress || !localStorage.getItem("access_token") || !asa_id)
@@ -55,12 +43,24 @@ const Home = () => {
   };
 
   const { isLoading, isRefetching, error, data, refetch } = useQuery(
-    ["payment-links", curAsset],
-    () => fetchLinks(curAsset?.asa_id),
+    ["payment-links", currAsset],
+    () => fetchLinks(currAsset?.asa_id),
     { refetchOnWindowFocus: false }
   );
 
-  console.log(data);
+  const ItemsMenu = ({ type, curOption, setCurrOption }) => {
+    const UpdateOption = item => {
+      setCurrOption(item);
+      refetch();
+    };
+    return (
+      <SelectMenu
+        type={type}
+        curOption={curOption}
+        UpdateOption={UpdateOption}
+      />
+    );
+  };
 
   return (
     <>
@@ -70,20 +70,37 @@ const Home = () => {
         <TopBar main={`Welcome Human,`} />
 
         <div className="page_content">
-          {!!walletAddress ? (
+          {isLoading || isRefetching ? (
+            <div
+              style={{
+                gap: "12px",
+                width: "100%",
+                height: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <SpinnerCircular
+                size={80}
+                color="#e5fff6"
+                secondaryColor="#1c7989"
+              />
+              <p style={{ fontSize: "18px" }}>Fetching revenue</p>
+            </div>
+          ) : !!walletAddress && !error ? (
             <div className="account_stats">
               <div className="stats_filters">
                 <ItemsMenu
                   type="assets-revenue"
-                  curOption={curAsset}
-                  assets={activeAssets}
-                  setCurOption={setCurAsset}
+                  curOption={currAsset}
+                  setCurrOption={setCurrAsset}
                 />
 
                 <ItemsMenu
                   type="timeframe"
                   curOption={curTimeframe}
-                  setCurOption={setCurTimeframe}
+                  setCurrOption={setCurTimeframe}
                 />
               </div>
 
@@ -94,9 +111,13 @@ const Home = () => {
           ) : (
             <EmptyStateContainer
               vector="ghost"
-              text={`Here you would see data analytics of your transactions over a period of time.`}
+              text={
+                !error
+                  ? `Here you would see data analytics of your transactions over a period of time.`
+                  : "An error occurred while fetching revenue. <br/> Please try again"
+              }
             >
-              <Vectors.ghost dark={theme === "dark"} />
+              {!error && <Vectors.ghost dark={theme === "dark"} />}
             </EmptyStateContainer>
           )}
         </div>
