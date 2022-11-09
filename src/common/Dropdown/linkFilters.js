@@ -3,7 +3,7 @@ import { AppIcons } from "../../svg";
 import { useRecoilState } from "recoil";
 import { useSelector } from "react-redux";
 import { Fragment, useRef, useState } from "react";
-import { useOutsideAlerter } from "../../utils/helpers";
+import { useClickOut } from "../../utils/helpers";
 import { linkFilterState } from "../../atoms/appState";
 
 const LinkFilters = () => {
@@ -12,7 +12,7 @@ const LinkFilters = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeDropdown = () => setIsOpen(false);
   const { assets, network } = useSelector(state => state.app);
-  useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
+  useClickOut(wrapperRef, dropDownRef, closeDropdown);
   const [linkFilter, setLinkFilter] = useRecoilState(linkFilterState);
 
   return (

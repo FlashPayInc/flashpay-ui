@@ -7,7 +7,7 @@ import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { hideApiKeys } from "../../../features/config/configSlice";
 import { AppIcons } from "../../../svg";
 import Vectors from "../../../svg/Vectors";
-import { axiosGet } from "../../../utils/helpers";
+import { axiosGet } from "../../../axios";
 
 const ApiSettings = () => {
   const dispatch = useDispatch();

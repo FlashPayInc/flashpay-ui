@@ -8,7 +8,8 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { SpinnerCircular } from "spinners-react";
 import millify from "millify";
-import { axiosGet, constrictAddr, timeAgo } from "../../../utils/helpers";
+import { axiosGet } from "../../../axios";
+import { constrictAddr, timeAgo } from "../../../utils/helpers";
 import PaymentDetailsBar from "./PaymentDetailsBar";
 import Vectors from "../../../svg/Vectors";
 

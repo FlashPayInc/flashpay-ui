@@ -9,7 +9,7 @@ import Vectors from "../../../svg/Vectors";
 import { useSelector } from "react-redux";
 import { useQuery } from "react-query";
 import { SpinnerCircular } from "spinners-react";
-import { axiosGet } from "../../../utils/helpers";
+import { axiosGet } from "../../../axios";
 
 const Home = () => {
   const [currAsset, setCurrAsset] = useState(null);

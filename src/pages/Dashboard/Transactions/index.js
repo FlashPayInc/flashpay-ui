@@ -8,7 +8,8 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { SpinnerCircular } from "spinners-react";
 import millify from "millify";
-import { axiosGet, constrictAddr, timeAgo } from "../../../utils/helpers";
+import { constrictAddr, timeAgo } from "../../../utils/helpers";
+import { axiosGet } from "../../../axios";
 import Vectors from "../../../svg/Vectors";
 import {
   filteredTxnState,

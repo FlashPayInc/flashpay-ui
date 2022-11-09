@@ -2,7 +2,7 @@ import { connector } from "../../utils/";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeSideTab } from "../../features/config/configSlice";
-import { constrictAddr, useOutsideAlerter } from "../../utils/helpers";
+import { constrictAddr, useClickOut } from "../../utils/helpers";
 
 const LogoutButton = ({ walletAddress }) => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const LogoutButton = ({ walletAddress }) => {
   const dropDownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const closeDropdown = () => setIsOpen(false);
-  useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
+  useClickOut(wrapperRef, dropDownRef, closeDropdown);
 
   const { walletProvider } = useSelector(state => state.config);
 

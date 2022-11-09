@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import loadingTxns from "../../lotties/Loading.json";
 import brokenData from "../../lotties/Broken-Link.json";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { axiosGet } from "../../utils/helpers";
+import { BASE_URL } from "../../utils/constants";
 
 const brokenLink = {
   loop: false,
@@ -37,9 +37,9 @@ const Description = () => {
   const { isLoading, error, data } = useQuery(
     "payment-portal",
     () =>
-      axiosGet(`payment-links/${id}`, false).then(
-        response => response.data.data
-      ),
+      axios
+        .get(`${BASE_URL}payment-links/${id}`)
+        .then(response => response.data.data),
     {
       enabled: !!id,
       refetchOnWindowFocus: false,

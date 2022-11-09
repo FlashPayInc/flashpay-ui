@@ -5,7 +5,6 @@ import PaginationTab from "../../../common/PaginationTab";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { useSelector } from "react-redux";
 import { useQuery } from "react-query";
-import axios from "axios";
 import { SpinnerCircular } from "spinners-react";
 import { useEffect, useState } from "react";
 import millify from "millify";
@@ -16,7 +15,7 @@ import {
   linkFilterState,
 } from "../../../atoms/appState";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { axiosGet } from "../../../utils/helpers";
+import { axiosGet } from "../../../axios";
 
 const PaymentLinks = () => {
   let navigate = useNavigate();
@@ -49,8 +48,6 @@ const PaymentLinks = () => {
   }, [linkedStatus, reload, network]);
 
   const navigateToLink = slug => navigate(`./${slug}`);
-
-  console.log(linkData?.results?.length >= 1);
 
   return (
     <>

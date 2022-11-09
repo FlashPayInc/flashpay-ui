@@ -1,7 +1,7 @@
 import HorLine from "../HorLine";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useOutsideAlerter } from "../../utils/helpers";
+import { useClickOut } from "../../utils/helpers";
 import { AppIcons, MainIcons } from "../../svg";
 import { notifications } from "../../features/modals/modalSlice";
 import { useWindowSize } from "@react-hook/window-size/throttled";
@@ -15,7 +15,7 @@ const Notifications = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeDropdown = () => setIsOpen(false);
   const { theme } = useSelector(state => state.config);
-  useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
+  useClickOut(wrapperRef, dropDownRef, closeDropdown);
 
   return (
     <div className="drop_down_cover right_aligned notification">

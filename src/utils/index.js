@@ -86,14 +86,13 @@ const createTransaction = async (
 };
 
 export {
-  peraWallet,
-  peraWalletPortal,
-  myAlgoConnect,
-  algodClient,
   connector,
-  ConnectPayload,
+  peraWallet,
+  algodClient,
   SetupPayload,
+  myAlgoConnect,
   DecodePayload,
-  //
+  ConnectPayload,
+  peraWalletPortal,
   createTransaction,
 };

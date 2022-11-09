@@ -1,11 +1,11 @@
+import millify from "millify";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { AppIcons, Assets, NavIcons } from "../../../svg";
 import { useWindowSize } from "@react-hook/window-size/throttled";
 import Skeleton from "react-loading-skeleton";
-import millify from "millify";
-import { axiosGet, axiosPost } from "../../../utils/helpers";
+import { axiosGet, axiosPost } from "../../../axios";
 
 const PaymentDetailsBar = ({ slug }) => {
   const [width] = useWindowSize();

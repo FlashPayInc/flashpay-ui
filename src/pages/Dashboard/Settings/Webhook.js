@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { SpinnerCircular } from "spinners-react";
-import EmptyStateContainer from "../../../common/EmptyStateContainer";
 import { AppIcons } from "../../../svg";
+import { useSelector } from "react-redux";
 import Vectors from "../../../svg/Vectors";
-import { axiosGet, axiosPost, isValidUrl } from "../../../utils/helpers";
+import { SpinnerCircular } from "spinners-react";
+import React, { useEffect, useState } from "react";
+import EmptyStateContainer from "../../../common/EmptyStateContainer";
+import { isValidUrl } from "../../../utils/helpers";
+import { axiosGet, axiosPost } from "../../../axios";
 
 const Webhook = () => {
   const [copied, setCopied] = useState(0);
@@ -62,8 +63,6 @@ const Webhook = () => {
     }
   };
 
-  console.log(data);
-
   return (
     <div className="webhook-settings">
       {isLoading || isRefetching ? (
@@ -81,7 +80,7 @@ const Webhook = () => {
           <SpinnerCircular size={80} color="#e5fff6" secondaryColor="#1c7989" />
           <p style={{ fontSize: "18px" }}>Fetching Webhook url</p>
         </div>
-      ) : !error ? (
+      ) : !error && !!walletAddress ? (
         <>
           {!!data?.url && (
             <div className="webhook-block">

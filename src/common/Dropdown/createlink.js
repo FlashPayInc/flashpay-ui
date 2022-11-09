@@ -1,14 +1,14 @@
 import HorLine from "../HorLine";
 import { Assets } from "../../svg";
 import { Fragment, useRef, useState } from "react";
-import { useOutsideAlerter } from "../../utils/helpers";
+import { useClickOut } from "../../utils/helpers";
 
 const CreateLink = ({ type, assets, curOption, UpdateOption }) => {
   const wrapperRef = useRef(null);
   const dropDownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const closeDropdown = () => setIsOpen(false);
-  useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
+  useClickOut(wrapperRef, dropDownRef, closeDropdown);
 
   return (
     <div

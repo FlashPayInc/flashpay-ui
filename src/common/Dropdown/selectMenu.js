@@ -1,7 +1,7 @@
 import HorLine from "../HorLine";
 import { DropDownContent } from "./data";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { useOutsideAlerter } from "../../utils/helpers";
+import { useClickOut } from "../../utils/helpers";
 import { useSelector } from "react-redux";
 
 const SelectMenu = ({ type, curOption, UpdateOption }) => {
@@ -9,7 +9,7 @@ const SelectMenu = ({ type, curOption, UpdateOption }) => {
   const dropDownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const closeDropdown = () => setIsOpen(false);
-  useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
+  useClickOut(wrapperRef, dropDownRef, closeDropdown);
   const { assets, network } = useSelector(state => state.app);
 
   return (

@@ -4,14 +4,14 @@ import { useRecoilState } from "recoil";
 import { useSelector } from "react-redux";
 import { Fragment, useRef, useState } from "react";
 import { txnFilterState } from "../../atoms/appState";
-import { useOutsideAlerter } from "../../utils/helpers";
+import { useClickOut } from "../../utils/helpers";
 
 const TxnsFilters = () => {
   const wrapperRef = useRef(null);
   const dropDownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const closeDropdown = () => setIsOpen(false);
-  useOutsideAlerter(wrapperRef, dropDownRef, closeDropdown);
+  useClickOut(wrapperRef, dropDownRef, closeDropdown);
   const { assets, network } = useSelector(state => state.app);
   const [txnFilter, setTxnFilter] = useRecoilState(txnFilterState);
 
