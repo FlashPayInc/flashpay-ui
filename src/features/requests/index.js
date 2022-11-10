@@ -234,10 +234,19 @@ export const LinkWalletAsync = slug => async dispatch => {
           dispatch(VerifyWalletAsync(slug?.addr));
         })
         .catch(err => {
-          console.log(err?.response.data.message);
-          dispatch(
-            setupAcct({ status: "error", message: err?.response.data.message })
-          );
+          // console.log(err?.response.data.status_code);
+          if (err?.response.data.status_code === 400) {
+            dispatch(setLinkedStatus("linked"));
+            dispatch(verifyAcct({ loading: true }));
+            dispatch(VerifyWalletAsync(slug?.addr));
+          } else {
+            dispatch(
+              setupAcct({
+                status: "error",
+                message: err?.response.data.message,
+              })
+            );
+          }
         });
     } else {
       dispatch(setupAcct({ status: "error" }));

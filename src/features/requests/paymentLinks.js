@@ -48,7 +48,7 @@ export const CreateNewLink = data => async dispatch => {
       },
     })
     .then(res => {
-      dispatch(reloadPage(true));
+      dispatch(reloadPage());
       dispatch(createLink({ loading: false, error: false }));
     })
     .catch(err => {

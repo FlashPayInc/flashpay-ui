@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -20,7 +19,7 @@ export const configSlice = createSlice({
   initialState,
   reducers: {
     reloadPage: (state, action) => {
-      state.reload = action.payload;
+      state.reload = !state.reload;
     },
 
     setTheme: (state, action) => {

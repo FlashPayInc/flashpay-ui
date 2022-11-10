@@ -13,7 +13,7 @@ const refreshTokenFn = async () => {
   const refreshToken = localStorage.getItem("refresh_token");
 
   try {
-    const response = await axios.post("/token/refresh", {
+    const response = await axios.post("accounts/token/refresh", {
       refresh_token: refreshToken,
     });
 
