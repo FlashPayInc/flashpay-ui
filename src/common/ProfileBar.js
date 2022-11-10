@@ -13,7 +13,6 @@ const ProfileBar = () => {
   const [width] = useWindowSize();
   const { pathname } = useLocation();
   const { network } = useSelector(state => state.app);
-  const { linkedStatus } = useSelector(state => state.config);
 
   const match = pathname.match(/^\/\w+/i);
   const currentPath = match

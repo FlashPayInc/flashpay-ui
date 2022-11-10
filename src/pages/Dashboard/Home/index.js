@@ -28,7 +28,7 @@ const Home = () => {
   }, [assets, network]);
 
   const fetchLinks = (asa_id, range = "all") => {
-    if (!walletAddress || !localStorage.getItem("access_token") || !asa_id)
+    if (!walletAddress || !localStorage.getItem("linkedStatus") || !asa_id)
       return;
 
     return axiosGet(
@@ -55,6 +55,10 @@ const Home = () => {
       />
     );
   };
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <>

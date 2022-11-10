@@ -12,14 +12,21 @@ export const axios = axiosJs.create({
 const refreshTokenFn = async () => {
   const refreshToken = localStorage.getItem("refresh_token");
 
+  if (!refreshToken) {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("linkedStatus");
+    return;
+  }
+
   try {
     const response = await axios.post("accounts/token/refresh", {
-      refresh_token: refreshToken,
+      refresh: refreshToken,
     });
 
     if (!response.data?.data?.access_token) {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
+      localStorage.removeItem("linkedStatus");
     }
 
     localStorage.setItem("access_token", response.data?.data?.access_token);
@@ -27,7 +34,7 @@ const refreshTokenFn = async () => {
     return response.data?.data?.access_token;
   } catch (error) {
     localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("linkedStatus");
   }
 };
 

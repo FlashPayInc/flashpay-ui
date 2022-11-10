@@ -64,7 +64,11 @@ const SelectMenu = ({ type, curOption, UpdateOption }) => {
                           <img src={item?.image_url} alt="" />
                           <p>{item?.short_name}</p>
                         </div>
-                        {i + 1 < arr.length ? <HorLine /> : null}
+                        {i <
+                        arr?.filter(_i => _i?.network === network).length -
+                          1 ? (
+                          <HorLine />
+                        ) : null}
                       </Fragment>
                     )
                 )
