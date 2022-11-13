@@ -1,4 +1,3 @@
-import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 
@@ -63,4 +62,11 @@ function useClickOut(ref, ref2, callback) {
   }, [ref]);
 }
 
-export { timeAgo, isValidUrl, constrictAddr, useClickOut };
+const getAlgoExplorerUrl = (network, txnHash) =>
+  network === "testnet"
+    ? `https://testnet.algoexplorer.io/tx/${txnHash}`
+    : network === "mainnet"
+    ? `https://algoexplorer.io/tx/${txnHash}`
+    : "";
+
+export { timeAgo, isValidUrl, useClickOut, constrictAddr, getAlgoExplorerUrl };

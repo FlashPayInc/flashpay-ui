@@ -1,15 +1,15 @@
 import _ from "lodash";
+import { useQuery } from "react-query";
 import AccountChart from "./AccountChart";
+import Vectors from "../../../svg/Vectors";
+import { useSelector } from "react-redux";
+import { axiosGet } from "../../../axios";
 import TopBar from "../../../common/TopBar";
 import React, { useEffect, useState } from "react";
 import ProfileBar from "../../../common/ProfileBar";
+import { SpinnerCircular } from "spinners-react";
 import SelectMenu from "../../../common/Dropdown/selectMenu";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
-import Vectors from "../../../svg/Vectors";
-import { useSelector } from "react-redux";
-import { useQuery } from "react-query";
-import { SpinnerCircular } from "spinners-react";
-import { axiosGet } from "../../../axios";
 
 const Home = () => {
   const [currAsset, setCurrAsset] = useState(null);

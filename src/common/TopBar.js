@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { AppIcons } from "../svg";
 import { useDispatch } from "react-redux";
 import TxnsFilters from "./Dropdown/txnFilters";
-import { generateLink } from "../features/modals/modalSlice";
 import LinkFilters from "./Dropdown/linkFilters";
+import { generateLink } from "../features/modals/modalSlice";
 
 const TopBar = ({ sub, data, main, filter, generate, copyLink }) => {
   const dispatch = useDispatch();

@@ -1,11 +1,11 @@
 import HorLine from "./HorLine";
+import { NavIcons } from "../svg";
+import Vectors from "../svg/Vectors";
 import { NavLink } from "react-router-dom";
-import { AppIcons, NavIcons } from "../svg";
 import LogoutButton from "./Dropdown/logoutButton";
 import { useDispatch, useSelector } from "react-redux";
-import { closeSideTab, setTheme } from "../features/config/configSlice";
 import { connectWallet } from "../features/modals/modalSlice";
-import Vectors from "../svg/Vectors";
+import { closeSideTab, setTheme } from "../features/config/configSlice";
 
 const SideTab = () => {
   const dispatch = useDispatch();

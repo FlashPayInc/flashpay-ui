@@ -25,8 +25,6 @@ axios.interceptors.response.use(
   async error => {
     const config = error?.config;
 
-    // console.log(config, error);
-
     if (error?.response?.status === 401 && !config?.sent) {
       config.sent = true;
       const result = await memoizedRefreshToken();
@@ -46,5 +44,6 @@ axios.interceptors.response.use(
 
 const axiosGet = axios.get;
 const axiosPost = axios.post;
+const axiosPatch = axios.patch;
 
-export { axiosGet, axiosPost };
+export { axiosGet, axiosPost, axiosPatch };

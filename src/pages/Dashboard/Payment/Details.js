@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
-import ProfileBar from "../../../common/ProfileBar";
-import EmptyStateContainer from "../../../common/EmptyStateContainer";
-import { AppIcons, Assets } from "../../../svg";
-import { useWindowSize } from "@react-hook/window-size/throttled";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { SpinnerCircular } from "spinners-react";
 import millify from "millify";
 import { axiosGet } from "../../../axios";
-import { constrictAddr, timeAgo } from "../../../utils/helpers";
-import PaymentDetailsBar from "./PaymentDetailsBar";
+import { useSelector } from "react-redux";
 import Vectors from "../../../svg/Vectors";
+import { useParams } from "react-router-dom";
+import { AppIcons, Assets } from "../../../svg";
+import { SpinnerCircular } from "spinners-react";
+import React, { useEffect, useState } from "react";
+import ProfileBar from "../../../common/ProfileBar";
+import PaymentDetailsBar from "./PaymentDetailsBar";
+import { useWindowSize } from "@react-hook/window-size/throttled";
+import EmptyStateContainer from "../../../common/EmptyStateContainer";
+import {
+  constrictAddr,
+  getAlgoExplorerUrl,
+  timeAgo,
+} from "../../../utils/helpers";
 
 const Details = () => {
   let { slug } = useParams();
@@ -146,9 +149,8 @@ const Details = () => {
                       {!!txn?.txn_hash ? (
                         <a
                           target="_blank"
-                          href={`https://${
-                            network === "testnet" ? "testnet." : ""
-                          }algoexplorer.io/tx/${txn?.txn_hash}`}
+                          rel="noopener noreferrer"
+                          href={getAlgoExplorerUrl(network, txn?.txn_hash)}
                         >
                           <AppIcons type="export" />
                         </a>

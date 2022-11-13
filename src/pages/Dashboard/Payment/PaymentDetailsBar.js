@@ -1,11 +1,11 @@
 import millify from "millify";
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import { axiosGet, axiosPatch } from "../../../axios";
 import { AppIcons, Assets, NavIcons } from "../../../svg";
 import { useWindowSize } from "@react-hook/window-size/throttled";
-import Skeleton from "react-loading-skeleton";
-import { axiosGet, axiosPost } from "../../../axios";
 
 const PaymentDetailsBar = ({ slug }) => {
   const [width] = useWindowSize();
@@ -17,7 +17,7 @@ const PaymentDetailsBar = ({ slug }) => {
   const { error, refetch, isLoading } = useQuery(
     "payment-portal",
     () =>
-      axiosGet(`payment-links/${slug}`, false).then(response => {
+      axiosGet(`payment-links/${slug}`).then(response => {
         if (response.data.data?.network === network) {
           setData(response.data.data);
         } else {
@@ -47,7 +47,7 @@ const PaymentDetailsBar = ({ slug }) => {
   };
 
   const toggleLinkStatus = async () => {
-    axiosPost(`payment-links/${slug}`, null, "patch").then(res => {
+    axiosPatch(`payment-links/${slug}`, null).then(res => {
       if (res.data.data?.network === network) {
         setData(res.data.data);
       } else {

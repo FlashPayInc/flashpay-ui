@@ -8,7 +8,11 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { SpinnerCircular } from "spinners-react";
 import millify from "millify";
-import { constrictAddr, timeAgo } from "../../../utils/helpers";
+import {
+  constrictAddr,
+  timeAgo,
+  getAlgoExplorerUrl,
+} from "../../../utils/helpers";
 import { axiosGet } from "../../../axios";
 import Vectors from "../../../svg/Vectors";
 import {
@@ -139,9 +143,8 @@ const Transactions = () => {
                           {!!txn?.txn_hash ? (
                             <a
                               target="_blank"
-                              href={`https://${
-                                network === "testnet" ? "testnet." : ""
-                              }algoexplorer.io/tx/${txn?.txn_hash}`}
+                              href={getAlgoExplorerUrl(network, txn?.txn_hash)}
+                              rel="noopener noreferrer"
                             >
                               <AppIcons type="export" />
                             </a>

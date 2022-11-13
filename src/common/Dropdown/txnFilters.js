@@ -2,9 +2,9 @@ import HorLine from "../HorLine";
 import { AppIcons } from "../../svg";
 import { useRecoilState } from "recoil";
 import { useSelector } from "react-redux";
-import { Fragment, useRef, useState } from "react";
-import { txnFilterState } from "../../atoms/appState";
 import { useClickOut } from "../../utils/helpers";
+import { txnFilterState } from "../../atoms/appState";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 const TxnsFilters = () => {
   const wrapperRef = useRef(null);
@@ -14,6 +14,10 @@ const TxnsFilters = () => {
   useClickOut(wrapperRef, dropDownRef, closeDropdown);
   const { assets, network } = useSelector(state => state.app);
   const [txnFilter, setTxnFilter] = useRecoilState(txnFilterState);
+
+  useEffect(() => {
+    setTxnFilter("all");
+  }, []);
 
   return (
     <div className="drop_down_cover">

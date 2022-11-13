@@ -1,13 +1,12 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
-import { SpinnerCircular } from "spinners-react";
-import EmptyStateContainer from "../../../common/EmptyStateContainer";
-import { hideApiKeys } from "../../../features/config/configSlice";
 import { AppIcons } from "../../../svg";
-import Vectors from "../../../svg/Vectors";
 import { axiosGet } from "../../../axios";
+import Vectors from "../../../svg/Vectors";
+import { useEffect, useState } from "react";
+import { SpinnerCircular } from "spinners-react";
+import { useDispatch, useSelector } from "react-redux";
+import { hideApiKeys } from "../../../features/config/configSlice";
+import EmptyStateContainer from "../../../common/EmptyStateContainer";
 
 const ApiSettings = () => {
   const dispatch = useDispatch();

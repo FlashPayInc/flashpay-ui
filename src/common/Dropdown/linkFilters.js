@@ -2,9 +2,9 @@ import HorLine from "../HorLine";
 import { AppIcons } from "../../svg";
 import { useRecoilState } from "recoil";
 import { useSelector } from "react-redux";
-import { Fragment, useRef, useState } from "react";
 import { useClickOut } from "../../utils/helpers";
 import { linkFilterState } from "../../atoms/appState";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 const LinkFilters = () => {
   const wrapperRef = useRef(null);
@@ -14,6 +14,10 @@ const LinkFilters = () => {
   const { assets, network } = useSelector(state => state.app);
   useClickOut(wrapperRef, dropDownRef, closeDropdown);
   const [linkFilter, setLinkFilter] = useRecoilState(linkFilterState);
+
+  useEffect(() => {
+    setLinkFilter("all");
+  }, []);
 
   return (
     <div className="drop_down_cover">
