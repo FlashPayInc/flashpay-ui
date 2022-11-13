@@ -1,0 +1,49 @@
+.app-menu__container {
+  display: flex;
+  flex-direction: column;
+}
+.app-menu {
+  gap: 14px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 100% !important;
+  margin-top: 2px !important;
+  border-radius: 5px !important;
+  min-width: max-content !important;
+  padding: 22px 20px 18px !important;
+  border: 1px solid var(--alto) !important;
+  background-color: var(--bg-color) !important;
+
+  .menu-item {
+    gap: 10px;
+    padding: 0px;
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    @extend %row-center;
+    color: var(--dove-gray);
+    &:not(:last-child) {
+      padding: 0px 0px 14px;
+      border-bottom: 1px solid var(--alto);
+    }
+
+    &.center {
+      @extend %row-middle;
+    }
+    &[data-active="true"] {
+      color: var(--orient-caribbean);
+    }
+    &:hover {
+      color: var(--dove-gray);
+      background-color: var(--bg-color);
+    }
+
+    img {
+      width: 25px;
+      height: 25px;
+      border-radius: 100%;
+      object-fit: cover;
+    }
+  }
+}

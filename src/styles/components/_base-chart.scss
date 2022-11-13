@@ -1,0 +1,13 @@
+.custom-tooltip {
+  gap: 2px;
+  display: flex;
+  padding: 12px 14px;
+  max-width: 150px;
+  border-radius: 6px;
+  flex-direction: column;
+  border: 1px solid var(--alto);
+  background: var(--gallery-alto);
+  p {
+    font-size: 14px;
+  }
+}

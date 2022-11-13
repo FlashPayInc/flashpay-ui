@@ -1,15 +1,16 @@
 @import "base/reset";
-
+@import "base/fonts";
 @import "utils/mixin";
 @import "utils/variables";
 @import "base/animations";
-
-@import "base/fonts";
+@import "./common/partials";
 
 @import "configs/configs";
 @import "base/globals";
 
 @import "components/sidetab";
+@import "components/appmenu";
+@import "components/base-chart";
 
 @import "modals/mainmodal";
 @import "modals/portalmodal";

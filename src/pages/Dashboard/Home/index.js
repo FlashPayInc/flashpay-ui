@@ -1,64 +1,54 @@
 import _ from "lodash";
-import { useQuery } from "react-query";
 import AccountChart from "./AccountChart";
 import Vectors from "../../../svg/Vectors";
 import { useSelector } from "react-redux";
 import { axiosGet } from "../../../axios";
 import TopBar from "../../../common/TopBar";
+import { SpinnerCircular } from "spinners-react";
 import React, { useEffect, useState } from "react";
 import ProfileBar from "../../../common/ProfileBar";
-import { SpinnerCircular } from "spinners-react";
-import SelectMenu from "../../../common/Dropdown/selectMenu";
+import useAppMenu from "../../../styles/hooks/useAppMenu";
 import EmptyStateContainer from "../../../common/EmptyStateContainer";
+import PeriodMenu from "./PeriodMenu";
+import usePeriodMenu from "./PeriodMenu";
 
 const Home = () => {
-  const [currAsset, setCurrAsset] = useState(null);
-  const { assets, network } = useSelector(state => state.app);
+  const { assets } = useSelector(state => state.app);
   const [curTimeframe, setCurTimeframe] = useState("This year");
   const { theme, walletAddress } = useSelector(state => state.config);
 
-  const assetSetup = () => {
-    const filter = _.filter(assets, i => i.network === network);
-    setCurrAsset(filter[0]);
-  };
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    // if (!!currAsset) return;
-    assetSetup();
-  }, [assets, network]);
-
-  const fetchLinks = (asa_id, range = "all") => {
-    if (!walletAddress || !localStorage.getItem("linkedStatus") || !asa_id)
+  const fetchLinks = async (asa_id, range = activePeriod) => {
+    if (
+      !walletAddress ||
+      !localStorage.getItem("linkedStatus") ||
+      isNaN(asa_id)
+    )
       return;
 
-    return axiosGet(
-      `/daily-revenue?asa_id=${asa_id}&date_range=${range}'`
-    ).then(response => response?.data?.data?.results);
+    setError(false);
+    setIsLoading(true);
+
+    try {
+      await axiosGet(
+        `/daily-revenue?asa_id=${asa_id}&date_range=${range}'`
+      ).then(response => setData(response?.data?.data));
+      setIsLoading(false);
+    } catch (error) {
+      setError(true);
+      setIsLoading(false);
+    }
   };
 
-  const { isLoading, isRefetching, error, data, refetch } = useQuery(
-    ["payment-links", currAsset],
-    () => fetchLinks(currAsset?.asa_id),
-    { refetchOnWindowFocus: false }
-  );
+  const [AppMenu, activeAsset] = useAppMenu(assets || [], fetchLinks);
 
-  const ItemsMenu = ({ type, curOption, setCurrOption }) => {
-    const UpdateOption = item => {
-      setCurrOption(item);
-      refetch();
-    };
-    return (
-      <SelectMenu
-        type={type}
-        curOption={curOption}
-        UpdateOption={UpdateOption}
-      />
-    );
+  const refetch = () => {
+    fetchLinks(activeAsset?.asa_id, activePeriod);
   };
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const [PeriodMenu, activePeriod] = usePeriodMenu(refetch);
 
   return (
     <>
@@ -68,43 +58,62 @@ const Home = () => {
         <TopBar main={`Welcome Human,`} />
 
         <div className="page_content">
-          {isLoading || isRefetching ? (
-            <div
-              style={{
-                gap: "12px",
-                width: "100%",
-                height: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-              }}
-            >
-              <SpinnerCircular
-                size={80}
-                color="#e5fff6"
-                secondaryColor="#1c7989"
-              />
-              <p style={{ fontSize: "18px" }}>Fetching revenue</p>
-            </div>
-          ) : !!walletAddress && !error ? (
+          {!!walletAddress && !error ? (
             <div className="account_stats">
               <div className="stats_filters">
-                <ItemsMenu
-                  type="assets-revenue"
-                  curOption={currAsset}
-                  setCurrOption={setCurrAsset}
-                />
+                <AppMenu>
+                  <div className="asset_revenue">
+                    <p>{activeAsset?.short_name} revenue</p>
+                    <i className="ph-caret-down-bold"></i>
+                  </div>
+                </AppMenu>
 
-                <ItemsMenu
-                  type="timeframe"
-                  curOption={curTimeframe}
-                  setCurrOption={setCurTimeframe}
-                />
+                <PeriodMenu>
+                  <div className="asset_revenue">
+                    <p>
+                      {activePeriod === "30d"
+                        ? "Last 30 days"
+                        : activePeriod === "6m"
+                        ? "Last 6 months"
+                        : activePeriod === "year"
+                        ? "This year"
+                        : ""}
+                    </p>
+                    <i className="ph-caret-down-bold"></i>
+                  </div>
+                </PeriodMenu>
               </div>
 
-              <div className="chart_container">
-                <AccountChart data={data} />
-              </div>
+              {isLoading ? (
+                <div
+                  style={{
+                    flex: 1,
+                    gap: "12px",
+                    width: "100%",
+                    wordSpacing: "2px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <SpinnerCircular
+                    size={50}
+                    color="#e5fff6"
+                    secondaryColor="#1c7989"
+                  />
+                  <p style={{ fontSize: "16px" }}>
+                    Fetching{" "}
+                    <span style={{ fontSize: "15px" }}>
+                      {activeAsset?.short_name}
+                    </span>{" "}
+                    revenue
+                  </p>
+                </div>
+              ) : (
+                <div className="chart_container">
+                  <AccountChart data={data} />
+                </div>
+              )}
             </div>
           ) : (
             <EmptyStateContainer

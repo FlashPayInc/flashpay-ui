@@ -1,83 +1,94 @@
+import dayjs from "dayjs";
+import millify from "millify";
 import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
-  Legend
-);
+  ResponsiveContainer,
+} from "recharts";
 
 const AccountChart = ({ data = [] }) => {
-  const { theme } = useSelector(state => state.config);
-
-  const options = {
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    parsing: {
-      xAxisKey: "asset",
-      yAxisKey: "amount",
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        grid: {
-          borderColor: theme === "dark" ? "#333" : "#e0e0e0",
-          drawOnChartArea: false,
-          tickColor: "transparent",
-        },
-      },
-      y: {
-        beginAtZero: true,
-        ticks: {
-          min: 0,
-          max: 1500,
-          stepSize: 500,
-        },
-        grid: {
-          color: theme === "dark" ? "#333" : "#e0e0e0",
-          borderColor: theme === "dark" ? "#333" : "#e0e0e0",
-          tickColor: "transparent",
-        },
-      },
-    },
+  const xAxisFormatter = (value, index) => {
+    return dayjs(value).format("MMM, DD");
   };
 
-  // if (!data) return;
+  const CustomTooltip = ({ payload, label, active }) => {
+    if (active && payload) {
+      return (
+        <div className="custom-tooltip">
+          <p className="label">{`Date: ${dayjs(label).format(
+            "MMM DD, YYYY"
+          )}`}</p>
+          <p className="label">{`Amount: ${
+            !isNaN(payload[0]?.value) &&
+            millify(payload[0]?.value, {
+              precision: 2,
+            })
+          }`}</p>
+        </div>
+      );
+    }
 
-  const chartData = {
-    // labels,
-    // labels: data.map(i => i?.asset),
-    datasets: [
-      {
-        data,
-        tension: 0.28,
-        label: "Amount",
-        borderColor: "#0BD98E",
-        backgroundColor: "#006174",
-      },
-    ],
+    return null;
   };
 
-  return <Line options={options} data={chartData} />;
+  return (
+    <>
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart
+          width={730}
+          height={250}
+          data={[
+            ...data.map(item => {
+              return {
+                ...item,
+                amount: Number(item.amount),
+              };
+            }),
+          ]}
+          margin={{ top: 0, right: 30, left: 10, bottom: 0 }}
+        >
+          <defs>
+            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+
+          <XAxis dataKey="created_at" tickFormatter={xAxisFormatter} />
+          <YAxis
+            type="number"
+            // domain={["dataMin", "dataMax + 0.5"]}
+            tickFormatter={(value, index) =>
+              millify(Number(value), {
+                precision: 2,
+              })
+            }
+          />
+
+          <Tooltip
+            content={<CustomTooltip />}
+            wrapperStyle={{ border: "none", outline: "none" }}
+            // cursor={{ stroke: "#006174", strokeWidth: 2 }}
+          />
+
+          <Area
+            type="monotone"
+            dataKey="amount"
+            stroke="#82ca9d"
+            fillOpacity={1}
+            fill="url(#colorPv)"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </>
+  );
 };
 
 export default AccountChart;
