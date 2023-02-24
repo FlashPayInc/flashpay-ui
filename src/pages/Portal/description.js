@@ -70,7 +70,6 @@ const Description = () => {
     </>
   );
 
-  console.log();
 
   return (
     <div className="description_container">
@@ -141,7 +140,6 @@ const Description = () => {
                   min={0}
                   value={amount}
                   onChange={e => {
-                    console.log(e);
                     setAmount(e.target.value);
                   }}
                   // onKeyUp={e => {

@@ -155,7 +155,6 @@ export const ConnectWalletAsync = slug => async dispatch => {
 
       connector.on("session_update", (error, payload) => {
         if (error) throw error;
-        console.log("Session updated...");
         const { accounts } = payload.params[0];
         dispatch(
           setWallet({
@@ -192,7 +191,6 @@ export const LinkWalletAsync = slug => async dispatch => {
       );
     } else if (provider === "pera") {
       if (!connector.connected) {
-        console.log("Not connected");
         return;
       }
 
