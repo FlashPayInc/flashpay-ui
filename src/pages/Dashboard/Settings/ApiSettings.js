@@ -38,7 +38,6 @@ const ApiSettings = () => {
     try {
       await axiosGet(`/accounts/api-keys`, { network }).then(response => {
         setGenerating(false);
-        console.log(response?.data?.data);
         refetch();
       });
     } catch (error) {

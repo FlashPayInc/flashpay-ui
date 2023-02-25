@@ -24,11 +24,11 @@ const algodClient = network =>
     { "X-API-KEY": "FP" }
   );
 
-const indexerClient = new algosdk.Indexer(
-  "",
-  `https://algoindexer.testnet.algoexplorerapi.io`,
-  ""
-);
+// const indexerClient = new algosdk.Indexer(
+//   "",
+//   `https://algoindexer.testnet.algoexplorerapi.io`,
+//   ""
+// );
 const connector = new WalletConnect({
   bridge: "https://bridge.walletconnect.org",
   qrcodeModal: WalletConnectQRCodeModal,
@@ -61,7 +61,8 @@ const createTransaction = async (
   senderAddr,
   noteSlug,
   network,
-  recipient = process.env.REACT_APP_SETUP_ADDRESS
+  recipient = process.env.REACT_APP_SETUP_ADDRESS,
+  asset = 1
 ) => {
   const enc = new TextEncoder();
   const note = enc.encode(noteSlug);
@@ -70,14 +71,17 @@ const createTransaction = async (
     .getTransactionParams()
     .do()
     .then(suggestedParams => {
-      const transaction = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+      const params = {
         note,
         suggestedParams,
         from: senderAddr,
         amount: Number(amount) * 1000000,
         to: recipient,
+      }
+      const transaction = asset === 0 || asset === 1 ? algosdk.makePaymentTxnWithSuggestedParamsFromObject(params) : algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+        ...params,
+        assetIndex: Number(asset) 
       });
-
       return transaction;
     })
     .catch(err => console.log(err?.message));

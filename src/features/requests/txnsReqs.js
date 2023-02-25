@@ -37,6 +37,7 @@ export const InitializeTxn = data => async dispatch => {
         ProcessPayment({
           addr: data?.sender,
           amount: data?.amount,
+          asset: data?.asset,
           pub_key: data?.pub_key,
           network: data?.network,
           provider: data?.provider,
@@ -59,7 +60,8 @@ export const ProcessPayment = slug => async dispatch => {
       slug?.addr,
       slug?.txnRef,
       slug?.network,
-      slug?.recipient
+      slug?.recipient,
+      slug?.asset
     );
 
     if (slug?.provider === "myalgo") {
